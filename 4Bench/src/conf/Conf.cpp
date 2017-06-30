@@ -13,6 +13,7 @@
 #include <fstream>
 #include <string>
 #include <boost/program_options.hpp>
+#include <boost/program_options/variables_map.hpp>
 
 #include "../include/conf/AssignmentDistribution.hpp"
 #include "../include/conf/Conf.hpp"
@@ -21,9 +22,10 @@
 
 using namespace std;
 namespace po = boost::program_options;
-
+using namespace fourbench;
 
 namespace fourbench {
+namespace conf {
 
 	map<string, AssignmentDistribution> distributions = {{"uniform", UNIFORM},
 			{"power_law", POWER_LAW},
@@ -35,30 +37,38 @@ namespace fourbench {
 				{GEOMETRIC, "geometric"}};
 
 
-	bool ConfValues::parseField(const string& fieldName, const po::variable_value& value) {
+	bool ConfValues::parseField(const string& fieldName, const string& value) {
 		if (fieldName == "numberOfSources") {
-			numberOfSources = value.as<unsigned>();
+			numberOfSources = stoul(value);
 		} else if (fieldName == "metadataDepth") {
-			metadataDepth = value.as<unsigned>();
+			metadataDepth = stoul(value);
 		} else if (fieldName == "distribution") {
-			if (distributions.count(value.as<string>())) {
-				distribution = distributions.at(value.as<string>());
+			if (distributions.count(value)) {
+				distribution = distributions.at(value);
 			} else {
 				return false;
 			}
 		} else if (fieldName == "numberOfAgents") {
-			numberOfAgents = value.as<unsigned>();
+			numberOfAgents = stoul(value);
 		} else if (fieldName == "activitiesDensity") {
-			activitiesDensity = value.as<float>();
+			activitiesDensity = stof(value);
 		} else if (fieldName == "activitiesEntitiesDensity") {
-			activitiesEntitiesDensity = value.as<float>();
+			activitiesEntitiesDensity = stof(value);
 		} else if (fieldName == "agentsEntitiesDensity") {
-			agentsEntitiesDensity = value.as<float>();
+			agentsEntitiesDensity = stof(value);
+		} else if (fieldName == "properties") {
+			vector<string> inputProperties = split(value, ",");
+			for_each(inputProperties.begin(), inputProperties.end(), fourbench::trim);
+			properties.insert(inputProperties.begin(), inputProperties.end());
 		} else {
 			return false;
 		}
 
 		return true;
+	}
+
+	bool ConfValues::isDefaultProperty() {
+		return properties.empty();
 	}
 
 
@@ -90,22 +100,44 @@ namespace fourbench {
 	bool Conf::parseFromFile(const string& filename) throw() {
 		ifstream iniFile(filename);
 		if (iniFile.good()) {
-			po::variables_map vm;
+			map<string, string> vm;
 			po::options_description description("");
-			po::store(po::parse_config_file(iniFile, description, true), vm);
-			return Conf::parseFromOptions(vm);
+			string line;
+			unsigned lineNumber = 1;
+			while (std::getline(iniFile, line)) {
+			    std::istringstream iss(line);
+			    vector<string> parts = split(line, "=");
+			    if (parts.size() > 1) {
+					string key = trim(parts[0]);
+					string value = trim(parts[1]);
+					vm[key] = value;
+			    } else {
+			    	cerr << "Error at parsing line " << lineNumber << ": " << line;
+			    }
+			    ++lineNumber;
+			}
+			return this->parseFromOptions(vm);
 		} else {
 			cerr << "There was a problem at opening file " << filename << endl;
 			return false;
 		}
 	}
 
-	bool Conf::parseFromOptions(po::variables_map& vm) {
+	bool Conf::parseFromOptions(const po::variables_map& vm) {
+		map<string, string> stdmap;
+		for (auto itr = vm.begin(); itr != vm.end(); ++itr) {
+			stdmap[itr->first] = itr->second.as<string>();
+		}
+
+		return this->parseFromOptions(stdmap);
+	}
+
+	bool Conf::parseFromOptions(const map<string, string>& vm) {
 		bool answer = true;
 		for (auto itr = vm.begin(); itr != vm.end(); ++itr) {
 			vector<string> parts = split(itr->first, ":");
 			string family, fieldName;
-			if (parts.size() > 2) {
+			if (parts.size() > 1) {
 				family = parts[0];
 				fieldName = parts[1];
 			} else if (parts.size() == 1) {
@@ -125,7 +157,7 @@ namespace fourbench {
 				vals = confs[family];
 			}
 
-			if (vals->parseField(fieldName, itr->second)) {
+			if (!vals->parseField(fieldName, itr->second)) {
 				cerr << "Field " << fieldName << " is not recognized." << endl;
 				answer = false;
 			}
@@ -135,24 +167,39 @@ namespace fourbench {
 
 	}
 
-	std::ostream& operator<<(std::ostream &strm, const ConfValues &a) {
+
+	ostream& operator<<(ostream& stm, const set<string>& v) {
+		stm << "[";
+		for (auto itr = v.begin(); itr != v.end(); ++itr) {
+			stm << *itr << " ";
+		}
+		stm << "]";
+		return stm;
+	}
+
+	ostream& operator<<(ostream &strm, const ConfValues &a) {
 		strm << "Conf(numberOfSources: " << a.numberOfSources << ", ";
 		strm << "metadataDepth: " << a.metadataDepth << ", ";
 		strm << "distribution: " << distributionsInv[a.distribution] << ", ";
 		strm << "numberOfAgents: " << a.numberOfAgents << ", ";
 		strm << "activitiesDensity: " << a.activitiesDensity << ", ";
 		strm << "activitiesEntitiesDensity: " << a.activitiesEntitiesDensity << ", ";
-		strm << "agentsEntitiesDensity: " << a.agentsEntitiesDensity;
+		strm << "agentsEntitiesDensity: " << a.agentsEntitiesDensity << ", ";
+		if (a.properties.empty()) {
+			strm << "properties: *";
+		} else {
+			strm << "properties: " << a.properties;
+		}
 		strm << ")";
 		return strm;
 	}
 
-	std::ostream& operator<<(std::ostream &strm, const Conf &a) {
+	ostream& operator<<(ostream &strm, const Conf& a) {
 		for (auto itr = a.confs.begin(); itr != a.confs.end(); itr++) {
 			strm << itr->first << ": " << *(itr->second) << "; ";
 		}
 		return strm;
 	}
 
-
+}
 }

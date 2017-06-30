@@ -17,7 +17,7 @@
 #include <boost/program_options/variables_map.hpp>
 
 using namespace std;
-using namespace fourbench;
+using namespace fourbench::conf;
 namespace po = boost::program_options;
 
 po::options_description* readCmdArguments(int argc, char** argv, po::variables_map* optionsMap) {
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 	if (vm.count("config")) {
 		// Read it from file
 		try {
-			cout << vm["config"].as<string>() << endl;
+			cout << "Config file: " << vm["config"].as<string>() << endl;
 			conf.parseFromFile(vm["config"].as<string>());
 		} catch (exception &e) {
 			cout << e.what() << endl;

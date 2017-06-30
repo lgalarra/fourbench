@@ -9,9 +9,11 @@
 #define CONF_ASSIGNMENTDISTRIBUTION_HPP_
 
 namespace fourbench {
+namespace conf {
 
 typedef enum AssignmentDistribution { UNIFORM, POWER_LAW, GEOMETRIC } AssignmentDistribution ;
 
+}
 }
 
 

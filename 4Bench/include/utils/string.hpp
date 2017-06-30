@@ -19,6 +19,7 @@ namespace fourbench {
 
 vector<string> split(const string& s, const string& delim);
 
+string trim(const string& s);
 
 }
 

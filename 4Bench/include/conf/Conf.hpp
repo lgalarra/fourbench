@@ -17,6 +17,7 @@
 #include <ostream>
 
 #include <boost/program_options.hpp>
+#include <boost/program_options/variables_map.hpp>
 
 #include "AssignmentDistribution.hpp"
 
@@ -25,6 +26,7 @@ namespace po = boost::program_options;
 
 
 namespace fourbench {
+namespace conf {
 
 struct ConfValues {
 	unsigned numberOfSources;
@@ -35,17 +37,20 @@ struct ConfValues {
 	float activitiesEntitiesDensity;
 	float agentsEntitiesDensity;
 	string familyName;
+	set<string> properties;
 
 	friend struct Conf;
 
+	bool isDefaultProperty();
+
 private:
-	bool parseField(const string& fieldName, const po::variable_value& value);
+	bool parseField(const string& fieldName, const string& value);
 
 };
 
 typedef struct ConfValues ConfValues;
 
-std::ostream& operator<<(std::ostream &strm, const ConfValues &a);
+ostream& operator<<(ostream &strm, const ConfValues &a);
 
 struct Conf {
 public:
@@ -60,20 +65,24 @@ public:
 
 	static Conf& defaultConfig();
 	bool parseFromFile(const string& filename) throw();
-	bool parseFromOptions(po::variables_map& vm);
+	bool parseFromOptions(const po::variables_map& vm);
 	virtual ~Conf();
 
 private:
 	static Conf defaultInstance;
 
 	Conf();
+	bool parseFromOptions(const map<string, string>& vm);
 };
 
 typedef struct Conf Conf;
 
-std::ostream& operator<<(std::ostream&, const Conf&);
+ostream& operator<<(ostream&, const Conf&);
+
+ostream& operator<<(ostream& stm, const set<string>& v);
 
 
+}
 }
 
 #endif /* CONF_HPP_ */
