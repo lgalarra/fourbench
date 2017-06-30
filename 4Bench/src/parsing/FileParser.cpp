@@ -5,19 +5,24 @@
  *      Author: galarraga
  */
 
-#include "FileParser.hpp"
+#include <iostream>
+#include <fstream>
+
+#include "../include/parsing/FileParser.hpp"
 
 namespace fourbench {
 namespace parsing {
 
-FileParser::FileParser() {
-	// TODO Auto-generated constructor stub
-
+FileParser::FileParser(const string& filename) : filename(filename) {
+	stream = new ifstream(this->filename);
+	init();
 }
 
 FileParser::~FileParser() {
-	// TODO Auto-generated destructor stub
+	delete stream;
 }
+
+void FileParser::init() {}
 
 } /* namespace parsing */
 } /* namespace fourbench */

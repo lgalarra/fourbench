@@ -107,7 +107,11 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) conf/4Bench-Conf.$(OBJEXT) \
-	utils/4Bench-string.$(OBJEXT)
+	utils/4Bench-string.$(OBJEXT) \
+	parsing/4Bench-FileParser.$(OBJEXT) \
+	parsing/4Bench-Triple.$(OBJEXT) \
+	parsing/4Bench-FileParserFactory.$(OBJEXT) \
+	parsing/4Bench-TSVFileParser.$(OBJEXT)
 4Bench_OBJECTS = $(am_4Bench_OBJECTS)
 am__DEPENDENCIES_1 =
 4Bench_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -277,7 +281,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-4Bench_SOURCES = 4Bench.cpp conf/Conf.cpp utils/string.cpp
+4Bench_SOURCES = 4Bench.cpp conf/Conf.cpp utils/string.cpp parsing/FileParser.cpp parsing/Triple.cpp parsing/FileParserFactory.cpp parsing/TSVFileParser.cpp
 4Bench_CPPFLAGS = -I$(top_srcdir)/include
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
 AM_LDFLAGS = $(BOOST_LDFLAGS)
@@ -373,6 +377,20 @@ utils/$(DEPDIR)/$(am__dirstamp):
 	@: > utils/$(DEPDIR)/$(am__dirstamp)
 utils/4Bench-string.$(OBJEXT): utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
+parsing/$(am__dirstamp):
+	@$(MKDIR_P) parsing
+	@: > parsing/$(am__dirstamp)
+parsing/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) parsing/$(DEPDIR)
+	@: > parsing/$(DEPDIR)/$(am__dirstamp)
+parsing/4Bench-FileParser.$(OBJEXT): parsing/$(am__dirstamp) \
+	parsing/$(DEPDIR)/$(am__dirstamp)
+parsing/4Bench-Triple.$(OBJEXT): parsing/$(am__dirstamp) \
+	parsing/$(DEPDIR)/$(am__dirstamp)
+parsing/4Bench-FileParserFactory.$(OBJEXT): parsing/$(am__dirstamp) \
+	parsing/$(DEPDIR)/$(am__dirstamp)
+parsing/4Bench-TSVFileParser.$(OBJEXT): parsing/$(am__dirstamp) \
+	parsing/$(DEPDIR)/$(am__dirstamp)
 
 4Bench$(EXEEXT): $(4Bench_OBJECTS) $(4Bench_DEPENDENCIES) $(EXTRA_4Bench_DEPENDENCIES) 
 	@rm -f 4Bench$(EXEEXT)
@@ -381,6 +399,7 @@ utils/4Bench-string.$(OBJEXT): utils/$(am__dirstamp) \
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f conf/*.$(OBJEXT)
+	-rm -f parsing/*.$(OBJEXT)
 	-rm -f utils/*.$(OBJEXT)
 
 distclean-compile:
@@ -388,6 +407,10 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/4Bench-4Bench.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@conf/$(DEPDIR)/4Bench-Conf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-FileParser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-FileParserFactory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-TSVFileParser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-Triple.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-string.Po@am__quote@
 
 .cpp.o:
@@ -447,6 +470,62 @@ utils/4Bench-string.obj: utils/string.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/string.cpp' object='utils/4Bench-string.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-string.obj `if test -f 'utils/string.cpp'; then $(CYGPATH_W) 'utils/string.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/string.cpp'; fi`
+
+parsing/4Bench-FileParser.o: parsing/FileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-FileParser.o -MD -MP -MF parsing/$(DEPDIR)/4Bench-FileParser.Tpo -c -o parsing/4Bench-FileParser.o `test -f 'parsing/FileParser.cpp' || echo '$(srcdir)/'`parsing/FileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-FileParser.Tpo parsing/$(DEPDIR)/4Bench-FileParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/FileParser.cpp' object='parsing/4Bench-FileParser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-FileParser.o `test -f 'parsing/FileParser.cpp' || echo '$(srcdir)/'`parsing/FileParser.cpp
+
+parsing/4Bench-FileParser.obj: parsing/FileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-FileParser.obj -MD -MP -MF parsing/$(DEPDIR)/4Bench-FileParser.Tpo -c -o parsing/4Bench-FileParser.obj `if test -f 'parsing/FileParser.cpp'; then $(CYGPATH_W) 'parsing/FileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/FileParser.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-FileParser.Tpo parsing/$(DEPDIR)/4Bench-FileParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/FileParser.cpp' object='parsing/4Bench-FileParser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-FileParser.obj `if test -f 'parsing/FileParser.cpp'; then $(CYGPATH_W) 'parsing/FileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/FileParser.cpp'; fi`
+
+parsing/4Bench-Triple.o: parsing/Triple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-Triple.o -MD -MP -MF parsing/$(DEPDIR)/4Bench-Triple.Tpo -c -o parsing/4Bench-Triple.o `test -f 'parsing/Triple.cpp' || echo '$(srcdir)/'`parsing/Triple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-Triple.Tpo parsing/$(DEPDIR)/4Bench-Triple.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/Triple.cpp' object='parsing/4Bench-Triple.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-Triple.o `test -f 'parsing/Triple.cpp' || echo '$(srcdir)/'`parsing/Triple.cpp
+
+parsing/4Bench-Triple.obj: parsing/Triple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-Triple.obj -MD -MP -MF parsing/$(DEPDIR)/4Bench-Triple.Tpo -c -o parsing/4Bench-Triple.obj `if test -f 'parsing/Triple.cpp'; then $(CYGPATH_W) 'parsing/Triple.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/Triple.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-Triple.Tpo parsing/$(DEPDIR)/4Bench-Triple.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/Triple.cpp' object='parsing/4Bench-Triple.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-Triple.obj `if test -f 'parsing/Triple.cpp'; then $(CYGPATH_W) 'parsing/Triple.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/Triple.cpp'; fi`
+
+parsing/4Bench-FileParserFactory.o: parsing/FileParserFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-FileParserFactory.o -MD -MP -MF parsing/$(DEPDIR)/4Bench-FileParserFactory.Tpo -c -o parsing/4Bench-FileParserFactory.o `test -f 'parsing/FileParserFactory.cpp' || echo '$(srcdir)/'`parsing/FileParserFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-FileParserFactory.Tpo parsing/$(DEPDIR)/4Bench-FileParserFactory.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/FileParserFactory.cpp' object='parsing/4Bench-FileParserFactory.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-FileParserFactory.o `test -f 'parsing/FileParserFactory.cpp' || echo '$(srcdir)/'`parsing/FileParserFactory.cpp
+
+parsing/4Bench-FileParserFactory.obj: parsing/FileParserFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-FileParserFactory.obj -MD -MP -MF parsing/$(DEPDIR)/4Bench-FileParserFactory.Tpo -c -o parsing/4Bench-FileParserFactory.obj `if test -f 'parsing/FileParserFactory.cpp'; then $(CYGPATH_W) 'parsing/FileParserFactory.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/FileParserFactory.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-FileParserFactory.Tpo parsing/$(DEPDIR)/4Bench-FileParserFactory.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/FileParserFactory.cpp' object='parsing/4Bench-FileParserFactory.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-FileParserFactory.obj `if test -f 'parsing/FileParserFactory.cpp'; then $(CYGPATH_W) 'parsing/FileParserFactory.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/FileParserFactory.cpp'; fi`
+
+parsing/4Bench-TSVFileParser.o: parsing/TSVFileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-TSVFileParser.o -MD -MP -MF parsing/$(DEPDIR)/4Bench-TSVFileParser.Tpo -c -o parsing/4Bench-TSVFileParser.o `test -f 'parsing/TSVFileParser.cpp' || echo '$(srcdir)/'`parsing/TSVFileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-TSVFileParser.Tpo parsing/$(DEPDIR)/4Bench-TSVFileParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/TSVFileParser.cpp' object='parsing/4Bench-TSVFileParser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-TSVFileParser.o `test -f 'parsing/TSVFileParser.cpp' || echo '$(srcdir)/'`parsing/TSVFileParser.cpp
+
+parsing/4Bench-TSVFileParser.obj: parsing/TSVFileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-TSVFileParser.obj -MD -MP -MF parsing/$(DEPDIR)/4Bench-TSVFileParser.Tpo -c -o parsing/4Bench-TSVFileParser.obj `if test -f 'parsing/TSVFileParser.cpp'; then $(CYGPATH_W) 'parsing/TSVFileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/TSVFileParser.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-TSVFileParser.Tpo parsing/$(DEPDIR)/4Bench-TSVFileParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/TSVFileParser.cpp' object='parsing/4Bench-TSVFileParser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-TSVFileParser.obj `if test -f 'parsing/TSVFileParser.cpp'; then $(CYGPATH_W) 'parsing/TSVFileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/TSVFileParser.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -565,6 +644,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f conf/$(DEPDIR)/$(am__dirstamp)
 	-rm -f conf/$(am__dirstamp)
+	-rm -f parsing/$(DEPDIR)/$(am__dirstamp)
+	-rm -f parsing/$(am__dirstamp)
 	-rm -f utils/$(DEPDIR)/$(am__dirstamp)
 	-rm -f utils/$(am__dirstamp)
 
@@ -576,7 +657,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) utils/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) parsing/$(DEPDIR) utils/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -622,7 +703,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) utils/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) parsing/$(DEPDIR) utils/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
