@@ -1,3 +1,3 @@
-SUBDIRS=src
+SUBDIRS=src test
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS} -I m4
 EXTRA_DIST = bootstrap

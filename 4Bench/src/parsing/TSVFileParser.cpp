@@ -16,7 +16,7 @@ namespace parsing {
 
 TSVFileParser::TSVFileParser(const string& filename) : FileParser(filename),
 		numberOfLines(0), lineNumber(0) {
-
+	init();
 }
 
 TSVFileParser::~TSVFileParser() {
@@ -37,7 +37,7 @@ Triple* TSVFileParser::next() {
 	}
 }
 
-unsigned TSVFileParser::getNumberOfTriples() {
+unsigned TSVFileParser::getNumberOfTriples() const {
 	return numberOfLines;
 }
 

@@ -5,7 +5,7 @@ AC_INIT(4Bench, 0.1)
 
 
 AC_CANONICAL_SYSTEM
-AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
+AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects -Wno-portability])
 
 AC_PROG_CXX
 
@@ -15,8 +15,8 @@ AX_CXX_COMPILE_STDCXX_11
 
 AX_BOOST_BASE([1.32],,[AC_MSG_ERROR([4Bench needs Boost, but it was not found in your system])])
 AX_BOOST_PROGRAM_OPTIONS
-
-AC_CONFIG_FILES(Makefile src/Makefile)
+AX_BOOST_UNIT_TEST_FRAMEWORK
+AC_CONFIG_FILES(Makefile src/Makefile test/Makefile)
 
 AC_OUTPUT
 

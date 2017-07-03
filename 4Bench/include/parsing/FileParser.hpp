@@ -25,7 +25,7 @@ protected:
 	ifstream* stream;
 	virtual void init();
 public:
-	virtual Triple* next() const = 0;
+	virtual Triple* next() = 0;
 	virtual unsigned getNumberOfTriples() const = 0;
 	FileParser(const string& filename);
 	virtual ~FileParser();

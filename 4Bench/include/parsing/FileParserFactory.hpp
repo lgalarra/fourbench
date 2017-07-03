@@ -15,6 +15,7 @@ using namespace std;
 namespace fourbench {
 namespace parsing {
 
+
 class FileParserFactory {
 
 private:
@@ -25,7 +26,7 @@ public:
 	static FileParserFactory& getInstance();
 
 	template <class Parser> Parser* buildParser(const string& filename) {
-		Parser parser = new Parser(filename);
+		Parser* parser = new Parser(filename);
 		return parser;
 	}
 

@@ -1,5 +1,5 @@
 bin_PROGRAMS=4Bench
-4Bench_SOURCES=4Bench.cpp conf/Conf.cpp utils/string.cpp parsing/FileParser.cpp parsing/Triple.cpp parsing/FileParserFactory.cpp parsing/TSVFileParser.cpp
+4Bench_SOURCES=4Bench.cpp $(wildcard conf/*.cpp) $(wildcard parsing/*.cpp)
 4Bench_CPPFLAGS = -I$(top_srcdir)/include
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
 AM_LDFLAGS = $(BOOST_LDFLAGS)

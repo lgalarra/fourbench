@@ -1152,5 +1152,6 @@ AC_SUBST([am__untar])
 
 m4_include([m4/m4_ax_boost_base.m4])
 m4_include([m4/m4_ax_boost_program_options.m4])
+m4_include([m4/m4_ax_boost_unit_test_framework.m4])
 m4_include([m4/m4_ax_cxx_compile_stdcxx.m4])
 m4_include([m4/m4_ax_cxx_compile_stdcxx_11.m4])

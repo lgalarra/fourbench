@@ -29,7 +29,7 @@ protected:
 public:
 	TSVFileParser(const string& filename);
 	virtual Triple* next();
-	virtual unsigned getNumberOfTriples();
+	virtual unsigned getNumberOfTriples() const;
 
 	virtual ~TSVFileParser();
 };

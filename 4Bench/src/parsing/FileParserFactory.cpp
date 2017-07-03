@@ -14,7 +14,9 @@ FileParserFactory FileParserFactory::instance;
 
 FileParserFactory::FileParserFactory() {}
 
-FileParserFactory::~FileParserFactory() {}
+FileParserFactory::~FileParserFactory() {
+
+}
 
 FileParserFactory& FileParserFactory::getInstance() {
 	return FileParserFactory::instance;
