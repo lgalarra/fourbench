@@ -106,7 +106,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT)
+am__dirstamp = $(am__leading_dot)dirstamp
+am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) conf/4Bench-Conf.$(OBJEXT) \
+	utils/4Bench-string.$(OBJEXT)
 4Bench_OBJECTS = $(am_4Bench_OBJECTS)
 am__DEPENDENCIES_1 =
 4Bench_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -277,7 +279,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-4Bench_SOURCES = 4Bench.cpp $(wildcard conf/*.cpp) $(wildcard parsing/*.cpp)
+4Bench_SOURCES = 4Bench.cpp $(wildcard conf/*.cpp) $(wildcard parsing/*.cpp) $(wildcard provenance/*.cpp) conf/Conf.cpp utils/string.cpp
 4Bench_CPPFLAGS = -I$(top_srcdir)/include
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
 AM_LDFLAGS = $(BOOST_LDFLAGS)
@@ -357,6 +359,22 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+conf/$(am__dirstamp):
+	@$(MKDIR_P) conf
+	@: > conf/$(am__dirstamp)
+conf/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) conf/$(DEPDIR)
+	@: > conf/$(DEPDIR)/$(am__dirstamp)
+conf/4Bench-Conf.$(OBJEXT): conf/$(am__dirstamp) \
+	conf/$(DEPDIR)/$(am__dirstamp)
+utils/$(am__dirstamp):
+	@$(MKDIR_P) utils
+	@: > utils/$(am__dirstamp)
+utils/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) utils/$(DEPDIR)
+	@: > utils/$(DEPDIR)/$(am__dirstamp)
+utils/4Bench-string.$(OBJEXT): utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
 
 4Bench$(EXEEXT): $(4Bench_OBJECTS) $(4Bench_DEPENDENCIES) $(EXTRA_4Bench_DEPENDENCIES) 
 	@rm -f 4Bench$(EXEEXT)
@@ -364,11 +382,15 @@ clean-binPROGRAMS:
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f conf/*.$(OBJEXT)
+	-rm -f utils/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/4Bench-4Bench.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@conf/$(DEPDIR)/4Bench-Conf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-string.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -399,6 +421,34 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='4Bench.cpp' object='4Bench-4Bench.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o 4Bench-4Bench.obj `if test -f '4Bench.cpp'; then $(CYGPATH_W) '4Bench.cpp'; else $(CYGPATH_W) '$(srcdir)/4Bench.cpp'; fi`
+
+conf/4Bench-Conf.o: conf/Conf.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT conf/4Bench-Conf.o -MD -MP -MF conf/$(DEPDIR)/4Bench-Conf.Tpo -c -o conf/4Bench-Conf.o `test -f 'conf/Conf.cpp' || echo '$(srcdir)/'`conf/Conf.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) conf/$(DEPDIR)/4Bench-Conf.Tpo conf/$(DEPDIR)/4Bench-Conf.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='conf/Conf.cpp' object='conf/4Bench-Conf.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o conf/4Bench-Conf.o `test -f 'conf/Conf.cpp' || echo '$(srcdir)/'`conf/Conf.cpp
+
+conf/4Bench-Conf.obj: conf/Conf.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT conf/4Bench-Conf.obj -MD -MP -MF conf/$(DEPDIR)/4Bench-Conf.Tpo -c -o conf/4Bench-Conf.obj `if test -f 'conf/Conf.cpp'; then $(CYGPATH_W) 'conf/Conf.cpp'; else $(CYGPATH_W) '$(srcdir)/conf/Conf.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) conf/$(DEPDIR)/4Bench-Conf.Tpo conf/$(DEPDIR)/4Bench-Conf.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='conf/Conf.cpp' object='conf/4Bench-Conf.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o conf/4Bench-Conf.obj `if test -f 'conf/Conf.cpp'; then $(CYGPATH_W) 'conf/Conf.cpp'; else $(CYGPATH_W) '$(srcdir)/conf/Conf.cpp'; fi`
+
+utils/4Bench-string.o: utils/string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utils/4Bench-string.o -MD -MP -MF utils/$(DEPDIR)/4Bench-string.Tpo -c -o utils/4Bench-string.o `test -f 'utils/string.cpp' || echo '$(srcdir)/'`utils/string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/4Bench-string.Tpo utils/$(DEPDIR)/4Bench-string.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/string.cpp' object='utils/4Bench-string.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-string.o `test -f 'utils/string.cpp' || echo '$(srcdir)/'`utils/string.cpp
+
+utils/4Bench-string.obj: utils/string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utils/4Bench-string.obj -MD -MP -MF utils/$(DEPDIR)/4Bench-string.Tpo -c -o utils/4Bench-string.obj `if test -f 'utils/string.cpp'; then $(CYGPATH_W) 'utils/string.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/string.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/4Bench-string.Tpo utils/$(DEPDIR)/4Bench-string.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/string.cpp' object='utils/4Bench-string.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-string.obj `if test -f 'utils/string.cpp'; then $(CYGPATH_W) 'utils/string.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/string.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -515,6 +565,10 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f conf/$(DEPDIR)/$(am__dirstamp)
+	-rm -f conf/$(am__dirstamp)
+	-rm -f utils/$(DEPDIR)/$(am__dirstamp)
+	-rm -f utils/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -524,7 +578,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) utils/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -570,7 +624,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) utils/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

@@ -8,11 +8,14 @@
 #ifndef PARSING_TSVFILEPARSER_HPP_
 #define PARSING_TSVFILEPARSER_HPP_
 
+#include <map>
 #include <string>
 
-#include "../include/parsing/FileParser.hpp"
-#include "../include/parsing/Triple.hpp"
+#include "../include/conf/Conf.hpp"
+#include "FileParser.hpp"
+#include "Triple.hpp"
 
+namespace fc = fourbench::conf;
 using namespace std;
 
 namespace fourbench {
@@ -29,7 +32,7 @@ protected:
 public:
 	TSVFileParser(const string& filename);
 	virtual Triple* next();
-	virtual unsigned getNumberOfTriples() const;
+	virtual unsigned getNumberOfTriples(const string& family) const;
 
 	virtual ~TSVFileParser();
 };

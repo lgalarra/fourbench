@@ -15,6 +15,7 @@
 #include "Triple.hpp"
 
 using namespace std;
+namespace fc = fourbench::conf;
 
 namespace fourbench {
 namespace parsing {
@@ -23,10 +24,12 @@ class FileParser {
 protected:
 	string filename;
 	ifstream* stream;
+	map<string, unsigned> numberOfLinesPerFamily;
 	virtual void init();
+
 public:
 	virtual Triple* next() = 0;
-	virtual unsigned getNumberOfTriples() const = 0;
+	virtual unsigned getNumberOfTriples(const string& family) const = 0;
 	FileParser(const string& filename);
 	virtual ~FileParser();
 };

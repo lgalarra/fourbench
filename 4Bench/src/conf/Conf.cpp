@@ -93,6 +93,19 @@ namespace conf {
 		});
 	}
 
+	void Conf::indexProperties() {
+		for (auto itr = confs.begin(); itr != confs.end(); ++itr) {
+			string family = itr->first;
+			if (family != "default") {
+				set<string>& properties = itr->second->properties;
+				for (auto itrProp = properties.begin(); itrProp != properties.end(); ++itrProp) {
+					properties2Families[*itrProp] = family;
+				}
+			}
+		}
+	}
+
+
 	Conf& Conf::defaultConfig() {
 		return Conf::defaultInstance;
 	}
@@ -116,7 +129,9 @@ namespace conf {
 			    }
 			    ++lineNumber;
 			}
-			return this->parseFromOptions(vm);
+			bool returnValue = this->parseFromOptions(vm);
+			this->indexProperties();
+			return returnValue;
 		} else {
 			cerr << "There was a problem at opening file " << filename << endl;
 			return false;
@@ -128,8 +143,9 @@ namespace conf {
 		for (auto itr = vm.begin(); itr != vm.end(); ++itr) {
 			stdmap[itr->first] = itr->second.as<string>();
 		}
-
-		return this->parseFromOptions(stdmap);
+		bool returnValue = this->parseFromOptions(stdmap);
+		this->indexProperties();
+		return returnValue;
 	}
 
 	bool Conf::parseFromOptions(const map<string, string>& vm) {
@@ -165,6 +181,14 @@ namespace conf {
 
 		return answer;
 
+	}
+
+	string Conf::getFamily(string& property) {
+		if (properties2Families.find(property) != properties2Families.end()) {
+			return this->properties2Families[property];
+		} else {
+			return "default";
+		}
 	}
 
 

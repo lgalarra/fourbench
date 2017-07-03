@@ -53,6 +53,14 @@ typedef struct ConfValues ConfValues;
 ostream& operator<<(ostream &strm, const ConfValues &a);
 
 struct Conf {
+private:
+	map<string, string> properties2Families;
+	static Conf defaultInstance;
+
+	void indexProperties();
+	Conf();
+	bool parseFromOptions(const map<string, string>& vm);
+
 public:
 	static const unsigned DefaultNumberOfSources = 10;
 	static const unsigned DefaultDepth = 2;
@@ -66,13 +74,9 @@ public:
 	static Conf& defaultConfig();
 	bool parseFromFile(const string& filename) throw();
 	bool parseFromOptions(const po::variables_map& vm);
+	string getFamily(string& property);
 	virtual ~Conf();
 
-private:
-	static Conf defaultInstance;
-
-	Conf();
-	bool parseFromOptions(const map<string, string>& vm);
 };
 
 typedef struct Conf Conf;
