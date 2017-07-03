@@ -5,6 +5,8 @@
  *      Author: galarraga
  */
 
+#include <math.h>
+
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
 #include "../include/provenance/ProvenanceGraph.hpp"
@@ -23,7 +25,8 @@ void ProvenanceGraph::computeNumberOfLeafEntities(const fc::ConfValues& values, 
 	const fc::Conf& conf = fc::Conf::defaultConfig();
 	switch (values.distribution) {
 	case fc::AssignmentDistribution::UNIFORM :
-		leafEntities = 1;
+		float alpha = ((1 - nTriples) / (float)nTriples) * values.agentsEntitiesDensity + 1;
+		leafEntities = (unsigned)ceil(alpha * nTriples);
 		break;
 	case fc::AssignmentDistribution::POWER_LAW :
 		leafEntities = 2;
