@@ -33,6 +33,7 @@ public:
 	TSVFileParser(const string& filename);
 	virtual Triple* next();
 	virtual unsigned getNumberOfTriples(const string& family) const;
+	virtual unsigned getNumberOfSubjects(const string& family) const;
 
 	virtual ~TSVFileParser();
 };

@@ -8,6 +8,7 @@
 #ifndef PROVENANCE_PROVENANCEGRAPH_HPP_
 #define PROVENANCE_PROVENANCEGRAPH_HPP_
 
+#include "ProvenanceSubgraph.hpp"
 
 namespace fc = fourbench::conf;
 

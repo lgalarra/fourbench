@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 
+#include "../include/conf/Conf.hpp"
 #include "../include/provenance/ProvenanceGraphBuilder.hpp"
 #include "../include/provenance/ProvenanceGraph.hpp"
 
@@ -29,7 +30,8 @@ vector<shared_ptr<ProvenanceGraph>> ProvenanceGraphBuilder::buildProvenanceGraph
 	vector<shared_ptr<ProvenanceGraph>> graphs;
 
 	for (auto itr = conf.confs.begin(); itr != conf.confs.end(); ++itr) {
-		graphs.push_back(make_shared<ProvenanceGraph>(new ProvenanceGraph(*itr)));
+		shared_ptr<ProvenanceGraph> spt(new ProvenanceGraph(*(itr->second), 10));
+		graphs.push_back(spt);
 	}
 
 	return graphs;

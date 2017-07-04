@@ -16,18 +16,21 @@ namespace fc = fourbench::conf;
 namespace fourbench {
 namespace provenance {
 
-ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, unsigned nTriples) {
+ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, unsigned nTriples) :
+	provUsed("prov:used"), provWasAttributedTo("prov:wasAttributedTo"),
+	provWasGeneratedBy("prov:wasGeneratedBy") {
 	computeNumberOfLeafEntities(values, nTriples);
-
 }
 
 void ProvenanceGraph::computeNumberOfLeafEntities(const fc::ConfValues& values, unsigned nTriples) {
 	const fc::Conf& conf = fc::Conf::defaultConfig();
 	switch (values.distribution) {
 	case fc::AssignmentDistribution::UNIFORM :
+	{
 		float alpha = ((1 - nTriples) / (float)nTriples) * values.agentsEntitiesDensity + 1;
 		leafEntities = (unsigned)ceil(alpha * nTriples);
 		break;
+	}
 	case fc::AssignmentDistribution::POWER_LAW :
 		leafEntities = 2;
 		break;

@@ -5,6 +5,8 @@
  *      Author: galarraga
  */
 
+#include <algorithm>
+
 #include "../include/provenance/ProvenanceSubgraph.hpp"
 
 
@@ -13,13 +15,9 @@ using namespace std;
 namespace fourbench {
 namespace provenance {
 
-ProvenanceSubgraph::ProvenanceSubgraph(const string& name): name(name) {
+ProvenanceSubgraph::ProvenanceSubgraph(const string& name): name(name) {}
 
-}
-
-ProvenanceSubgraph::~ProvenanceSubgraph() {
-	// TODO Auto-generated destructor stub
-}
+ProvenanceSubgraph::~ProvenanceSubgraph() {}
 
 string ProvenanceSubgraph::getName() const {
 	return name;
@@ -27,8 +25,12 @@ string ProvenanceSubgraph::getName() const {
 
 bool ProvenanceSubgraph::addEdge(unsigned source, unsigned target) {
 	auto itr = matrix.equal_range(source);
-	if (find(itr.first, itr.second, target)) {
-		return true;
+	auto itrNav = itr.first;
+	while (itrNav != itr.second) {
+		if (itrNav->second == target) {
+			return true;
+		}
+		++itrNav;
 	}
 
 	matrix.insert(make_pair(source, target));

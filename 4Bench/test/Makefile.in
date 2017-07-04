@@ -106,7 +106,15 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_TSVFileParserTest_OBJECTS =
+am__dirstamp = $(am__leading_dot)dirstamp
+am_TSVFileParserTest_OBJECTS =  \
+	parsing/TSVFileParserTest-TSVFileParserTest.$(OBJEXT) \
+	../src/conf/TSVFileParserTest-Conf.$(OBJEXT) \
+	../src/utils/TSVFileParserTest-string.$(OBJEXT) \
+	../src/parsing/TSVFileParserTest-FileParser.$(OBJEXT) \
+	../src/parsing/TSVFileParserTest-FileParserFactory.$(OBJEXT) \
+	../src/parsing/TSVFileParserTest-Triple.$(OBJEXT) \
+	../src/parsing/TSVFileParserTest-TSVFileParser.$(OBJEXT)
 TSVFileParserTest_OBJECTS = $(am_TSVFileParserTest_OBJECTS)
 am__DEPENDENCIES_1 =
 TSVFileParserTest_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -123,18 +131,26 @@ am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
 DEFAULT_INCLUDES = -I.@am__isrc@
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-AM_V_CC = $(am__v_CC_@AM_V@)
-am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
-am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_CCLD = $(am__v_CCLD_@AM_V@)
-am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
-am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__depfiles_maybe = depfiles
+am__mv = mv -f
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+AM_V_CXX = $(am__v_CXX_@AM_V@)
+am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
+am__v_CXX_0 = @echo "  CXX     " $@;
+am__v_CXX_1 = 
+CXXLD = $(CXX)
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
+AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
+am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
+am__v_CXXLD_0 = @echo "  CXXLD   " $@;
+am__v_CXXLD_1 = 
 SOURCES = $(TSVFileParserTest_SOURCES)
 DIST_SOURCES = $(TSVFileParserTest_SOURCES)
 am__can_run_installinfo = \
@@ -161,7 +177,7 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-am__DIST_COMMON = $(srcdir)/Makefile.in
+am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -269,7 +285,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-TSVFileParserTest_SOURCES = $(wildcard parsing/*.cpp) $(wildcard utils/*.cpp)
+TSVFileParserTest_SOURCES = parsing/TSVFileParserTest.cpp ../src/conf/Conf.cpp ../src/utils/string.cpp ../src/parsing/FileParser.cpp ../src/parsing/FileParserFactory.cpp ../src/parsing/Triple.cpp ../src/parsing/TSVFileParser.cpp
 TSVFileParserTest_CPPFLAGS = -I$(top_srcdir)/include
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
 AM_LDFLAGS = $(BOOST_LDFLAGS)
@@ -277,6 +293,7 @@ TSVFileParserTest_LDADD = $(BOOST_PROGRAM_OPTIONS_LIB)
 all: all-am
 
 .SUFFIXES:
+.SUFFIXES: .cpp .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -348,16 +365,186 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+parsing/$(am__dirstamp):
+	@$(MKDIR_P) parsing
+	@: > parsing/$(am__dirstamp)
+parsing/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) parsing/$(DEPDIR)
+	@: > parsing/$(DEPDIR)/$(am__dirstamp)
+parsing/TSVFileParserTest-TSVFileParserTest.$(OBJEXT):  \
+	parsing/$(am__dirstamp) parsing/$(DEPDIR)/$(am__dirstamp)
+../src/conf/$(am__dirstamp):
+	@$(MKDIR_P) ../src/conf
+	@: > ../src/conf/$(am__dirstamp)
+../src/conf/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../src/conf/$(DEPDIR)
+	@: > ../src/conf/$(DEPDIR)/$(am__dirstamp)
+../src/conf/TSVFileParserTest-Conf.$(OBJEXT):  \
+	../src/conf/$(am__dirstamp) \
+	../src/conf/$(DEPDIR)/$(am__dirstamp)
+../src/utils/$(am__dirstamp):
+	@$(MKDIR_P) ../src/utils
+	@: > ../src/utils/$(am__dirstamp)
+../src/utils/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../src/utils/$(DEPDIR)
+	@: > ../src/utils/$(DEPDIR)/$(am__dirstamp)
+../src/utils/TSVFileParserTest-string.$(OBJEXT):  \
+	../src/utils/$(am__dirstamp) \
+	../src/utils/$(DEPDIR)/$(am__dirstamp)
+../src/parsing/$(am__dirstamp):
+	@$(MKDIR_P) ../src/parsing
+	@: > ../src/parsing/$(am__dirstamp)
+../src/parsing/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../src/parsing/$(DEPDIR)
+	@: > ../src/parsing/$(DEPDIR)/$(am__dirstamp)
+../src/parsing/TSVFileParserTest-FileParser.$(OBJEXT):  \
+	../src/parsing/$(am__dirstamp) \
+	../src/parsing/$(DEPDIR)/$(am__dirstamp)
+../src/parsing/TSVFileParserTest-FileParserFactory.$(OBJEXT):  \
+	../src/parsing/$(am__dirstamp) \
+	../src/parsing/$(DEPDIR)/$(am__dirstamp)
+../src/parsing/TSVFileParserTest-Triple.$(OBJEXT):  \
+	../src/parsing/$(am__dirstamp) \
+	../src/parsing/$(DEPDIR)/$(am__dirstamp)
+../src/parsing/TSVFileParserTest-TSVFileParser.$(OBJEXT):  \
+	../src/parsing/$(am__dirstamp) \
+	../src/parsing/$(DEPDIR)/$(am__dirstamp)
 
 TSVFileParserTest$(EXEEXT): $(TSVFileParserTest_OBJECTS) $(TSVFileParserTest_DEPENDENCIES) $(EXTRA_TSVFileParserTest_DEPENDENCIES) 
 	@rm -f TSVFileParserTest$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(TSVFileParserTest_OBJECTS) $(TSVFileParserTest_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(TSVFileParserTest_OBJECTS) $(TSVFileParserTest_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f ../src/conf/*.$(OBJEXT)
+	-rm -f ../src/parsing/*.$(OBJEXT)
+	-rm -f ../src/utils/*.$(OBJEXT)
+	-rm -f parsing/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
+
+@AMDEP_TRUE@@am__include@ @am__quote@../src/conf/$(DEPDIR)/TSVFileParserTest-Conf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParserFactory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/utils/$(DEPDIR)/TSVFileParserTest-string.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParserTest.Po@am__quote@
+
+.cpp.o:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
+
+.cpp.obj:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+parsing/TSVFileParserTest-TSVFileParserTest.o: parsing/TSVFileParserTest.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/TSVFileParserTest-TSVFileParserTest.o -MD -MP -MF parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParserTest.Tpo -c -o parsing/TSVFileParserTest-TSVFileParserTest.o `test -f 'parsing/TSVFileParserTest.cpp' || echo '$(srcdir)/'`parsing/TSVFileParserTest.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParserTest.Tpo parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParserTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/TSVFileParserTest.cpp' object='parsing/TSVFileParserTest-TSVFileParserTest.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/TSVFileParserTest-TSVFileParserTest.o `test -f 'parsing/TSVFileParserTest.cpp' || echo '$(srcdir)/'`parsing/TSVFileParserTest.cpp
+
+parsing/TSVFileParserTest-TSVFileParserTest.obj: parsing/TSVFileParserTest.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/TSVFileParserTest-TSVFileParserTest.obj -MD -MP -MF parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParserTest.Tpo -c -o parsing/TSVFileParserTest-TSVFileParserTest.obj `if test -f 'parsing/TSVFileParserTest.cpp'; then $(CYGPATH_W) 'parsing/TSVFileParserTest.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/TSVFileParserTest.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParserTest.Tpo parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParserTest.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/TSVFileParserTest.cpp' object='parsing/TSVFileParserTest-TSVFileParserTest.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/TSVFileParserTest-TSVFileParserTest.obj `if test -f 'parsing/TSVFileParserTest.cpp'; then $(CYGPATH_W) 'parsing/TSVFileParserTest.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/TSVFileParserTest.cpp'; fi`
+
+../src/conf/TSVFileParserTest-Conf.o: ../src/conf/Conf.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/conf/TSVFileParserTest-Conf.o -MD -MP -MF ../src/conf/$(DEPDIR)/TSVFileParserTest-Conf.Tpo -c -o ../src/conf/TSVFileParserTest-Conf.o `test -f '../src/conf/Conf.cpp' || echo '$(srcdir)/'`../src/conf/Conf.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/conf/$(DEPDIR)/TSVFileParserTest-Conf.Tpo ../src/conf/$(DEPDIR)/TSVFileParserTest-Conf.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/conf/Conf.cpp' object='../src/conf/TSVFileParserTest-Conf.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/conf/TSVFileParserTest-Conf.o `test -f '../src/conf/Conf.cpp' || echo '$(srcdir)/'`../src/conf/Conf.cpp
+
+../src/conf/TSVFileParserTest-Conf.obj: ../src/conf/Conf.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/conf/TSVFileParserTest-Conf.obj -MD -MP -MF ../src/conf/$(DEPDIR)/TSVFileParserTest-Conf.Tpo -c -o ../src/conf/TSVFileParserTest-Conf.obj `if test -f '../src/conf/Conf.cpp'; then $(CYGPATH_W) '../src/conf/Conf.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/conf/Conf.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/conf/$(DEPDIR)/TSVFileParserTest-Conf.Tpo ../src/conf/$(DEPDIR)/TSVFileParserTest-Conf.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/conf/Conf.cpp' object='../src/conf/TSVFileParserTest-Conf.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/conf/TSVFileParserTest-Conf.obj `if test -f '../src/conf/Conf.cpp'; then $(CYGPATH_W) '../src/conf/Conf.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/conf/Conf.cpp'; fi`
+
+../src/utils/TSVFileParserTest-string.o: ../src/utils/string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/utils/TSVFileParserTest-string.o -MD -MP -MF ../src/utils/$(DEPDIR)/TSVFileParserTest-string.Tpo -c -o ../src/utils/TSVFileParserTest-string.o `test -f '../src/utils/string.cpp' || echo '$(srcdir)/'`../src/utils/string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/utils/$(DEPDIR)/TSVFileParserTest-string.Tpo ../src/utils/$(DEPDIR)/TSVFileParserTest-string.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/utils/string.cpp' object='../src/utils/TSVFileParserTest-string.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/utils/TSVFileParserTest-string.o `test -f '../src/utils/string.cpp' || echo '$(srcdir)/'`../src/utils/string.cpp
+
+../src/utils/TSVFileParserTest-string.obj: ../src/utils/string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/utils/TSVFileParserTest-string.obj -MD -MP -MF ../src/utils/$(DEPDIR)/TSVFileParserTest-string.Tpo -c -o ../src/utils/TSVFileParserTest-string.obj `if test -f '../src/utils/string.cpp'; then $(CYGPATH_W) '../src/utils/string.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/utils/string.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/utils/$(DEPDIR)/TSVFileParserTest-string.Tpo ../src/utils/$(DEPDIR)/TSVFileParserTest-string.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/utils/string.cpp' object='../src/utils/TSVFileParserTest-string.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/utils/TSVFileParserTest-string.obj `if test -f '../src/utils/string.cpp'; then $(CYGPATH_W) '../src/utils/string.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/utils/string.cpp'; fi`
+
+../src/parsing/TSVFileParserTest-FileParser.o: ../src/parsing/FileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-FileParser.o -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParser.Tpo -c -o ../src/parsing/TSVFileParserTest-FileParser.o `test -f '../src/parsing/FileParser.cpp' || echo '$(srcdir)/'`../src/parsing/FileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParser.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/FileParser.cpp' object='../src/parsing/TSVFileParserTest-FileParser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-FileParser.o `test -f '../src/parsing/FileParser.cpp' || echo '$(srcdir)/'`../src/parsing/FileParser.cpp
+
+../src/parsing/TSVFileParserTest-FileParser.obj: ../src/parsing/FileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-FileParser.obj -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParser.Tpo -c -o ../src/parsing/TSVFileParserTest-FileParser.obj `if test -f '../src/parsing/FileParser.cpp'; then $(CYGPATH_W) '../src/parsing/FileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/FileParser.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParser.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/FileParser.cpp' object='../src/parsing/TSVFileParserTest-FileParser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-FileParser.obj `if test -f '../src/parsing/FileParser.cpp'; then $(CYGPATH_W) '../src/parsing/FileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/FileParser.cpp'; fi`
+
+../src/parsing/TSVFileParserTest-FileParserFactory.o: ../src/parsing/FileParserFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-FileParserFactory.o -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParserFactory.Tpo -c -o ../src/parsing/TSVFileParserTest-FileParserFactory.o `test -f '../src/parsing/FileParserFactory.cpp' || echo '$(srcdir)/'`../src/parsing/FileParserFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParserFactory.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParserFactory.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/FileParserFactory.cpp' object='../src/parsing/TSVFileParserTest-FileParserFactory.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-FileParserFactory.o `test -f '../src/parsing/FileParserFactory.cpp' || echo '$(srcdir)/'`../src/parsing/FileParserFactory.cpp
+
+../src/parsing/TSVFileParserTest-FileParserFactory.obj: ../src/parsing/FileParserFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-FileParserFactory.obj -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParserFactory.Tpo -c -o ../src/parsing/TSVFileParserTest-FileParserFactory.obj `if test -f '../src/parsing/FileParserFactory.cpp'; then $(CYGPATH_W) '../src/parsing/FileParserFactory.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/FileParserFactory.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParserFactory.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParserFactory.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/FileParserFactory.cpp' object='../src/parsing/TSVFileParserTest-FileParserFactory.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-FileParserFactory.obj `if test -f '../src/parsing/FileParserFactory.cpp'; then $(CYGPATH_W) '../src/parsing/FileParserFactory.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/FileParserFactory.cpp'; fi`
+
+../src/parsing/TSVFileParserTest-Triple.o: ../src/parsing/Triple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-Triple.o -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Tpo -c -o ../src/parsing/TSVFileParserTest-Triple.o `test -f '../src/parsing/Triple.cpp' || echo '$(srcdir)/'`../src/parsing/Triple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/Triple.cpp' object='../src/parsing/TSVFileParserTest-Triple.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-Triple.o `test -f '../src/parsing/Triple.cpp' || echo '$(srcdir)/'`../src/parsing/Triple.cpp
+
+../src/parsing/TSVFileParserTest-Triple.obj: ../src/parsing/Triple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-Triple.obj -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Tpo -c -o ../src/parsing/TSVFileParserTest-Triple.obj `if test -f '../src/parsing/Triple.cpp'; then $(CYGPATH_W) '../src/parsing/Triple.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/Triple.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/Triple.cpp' object='../src/parsing/TSVFileParserTest-Triple.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-Triple.obj `if test -f '../src/parsing/Triple.cpp'; then $(CYGPATH_W) '../src/parsing/Triple.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/Triple.cpp'; fi`
+
+../src/parsing/TSVFileParserTest-TSVFileParser.o: ../src/parsing/TSVFileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-TSVFileParser.o -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Tpo -c -o ../src/parsing/TSVFileParserTest-TSVFileParser.o `test -f '../src/parsing/TSVFileParser.cpp' || echo '$(srcdir)/'`../src/parsing/TSVFileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/TSVFileParser.cpp' object='../src/parsing/TSVFileParserTest-TSVFileParser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-TSVFileParser.o `test -f '../src/parsing/TSVFileParser.cpp' || echo '$(srcdir)/'`../src/parsing/TSVFileParser.cpp
+
+../src/parsing/TSVFileParserTest-TSVFileParser.obj: ../src/parsing/TSVFileParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-TSVFileParser.obj -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Tpo -c -o ../src/parsing/TSVFileParserTest-TSVFileParser.obj `if test -f '../src/parsing/TSVFileParser.cpp'; then $(CYGPATH_W) '../src/parsing/TSVFileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/TSVFileParser.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/TSVFileParser.cpp' object='../src/parsing/TSVFileParserTest-TSVFileParser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-TSVFileParser.obj `if test -f '../src/parsing/TSVFileParser.cpp'; then $(CYGPATH_W) '../src/parsing/TSVFileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/TSVFileParser.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -474,6 +661,14 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f ../src/conf/$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../src/conf/$(am__dirstamp)
+	-rm -f ../src/parsing/$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../src/parsing/$(am__dirstamp)
+	-rm -f ../src/utils/$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../src/utils/$(am__dirstamp)
+	-rm -f parsing/$(DEPDIR)/$(am__dirstamp)
+	-rm -f parsing/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -483,6 +678,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
+	-rm -rf ../src/conf/$(DEPDIR) ../src/parsing/$(DEPDIR) ../src/utils/$(DEPDIR) parsing/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -528,6 +724,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
+	-rm -rf ../src/conf/$(DEPDIR) ../src/parsing/$(DEPDIR) ../src/utils/$(DEPDIR) parsing/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

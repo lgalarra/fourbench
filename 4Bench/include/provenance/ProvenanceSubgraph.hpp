@@ -9,6 +9,7 @@
 #define PROVENANCESUBGRAPH_HPP_
 
 #include <string>
+#include <map>
 
 using namespace std;
 

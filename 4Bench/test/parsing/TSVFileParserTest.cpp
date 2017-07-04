@@ -36,8 +36,8 @@ BOOST_AUTO_TEST_CASE( fourbench_test_tsvparser )
 
 	bp::TSVFileParser* tsvParser = factory.buildParser<bp::TSVFileParser>(testFilePath);
 
-	cout << tsvParser->getNumberOfTriples();
-	BOOST_REQUIRE(tsvParser->getNumberOfTriples() == 7);
+	BOOST_REQUIRE(tsvParser->getNumberOfTriples("default") == 7);
+	BOOST_REQUIRE(tsvParser->getNumberOfSubjects("default") == 5);
 
 	delete tsvParser;
 

@@ -7,6 +7,7 @@
 
 #include <vector>
 
+#include "../include/conf/Conf.hpp"
 #include "../include/parsing/TSVFileParser.hpp"
 #include "../include/parsing/Triple.hpp"
 #include "../include/utils/string.hpp"
@@ -40,10 +41,25 @@ Triple* TSVFileParser::next() {
 }
 
 unsigned TSVFileParser::getNumberOfTriples(const string& family) const {
-	return numberOfLines;
+	auto itr = numberOfLinesPerFamily.find(family);
+	if (itr == numberOfLinesPerFamily.end()) {
+		return -1;
+	} else {
+		return itr->second;
+	}
+}
+
+unsigned TSVFileParser::getNumberOfSubjects(const string& family) const {
+	auto itr = numberOfSubjectsPerFamily.find(family);
+	if (itr == numberOfSubjectsPerFamily.end()) {
+		return -1;
+	} else {
+		return itr->second;
+	}
 }
 
 void TSVFileParser::init() {
+	map<string, set<string>> family2Subjects;
 	fc::Conf& conf = fc::Conf::defaultConfig();
 	string line;
 	while (getline(*stream, line)) {
@@ -53,12 +69,18 @@ void TSVFileParser::init() {
 			string family = conf.getFamily(parts[1]);
 			auto itr = numberOfLinesPerFamily.find(family);
 			if (itr == numberOfLinesPerFamily.end()) {
-				numberOfLinesPerFamily[family] = 0;
+				numberOfLinesPerFamily[family] = 1;
 			} else{
-				numberOfLinesPerFamily[family] = numberOfLinesPerFamily[family] + 1;
+				itr->second = itr->second + 1;
 			}
+			family2Subjects[family].insert(parts[0]);
 		}
 	}
+
+	for (auto itr = family2Subjects.begin(); itr != family2Subjects.end(); ++itr) {
+		numberOfSubjectsPerFamily[itr->first] = itr->second.size();
+	}
+
 	delete stream;
 	stream = new ifstream(filename);
 }
