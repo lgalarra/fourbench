@@ -21,6 +21,10 @@ vector<string> split(const string& s, const string& delim);
 
 string trim(const string& s);
 
+string toLower(const string& s);
+
+bool toBool(const string& s);
+
 }
 
 #endif /* UTILS_STRING_HPP_ */

@@ -16,6 +16,7 @@
 #include <boost/program_options/variables_map.hpp>
 
 #include "../include/conf/AssignmentDistribution.hpp"
+#include "../include/conf/SourcesDefinition.hpp"
 #include "../include/conf/Conf.hpp"
 #include "../include/utils/string.hpp"
 
@@ -36,15 +37,43 @@ namespace conf {
 				{POWER_LAW, "power_law"},
 				{GEOMETRIC, "geometric"}};
 
+	map<string, SourcesDefinition> sourcesDefinitions = {{"manual", MANUAL},
+					{"per_class", PERCLASS}, {"class", PERCLASS},
+					{"per_file", PERFILE}, {"file", PERFILE},
+					{"per_property", PERPROPERTY}, {"property", PERPROPERTY}
+	};
+
+	map<SourcesDefinition, string> sourcesDefinitionsInv = {{MANUAL, "manual"},
+					{PERCLASS, "per_class"}, {PERFILE, "per_file"},
+					{PERPROPERTY, "per_property"}
+	};
+
+	ConfValues::ConfValues() : numberOfSources(Conf::DefaultNumberOfSources),
+			metadataDepth(Conf::DefaultDepth), distribution(UNIFORM),
+			sourcesDefinition(MANUAL),
+			numberOfAgents(Conf::DefaultNumberOfAgents), activitiesDensity(Conf::DefaultActivitiesDensity),
+			activitiesEntitiesDensity(Conf::DefaultActivitiesEntitiesDensity), agentsEntitiesDensity(Conf::DefaultAgentsEntitiesDensity),
+			provenancePerSubject(false) { }
 
 	bool ConfValues::parseField(const string& fieldName, const string& value) {
 		if (fieldName == "numberOfSources") {
-			numberOfSources = stoul(value);
+			string lcvalue = fourbench::toLower(value);
+			if (lcvalue == "auto" || lcvalue == "automatic") {
+				numberOfSources = Conf::AUTO;
+			} else {
+				numberOfSources = stoul(value);
+			}
 		} else if (fieldName == "metadataDepth") {
 			metadataDepth = stoul(value);
 		} else if (fieldName == "distribution") {
 			if (distributions.count(value)) {
 				distribution = distributions.at(value);
+			} else {
+				return false;
+			}
+		} else if (fieldName == "sourcesDefinition") {
+			if (sourcesDefinitions.count(value)) {
+				sourcesDefinition = sourcesDefinitions.at(value);
 			} else {
 				return false;
 			}
@@ -60,6 +89,8 @@ namespace conf {
 			vector<string> inputProperties = split(value, ",");
 			for_each(inputProperties.begin(), inputProperties.end(), fourbench::trim);
 			properties.insert(inputProperties.begin(), inputProperties.end());
+		} else if (fieldName == "provenancePerSubject") {
+			provenancePerSubject = fourbench::toBool(value);
 		} else {
 			return false;
 		}
@@ -76,13 +107,6 @@ namespace conf {
 
 	Conf::Conf() {
 		ConfValues* values = new ConfValues();
-		values->numberOfSources = Conf::DefaultNumberOfSources;
-		values->metadataDepth = Conf::DefaultDepth;
-		values->distribution = UNIFORM;
-		values->numberOfAgents = Conf::DefaultNumberOfAgents;
-		values->activitiesDensity = Conf::DefaultActivitiesDensity;
-		values->activitiesEntitiesDensity = Conf::DefaultActivitiesEntitiesDensity;
-		values->agentsEntitiesDensity = Conf::DefaultAgentsEntitiesDensity;
 		confs["default"] = values;
 	}
 
@@ -205,10 +229,12 @@ namespace conf {
 		strm << "Conf(numberOfSources: " << a.numberOfSources << ", ";
 		strm << "metadataDepth: " << a.metadataDepth << ", ";
 		strm << "distribution: " << distributionsInv[a.distribution] << ", ";
+		strm << "sources definition: " << sourcesDefinitionsInv[a.sourcesDefinition] << ", ";
 		strm << "numberOfAgents: " << a.numberOfAgents << ", ";
 		strm << "activitiesDensity: " << a.activitiesDensity << ", ";
 		strm << "activitiesEntitiesDensity: " << a.activitiesEntitiesDensity << ", ";
 		strm << "agentsEntitiesDensity: " << a.agentsEntitiesDensity << ", ";
+		strm << "provenancePerSubject: " << a.provenancePerSubject << ", ";
 		if (a.properties.empty()) {
 			strm << "properties: *";
 		} else {

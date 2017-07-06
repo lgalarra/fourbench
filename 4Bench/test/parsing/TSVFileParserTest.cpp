@@ -16,32 +16,57 @@
 
 #include "../include/parsing/FileParserFactory.hpp"
 #include "../include/parsing/TSVFileParser.hpp"
+#include "../include/parsing/ParsingStats.hpp"
 
 
 using namespace std;
 namespace bp = fourbench::parsing;
 
-const string testFilePath = "input/test/test_kb.tsv";
+const vector<string> testFilePaths {"input/test/test_kb.tsv", "input/test/test_kb2.tsv"};
 
-bool canReadTestFile() {
-	ifstream testFile(testFilePath);
-	return testFile.good();
+const vector<string> singletestFilePath {"input/test/test_kb.tsv"};
+
+bool canReadTestFiles(const vector<string>& paths) {
+	for (auto itr = paths.begin(); itr != paths.end(); ++itr) {
+		ifstream testFile(*itr);
+		if (!testFile.good())
+			return false;
+	}
+
+	return true;
 }
 
 BOOST_AUTO_TEST_CASE( fourbench_test_tsvparser )
 {
 	// Check whether we can find the test file
-	BOOST_REQUIRE(canReadTestFile());
+	BOOST_REQUIRE(canReadTestFiles(testFilePaths));
 	bp::FileParserFactory factory = bp::FileParserFactory::getInstance();
 
-	bp::TSVFileParser* tsvParser = factory.buildParser<bp::TSVFileParser>(testFilePath);
+	bp::TSVFileParser* tsvParser = factory.buildParser<bp::TSVFileParser>(testFilePaths);
+	bp::ParsingStats stats = tsvParser->getParsingStats("default");
+	BOOST_REQUIRE(stats.numberOfTriples == 9);
+	BOOST_REQUIRE(stats.numberOfSubjects == 7);
 
-	BOOST_REQUIRE(tsvParser->getNumberOfTriples("default") == 7);
-	BOOST_REQUIRE(tsvParser->getNumberOfSubjects("default") == 5);
+	delete tsvParser;
+
+}
+
+BOOST_AUTO_TEST_CASE( fourbench_test_single_tsvparser )
+{
+	// Check whether we can find the test file
+	BOOST_REQUIRE(canReadTestFiles(singletestFilePath));
+	bp::FileParserFactory factory = bp::FileParserFactory::getInstance();
+
+	bp::TSVFileParser* tsvParser = factory.buildParser<bp::TSVFileParser>(singletestFilePath);
+	bp::ParsingStats stats = tsvParser->getParsingStats("default");
+
+	BOOST_REQUIRE(stats.numberOfTriples == 7);
+	BOOST_REQUIRE(stats.numberOfSubjects == 5);
 
 	delete tsvParser;
 
 
 }
+
 
 

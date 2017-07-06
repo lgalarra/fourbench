@@ -15,8 +15,10 @@ using namespace std;
 namespace fourbench {
 namespace parsing {
 
-Triple::Triple(const string& subject, const string& predicate, const string& object, unsigned lineNumber) :
-		subject(subject), predicate(predicate), object(object), lineNumber(lineNumber) {}
+Triple::Triple(const string& subject, const string& predicate, const string& object,
+		const string& filename, unsigned lineNumber) :
+		subject(subject), predicate(predicate), object(object),
+		filename(filename), lineNumber(lineNumber) {}
 
 Triple::~Triple() {}
 

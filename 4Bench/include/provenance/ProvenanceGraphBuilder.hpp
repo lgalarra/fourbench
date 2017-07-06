@@ -31,7 +31,8 @@ private:
 public:
 	static ProvenanceGraphBuilder& getInstance();
 	virtual ~ProvenanceGraphBuilder();
-	vector<shared_ptr<ProvenanceGraph>> buildProvenanceGraphs(fc::Conf& conf);
+	ProvenanceGraph* buildProvenanceGraph(const fc::ConfValues& conf,
+			const fp::ParsingStats& stats);
 };
 
 } /* namespace provenance */

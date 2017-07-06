@@ -10,8 +10,11 @@
 #include <vector>
 
 #include "../include/conf/Conf.hpp"
+#include "../include/parsing/ParsingStats.hpp"
 #include "../include/provenance/ProvenanceGraphBuilder.hpp"
 #include "../include/provenance/ProvenanceGraph.hpp"
+
+namespace fp = fourbench::parsing;
 
 namespace fourbench {
 namespace provenance {
@@ -26,15 +29,9 @@ ProvenanceGraphBuilder& ProvenanceGraphBuilder::getInstance() {
 	return instance;
 }
 
-vector<shared_ptr<ProvenanceGraph>> ProvenanceGraphBuilder::buildProvenanceGraphs(fc::Conf& conf) {
-	vector<shared_ptr<ProvenanceGraph>> graphs;
-
-	for (auto itr = conf.confs.begin(); itr != conf.confs.end(); ++itr) {
-		shared_ptr<ProvenanceGraph> spt(new ProvenanceGraph(*(itr->second), 10));
-		graphs.push_back(spt);
-	}
-
-	return graphs;
+ProvenanceGraph* ProvenanceGraphBuilder::buildProvenanceGraph(const fc::ConfValues& conf,
+		const fp::ParsingStats& stats) {
+	return new ProvenanceGraph(conf, stats);
 }
 
 

@@ -9,6 +9,7 @@
 #define PARSING_FILEPARSERFACTORY_HPP_
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -25,8 +26,8 @@ public:
 	FileParserFactory();
 	static FileParserFactory& getInstance();
 
-	template <class Parser> Parser* buildParser(const string& filename) {
-		Parser* parser = new Parser(filename);
+	template <class Parser> Parser* buildParser(const vector<string>& filenames) {
+		Parser* parser = new Parser(filenames);
 		return parser;
 	}
 

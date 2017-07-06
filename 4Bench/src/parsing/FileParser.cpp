@@ -7,19 +7,25 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 #include "../include/parsing/FileParser.hpp"
 
 namespace fourbench {
 namespace parsing {
 
-FileParser::FileParser(const string& filename) : filename(filename) {
-	stream = new ifstream(this->filename);
+FileParser::FileParser(const vector<string>& filenames) : filenames(filenames),
+		currentFileIdx(0), currentStream(nullptr) {
 	init();
 }
 
 FileParser::~FileParser() {
-	delete stream;
+	while (!streams.empty()) {
+		vector<ifstream*>::iterator itr = streams.begin();
+		ifstream* target = *itr;
+		streams.erase(itr);
+		delete target;
+	}
 }
 
 void FileParser::init() {}

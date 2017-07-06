@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "../include/conf/Conf.hpp"
 #include "FileParser.hpp"
@@ -26,15 +27,16 @@ private:
 	unsigned numberOfLines;
 	unsigned lineNumber;
 
+
 protected:
 	virtual void init();
-
-public:
-	TSVFileParser(const string& filename);
-	virtual Triple* next();
 	virtual unsigned getNumberOfTriples(const string& family) const;
 	virtual unsigned getNumberOfSubjects(const string& family) const;
 
+public:
+	TSVFileParser(const vector<string>& filenames);
+	virtual Triple* next();
+	virtual ParsingStats getParsingStats(const string& family) const;
 	virtual ~TSVFileParser();
 };
 

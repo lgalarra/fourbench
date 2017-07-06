@@ -12,8 +12,10 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <vector>
 
 
+#include "ParsingStats.hpp"
 #include "Triple.hpp"
 
 using namespace std;
@@ -23,17 +25,21 @@ namespace parsing {
 
 class FileParser {
 protected:
-	string filename;
-	ifstream* stream;
+	vector<string> filenames;
+	int currentFileIdx;
+	ifstream* currentStream;
+	vector<ifstream*> streams;
 	map<string, unsigned> numberOfLinesPerFamily;
 	map<string, unsigned> numberOfSubjectsPerFamily;
+
 	virtual void init();
+	virtual unsigned getNumberOfTriples(const string& family) const = 0;
+	virtual unsigned getNumberOfSubjects(const string& family) const = 0;
 
 public:
 	virtual Triple* next() = 0;
-	virtual unsigned getNumberOfTriples(const string& family) const = 0;
-	virtual unsigned getNumberOfSubjects(const string& family) const = 0;
-	FileParser(const string& filename);
+	virtual ParsingStats getParsingStats(const string& family) const = 0;
+	FileParser(const vector<string>& filenames);
 	virtual ~FileParser();
 };
 

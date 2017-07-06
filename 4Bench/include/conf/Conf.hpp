@@ -20,6 +20,7 @@
 #include <boost/program_options/variables_map.hpp>
 
 #include "AssignmentDistribution.hpp"
+#include "SourcesDefinition.hpp"
 
 using namespace std;
 namespace po = boost::program_options;
@@ -32,15 +33,18 @@ struct ConfValues {
 	unsigned numberOfSources;
 	unsigned metadataDepth;
 	AssignmentDistribution distribution;
+	SourcesDefinition sourcesDefinition;
 	unsigned numberOfAgents;
 	float activitiesDensity;
 	float activitiesEntitiesDensity;
 	float agentsEntitiesDensity;
+	bool provenancePerSubject;
 	string familyName;
 	set<string> properties;
 
 	friend struct Conf;
 
+	ConfValues();
 	bool isDefaultProperty();
 
 private:
@@ -68,6 +72,7 @@ public:
 	static constexpr float DefaultActivitiesDensity = 0.5f;
 	static constexpr float DefaultActivitiesEntitiesDensity = 0.5f;
 	static constexpr float DefaultAgentsEntitiesDensity = 0.5f;
+	static const unsigned AUTO = 0;
 
 	map<string, ConfValues*> confs;
 

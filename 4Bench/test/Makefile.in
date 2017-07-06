@@ -114,7 +114,8 @@ am_TSVFileParserTest_OBJECTS =  \
 	../src/parsing/TSVFileParserTest-FileParser.$(OBJEXT) \
 	../src/parsing/TSVFileParserTest-FileParserFactory.$(OBJEXT) \
 	../src/parsing/TSVFileParserTest-Triple.$(OBJEXT) \
-	../src/parsing/TSVFileParserTest-TSVFileParser.$(OBJEXT)
+	../src/parsing/TSVFileParserTest-TSVFileParser.$(OBJEXT) \
+	../src/parsing/TSVFileParserTest-ParsingStats.$(OBJEXT)
 TSVFileParserTest_OBJECTS = $(am_TSVFileParserTest_OBJECTS)
 am__DEPENDENCIES_1 =
 TSVFileParserTest_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -285,7 +286,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-TSVFileParserTest_SOURCES = parsing/TSVFileParserTest.cpp ../src/conf/Conf.cpp ../src/utils/string.cpp ../src/parsing/FileParser.cpp ../src/parsing/FileParserFactory.cpp ../src/parsing/Triple.cpp ../src/parsing/TSVFileParser.cpp
+TSVFileParserTest_SOURCES = parsing/TSVFileParserTest.cpp ../src/conf/Conf.cpp ../src/utils/string.cpp ../src/parsing/FileParser.cpp ../src/parsing/FileParserFactory.cpp ../src/parsing/Triple.cpp ../src/parsing/TSVFileParser.cpp ../src/parsing/ParsingStats.cpp
 TSVFileParserTest_CPPFLAGS = -I$(top_srcdir)/include
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
 AM_LDFLAGS = $(BOOST_LDFLAGS)
@@ -409,6 +410,9 @@ parsing/TSVFileParserTest-TSVFileParserTest.$(OBJEXT):  \
 ../src/parsing/TSVFileParserTest-TSVFileParser.$(OBJEXT):  \
 	../src/parsing/$(am__dirstamp) \
 	../src/parsing/$(DEPDIR)/$(am__dirstamp)
+../src/parsing/TSVFileParserTest-ParsingStats.$(OBJEXT):  \
+	../src/parsing/$(am__dirstamp) \
+	../src/parsing/$(DEPDIR)/$(am__dirstamp)
 
 TSVFileParserTest$(EXEEXT): $(TSVFileParserTest_OBJECTS) $(TSVFileParserTest_DEPENDENCIES) $(EXTRA_TSVFileParserTest_DEPENDENCIES) 
 	@rm -f TSVFileParserTest$(EXEEXT)
@@ -427,6 +431,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@../src/conf/$(DEPDIR)/TSVFileParserTest-Conf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-FileParserFactory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-ParsingStats.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/utils/$(DEPDIR)/TSVFileParserTest-string.Po@am__quote@
@@ -545,6 +550,20 @@ parsing/TSVFileParserTest-TSVFileParserTest.obj: parsing/TSVFileParserTest.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/TSVFileParser.cpp' object='../src/parsing/TSVFileParserTest-TSVFileParser.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-TSVFileParser.obj `if test -f '../src/parsing/TSVFileParser.cpp'; then $(CYGPATH_W) '../src/parsing/TSVFileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/TSVFileParser.cpp'; fi`
+
+../src/parsing/TSVFileParserTest-ParsingStats.o: ../src/parsing/ParsingStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-ParsingStats.o -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-ParsingStats.Tpo -c -o ../src/parsing/TSVFileParserTest-ParsingStats.o `test -f '../src/parsing/ParsingStats.cpp' || echo '$(srcdir)/'`../src/parsing/ParsingStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-ParsingStats.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-ParsingStats.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/ParsingStats.cpp' object='../src/parsing/TSVFileParserTest-ParsingStats.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-ParsingStats.o `test -f '../src/parsing/ParsingStats.cpp' || echo '$(srcdir)/'`../src/parsing/ParsingStats.cpp
+
+../src/parsing/TSVFileParserTest-ParsingStats.obj: ../src/parsing/ParsingStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/parsing/TSVFileParserTest-ParsingStats.obj -MD -MP -MF ../src/parsing/$(DEPDIR)/TSVFileParserTest-ParsingStats.Tpo -c -o ../src/parsing/TSVFileParserTest-ParsingStats.obj `if test -f '../src/parsing/ParsingStats.cpp'; then $(CYGPATH_W) '../src/parsing/ParsingStats.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/ParsingStats.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/parsing/$(DEPDIR)/TSVFileParserTest-ParsingStats.Tpo ../src/parsing/$(DEPDIR)/TSVFileParserTest-ParsingStats.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/parsing/ParsingStats.cpp' object='../src/parsing/TSVFileParserTest-ParsingStats.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(TSVFileParserTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/parsing/TSVFileParserTest-ParsingStats.obj `if test -f '../src/parsing/ParsingStats.cpp'; then $(CYGPATH_W) '../src/parsing/ParsingStats.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/parsing/ParsingStats.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique

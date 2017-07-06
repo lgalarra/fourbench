@@ -22,11 +22,13 @@ private:
 	string subject;
 	string predicate;
 	string object;
+	string filename;
 	unsigned lineNumber;
 
 
 public:
-	Triple(const string& subject, const string& predicate, const string& object, unsigned lineNumber);
+	Triple(const string& subject, const string& predicate,
+			const string& object, const string& filename, unsigned lineNumber);
 	virtual ~Triple();
 
 	string getSubject() const;

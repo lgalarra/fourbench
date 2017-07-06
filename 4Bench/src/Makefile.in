@@ -113,6 +113,7 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	parsing/4Bench-FileParserFactory.$(OBJEXT) \
 	parsing/4Bench-Triple.$(OBJEXT) \
 	parsing/4Bench-TSVFileParser.$(OBJEXT) \
+	parsing/4Bench-ParsingStats.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraph.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraphBuilder.$(OBJEXT) \
 	provenance/4Bench-ProvenanceSubgraph.$(OBJEXT)
@@ -287,7 +288,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 4Bench_SOURCES = 4Bench.cpp utils/string.cpp conf/Conf.cpp parsing/FileParser.cpp parsing/FileParserFactory.cpp \
- parsing/Triple.cpp parsing/TSVFileParser.cpp \
+ parsing/Triple.cpp parsing/TSVFileParser.cpp parsing/ParsingStats.cpp \
  provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphBuilder.cpp provenance/ProvenanceSubgraph.cpp
 
 4Bench_CPPFLAGS = -I$(top_srcdir)/include
@@ -399,6 +400,8 @@ parsing/4Bench-Triple.$(OBJEXT): parsing/$(am__dirstamp) \
 	parsing/$(DEPDIR)/$(am__dirstamp)
 parsing/4Bench-TSVFileParser.$(OBJEXT): parsing/$(am__dirstamp) \
 	parsing/$(DEPDIR)/$(am__dirstamp)
+parsing/4Bench-ParsingStats.$(OBJEXT): parsing/$(am__dirstamp) \
+	parsing/$(DEPDIR)/$(am__dirstamp)
 provenance/$(am__dirstamp):
 	@$(MKDIR_P) provenance
 	@: > provenance/$(am__dirstamp)
@@ -433,6 +436,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@conf/$(DEPDIR)/4Bench-Conf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-FileParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-FileParserFactory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-ParsingStats.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-TSVFileParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-Triple.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Po@am__quote@
@@ -553,6 +557,20 @@ parsing/4Bench-TSVFileParser.obj: parsing/TSVFileParser.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/TSVFileParser.cpp' object='parsing/4Bench-TSVFileParser.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-TSVFileParser.obj `if test -f 'parsing/TSVFileParser.cpp'; then $(CYGPATH_W) 'parsing/TSVFileParser.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/TSVFileParser.cpp'; fi`
+
+parsing/4Bench-ParsingStats.o: parsing/ParsingStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-ParsingStats.o -MD -MP -MF parsing/$(DEPDIR)/4Bench-ParsingStats.Tpo -c -o parsing/4Bench-ParsingStats.o `test -f 'parsing/ParsingStats.cpp' || echo '$(srcdir)/'`parsing/ParsingStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-ParsingStats.Tpo parsing/$(DEPDIR)/4Bench-ParsingStats.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/ParsingStats.cpp' object='parsing/4Bench-ParsingStats.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-ParsingStats.o `test -f 'parsing/ParsingStats.cpp' || echo '$(srcdir)/'`parsing/ParsingStats.cpp
+
+parsing/4Bench-ParsingStats.obj: parsing/ParsingStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-ParsingStats.obj -MD -MP -MF parsing/$(DEPDIR)/4Bench-ParsingStats.Tpo -c -o parsing/4Bench-ParsingStats.obj `if test -f 'parsing/ParsingStats.cpp'; then $(CYGPATH_W) 'parsing/ParsingStats.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/ParsingStats.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) parsing/$(DEPDIR)/4Bench-ParsingStats.Tpo parsing/$(DEPDIR)/4Bench-ParsingStats.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='parsing/ParsingStats.cpp' object='parsing/4Bench-ParsingStats.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-ParsingStats.obj `if test -f 'parsing/ParsingStats.cpp'; then $(CYGPATH_W) 'parsing/ParsingStats.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/ParsingStats.cpp'; fi`
 
 provenance/4Bench-ProvenanceGraph.o: provenance/ProvenanceGraph.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-ProvenanceGraph.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Tpo -c -o provenance/4Bench-ProvenanceGraph.o `test -f 'provenance/ProvenanceGraph.cpp' || echo '$(srcdir)/'`provenance/ProvenanceGraph.cpp
