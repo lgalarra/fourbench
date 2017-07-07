@@ -50,8 +50,8 @@ namespace conf {
 
 	ConfValues::ConfValues() : numberOfSources(Conf::DefaultNumberOfSources),
 			metadataDepth(Conf::DefaultDepth), distribution(UNIFORM),
-			sourcesDefinition(MANUAL),
-			numberOfAgents(Conf::DefaultNumberOfAgents), activitiesDensity(Conf::DefaultActivitiesDensity),
+			sourcesDefinition(MANUAL), numberOfAgents(Conf::DefaultNumberOfAgents),
+			activitiesDensity(Conf::DefaultActivitiesDensity), triplesEntitiesDensity(Conf::DefaultTriplesEntitiesDensity),
 			activitiesEntitiesDensity(Conf::DefaultActivitiesEntitiesDensity), agentsEntitiesDensity(Conf::DefaultAgentsEntitiesDensity),
 			provenancePerSubject(false) { }
 
@@ -79,6 +79,8 @@ namespace conf {
 			}
 		} else if (fieldName == "numberOfAgents") {
 			numberOfAgents = stoul(value);
+		} else if (fieldName == "triplesEntitiesDensity") {
+			triplesEntitiesDensity = stof(value);
 		} else if (fieldName == "activitiesDensity") {
 			activitiesDensity = stof(value);
 		} else if (fieldName == "activitiesEntitiesDensity") {
@@ -132,6 +134,10 @@ namespace conf {
 
 	Conf& Conf::defaultConfig() {
 		return Conf::defaultInstance;
+	}
+
+	ConfValues& Conf::getDefault() {
+		return *(confs["default"]);
 	}
 
 	bool Conf::parseFromFile(const string& filename) throw() {
@@ -231,6 +237,7 @@ namespace conf {
 		strm << "distribution: " << distributionsInv[a.distribution] << ", ";
 		strm << "sources definition: " << sourcesDefinitionsInv[a.sourcesDefinition] << ", ";
 		strm << "numberOfAgents: " << a.numberOfAgents << ", ";
+		strm << "triplesEntitiesDensity: " << a.triplesEntitiesDensity << ", ";
 		strm << "activitiesDensity: " << a.activitiesDensity << ", ";
 		strm << "activitiesEntitiesDensity: " << a.activitiesEntitiesDensity << ", ";
 		strm << "agentsEntitiesDensity: " << a.agentsEntitiesDensity << ", ";

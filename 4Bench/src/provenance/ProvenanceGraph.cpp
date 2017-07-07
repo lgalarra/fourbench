@@ -6,6 +6,7 @@
  */
 
 #include <math.h>
+#include <ostream>
 
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
@@ -24,6 +25,9 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents),
 	nLevels(values.metadataDepth) {
 
+	entityLevels = new unsigned[nLevels];
+	activityLevels = new unsigned[nLevels];
+
 	if (nSourceEntities == fc::Conf::AUTO) {
 		computeNumberOfSourceEntities(values, stats);
 	}
@@ -35,12 +39,24 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 	}
 
 	computeNumberOfActivities(values);
-	assignActivitiesToLevels();
-	computeNumberOfNonLeafEntities(values);
+	computeNumberOfIntermediateEntities(values);
+	computeTotalNumberOfEntities();
 
+	assignActivitiesToLevels();
+	assignEntitiesToLevels();
 }
 
-void ProvenanceGraph::computeNumberOfSourceEntities(const fc::ConfValues& values, const fp::ParsingStats& stats) {
+ProvenanceGraph::~ProvenanceGraph() {
+	delete entityLevels;
+	delete activityLevels;
+}
+
+void ProvenanceGraph::computeTotalNumberOfEntities() {
+	nEntities = nSourceEntities + nLeafEntities + nIntermediateEntities;
+}
+
+void ProvenanceGraph::computeNumberOfSourceEntities(const fc::ConfValues& values,
+		const fp::ParsingStats& stats) {
 	switch(values.sourcesDefinition) {
 	case fc::SourcesDefinition::PERFILE:
 		nSourceEntities = stats.numberOfInputFiles;
@@ -60,23 +76,23 @@ void ProvenanceGraph::computeNumberOfLeafEntities(const fc::ConfValues& values, 
 	switch (values.distribution) {
 	case fc::AssignmentDistribution::UNIFORM :
 	{
-		float alpha = ((1 - N) / (float)N) * values.agentsEntitiesDensity + 1;
-		leafEntities = (unsigned)ceil(alpha * N);
+		float alpha = ((1 - N) / (float)N) * values.triplesEntitiesDensity + 1;
+		nLeafEntities = (unsigned)round(alpha * N);
 		break;
 	}
 	/**
 	 * For the rest of the cases set the upper limit in the number of leaves.
 	 */
 	case fc::AssignmentDistribution::POWER_LAW :
-		leafEntities = N;
+		nLeafEntities = N;
 		break;
 	case fc::AssignmentDistribution::GEOMETRIC :
-		leafEntities = N;
+		nLeafEntities = N;
 		break;
 	}
 }
 
-void ProvenanceGraph::computeNumberOfNonLeafEntities(const fc::ConfValues& values) {
+void ProvenanceGraph::computeNumberOfIntermediateEntities(const fc::ConfValues& values) {
 	if (nLevels < 2) {
 		nIntermediateEntities = 0;
 	} else {
@@ -88,29 +104,66 @@ void ProvenanceGraph::computeNumberOfNonLeafEntities(const fc::ConfValues& value
 void ProvenanceGraph::computeNumberOfActivities(const fc::ConfValues& values) {
 	if (nLevels > 1) {
 		nActivities = (unsigned) ceil(values.activitiesEntitiesDensity
-				* (leafEntities + nSourceEntities));
+				* (nLeafEntities + nSourceEntities));
 	} else {
 		nActivities = 0;
 	}
 }
 
 void ProvenanceGraph::assignActivitiesToLevels() {
-	if (nLevels > 1 && nActivities > 0) {
+	// Activities range in the interval [0, nActivities - 1]
+	activityLevels[0] = 0; // The base level does not have any activities
+	if (nLevels > 1) {
 		// Divide the activities in equal chunks
-		unsigned activitiesPerLevel = (unsigned) ceil(nActivities / nLevels);
+		unsigned activitiesPerLevel = (unsigned) ceil(nActivities / (nLevels - 1));
 		unsigned coveredActivities = 0;
-		unsigned level = 0;
-		while (coveredActivities < nActivities) {
-			++level;
-			coveredActivities += activitiesPerLevel;
+		unsigned level = 1;
+		while (level < nLevels) {
+			coveredActivities = min(coveredActivities + activitiesPerLevel, nActivities - 1);
 			activityLevels[level] = coveredActivities;
+			++level;
 		}
 	}
 }
 
-ProvenanceGraph::~ProvenanceGraph() {
-	// TODO Auto-generated destructor stub
+void ProvenanceGraph::assignEntitiesToLevels() {
+	// We assume leaf entities are in the interval [0, nLeafEntities - 1]
+	// Intermediate entities are in the interval [nLeafEntities, nLeafEntities + nIntermediateEntities - 1]
+	// Sources are in the interval [nLeafEntities + nIntermediateEntities, nLeafEntities + nIntermediateEntities + nSourceEntities - 1]
+	unsigned level = 0;
+	entityLevels[0] = nLeafEntities - 1;
+	if (nLevels > 1) {
+		// Divide the intermediate entities in chunks
+		unsigned shift = nLeafEntities;
+		unsigned entitiesPerLevel = (unsigned) ceil(nIntermediateEntities / (nLevels - 1));
+		unsigned coveredIntermediateEntities = 0;
+		while (level < nLevels) {
+			coveredIntermediateEntities = min(coveredIntermediateEntities + entitiesPerLevel,
+					nIntermediateEntities - 1);
+			entityLevels[level] = shift + coveredIntermediateEntities;
+			++level;
+		}
+
+		entityLevels[nLevels - 1] = nLeafEntities + nIntermediateEntities + nSourceEntities - 1;
+	}
 }
+
+unsigned ProvenanceGraph::getNumberOfSourceEntities() {
+	return nSourceEntities;
+}
+
+unsigned ProvenanceGraph::getNumberOfLeafEntities() {
+	return nLeafEntities;
+}
+
+unsigned ProvenanceGraph::getNumberOfIntermediateEntities() {
+	return nIntermediateEntities;
+}
+
+unsigned ProvenanceGraph::getNumberOfActivities() {
+	return nActivities;
+}
+
 
 
 } /* namespace provenance */

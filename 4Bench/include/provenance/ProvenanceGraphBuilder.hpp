@@ -33,6 +33,8 @@ public:
 	virtual ~ProvenanceGraphBuilder();
 	ProvenanceGraph* buildProvenanceGraph(const fc::ConfValues& conf,
 			const fp::ParsingStats& stats);
+	vector<ProvenanceGraph*> buildProvenanceGraphs(const fc::Conf& conf,
+			const fp::ParsingStats& stats);
 };
 
 } /* namespace provenance */

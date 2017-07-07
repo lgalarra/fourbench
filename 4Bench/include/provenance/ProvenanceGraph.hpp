@@ -8,6 +8,8 @@
 #ifndef PROVENANCE_PROVENANCEGRAPH_HPP_
 #define PROVENANCE_PROVENANCEGRAPH_HPP_
 
+#include <ostream>
+
 #include "../include/parsing/ParsingStats.hpp"
 #include "ProvenanceSubgraph.hpp"
 
@@ -26,7 +28,7 @@ private:
 	unsigned nEntities;
 
 	// Total number of leaf entities
-	unsigned leafEntities;
+	unsigned nLeafEntities;
 
 	// Total number of sources
 	unsigned nSourceEntities;
@@ -44,10 +46,10 @@ private:
 	unsigned nLevels;
 
 	// Levels for entities
-	map<unsigned, unsigned> entityLevels;
+	unsigned* entityLevels;
 
 	// Levels for activites
-	map<unsigned, unsigned> activityLevels;
+	unsigned* activityLevels;
 
 	// Adjacency matrix for prov:used relation (from activities to entities)
 	ProvenanceSubgraph provUsed;
@@ -65,11 +67,52 @@ private:
 
 	void computeNumberOfLeafEntities(const fc::ConfValues& values, unsigned N);
 
-	void computeNumberOfNonLeafEntities(const fc::ConfValues& values);
+	void computeNumberOfIntermediateEntities(const fc::ConfValues& values);
 
 	void computeNumberOfActivities(const fc::ConfValues& values);
 
 	void assignActivitiesToLevels();
+
+	void computeTotalNumberOfEntities();
+
+	void assignEntitiesToLevels();
+
+	string toString(const unsigned* levelsMap) const {
+		stringstream strm;
+		strm << "[";
+		unsigned start = 0;
+		unsigned end = 0;
+		for (unsigned level = 0; level < nLevels; ++level) {
+			end = start + levelsMap[level];
+			// If there are no items in that level, no need to write anything
+			if (end > start) {
+				strm << (level + 1) << ": [" << start << ", " << end << "]";
+			}
+			start = end + 1;
+		}
+		strm << "]";
+		return strm.str();
+	}
+
+public:
+	friend ostream& operator<<(ostream &strm, const ProvenanceGraph& g) {
+		strm << "Provenance graph: { ";
+		strm << "# agents: " << g.nAgents << ", ";
+		strm << "# (total entities, leaf entities, intermediate entities, sources): ";
+		strm << "(" << g.nEntities << ", " << g.nLeafEntities << ", " << g.nIntermediateEntities << ", " << g.nSourceEntities << "), ";
+		strm << "entity levels: " << g.toString(g.entityLevels) << ", ";
+		strm << "activity levels: " << g.toString(g.activityLevels) << ", ";
+		strm << "}";
+		return strm;
+	}
+
+	unsigned getNumberOfSourceEntities();
+
+	unsigned getNumberOfLeafEntities();
+
+	unsigned getNumberOfIntermediateEntities();
+
+	unsigned getNumberOfActivities();
 
 
 public:
@@ -77,6 +120,8 @@ public:
 
 	friend class ProvenanceGraphBuilder;
 };
+
+ostream& operator<<(ostream&, const ProvenanceGraph&);
 
 } /* namespace provenance */
 } /* namespace fourbench */

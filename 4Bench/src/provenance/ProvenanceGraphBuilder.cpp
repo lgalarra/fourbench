@@ -29,6 +29,16 @@ ProvenanceGraphBuilder& ProvenanceGraphBuilder::getInstance() {
 	return instance;
 }
 
+vector<ProvenanceGraph*> ProvenanceGraphBuilder::buildProvenanceGraphs(const fc::Conf& conf,
+		const fp::ParsingStats& stats) {
+	vector<ProvenanceGraph*> result(conf.confs.size());
+	for (auto itr = conf.confs.begin(); itr != conf.confs.end(); ++itr) {
+		result.push_back(buildProvenanceGraph(*itr->second, stats));
+	}
+
+	return result;
+}
+
 ProvenanceGraph* ProvenanceGraphBuilder::buildProvenanceGraph(const fc::ConfValues& conf,
 		const fp::ParsingStats& stats) {
 	return new ProvenanceGraph(conf, stats);
