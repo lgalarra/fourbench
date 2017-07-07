@@ -49,6 +49,9 @@ BOOST_AUTO_TEST_CASE( fourbench_test_provenance_graph_distribution__uniform_nsou
 
 	BOOST_REQUIRE(graph->getNumberOfSourceEntities() == testFilePaths.size());
 	BOOST_REQUIRE(graph->getNumberOfLeafEntities() == 5);
+	BOOST_REQUIRE(graph->getNumberOfActivities() == 4);
+	BOOST_REQUIRE(graph->getNumberOfIntermediateEntities() == 2);
+	BOOST_REQUIRE(graph->getNumberOfEntities() == 9);
 
 	delete graph;
 

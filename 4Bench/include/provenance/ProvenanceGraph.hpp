@@ -82,13 +82,13 @@ private:
 		strm << "[";
 		unsigned start = 0;
 		unsigned end = 0;
-		for (unsigned level = 0; level < nLevels; ++level) {
-			end = start + levelsMap[level];
+		for (unsigned level = 0; level <= nLevels; ++level) {
+			end = levelsMap[level];
 			// If there are no items in that level, no need to write anything
 			if (end > start) {
-				strm << (level + 1) << ": [" << start << ", " << end << "]";
+				strm << level << ": [" << start << ", " << end << "] ";
+				start = end + 1;
 			}
-			start = end + 1;
 		}
 		strm << "]";
 		return strm.str();
@@ -98,10 +98,11 @@ public:
 	friend ostream& operator<<(ostream &strm, const ProvenanceGraph& g) {
 		strm << "Provenance graph: { ";
 		strm << "# agents: " << g.nAgents << ", ";
+		strm << "# activities: " << g.nActivities << ", ";
 		strm << "# (total entities, leaf entities, intermediate entities, sources): ";
 		strm << "(" << g.nEntities << ", " << g.nLeafEntities << ", " << g.nIntermediateEntities << ", " << g.nSourceEntities << "), ";
 		strm << "entity levels: " << g.toString(g.entityLevels) << ", ";
-		strm << "activity levels: " << g.toString(g.activityLevels) << ", ";
+		strm << "activity levels: " << g.toString(g.activityLevels);
 		strm << "}";
 		return strm;
 	}
@@ -113,6 +114,8 @@ public:
 	unsigned getNumberOfIntermediateEntities();
 
 	unsigned getNumberOfActivities();
+
+	unsigned getNumberOfEntities();
 
 
 public:

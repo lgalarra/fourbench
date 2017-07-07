@@ -7,6 +7,7 @@
 
 #include <math.h>
 #include <ostream>
+#include <iostream>
 
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
@@ -25,8 +26,8 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents),
 	nLevels(values.metadataDepth) {
 
-	entityLevels = new unsigned[nLevels];
-	activityLevels = new unsigned[nLevels];
+	entityLevels = new unsigned[nLevels + 1];
+	activityLevels = new unsigned[nLevels + 1];
 
 	if (nSourceEntities == fc::Conf::AUTO) {
 		computeNumberOfSourceEntities(values, stats);
@@ -38,8 +39,8 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 		computeNumberOfLeafEntities(values, stats.numberOfTriples);
 	}
 
-	computeNumberOfActivities(values);
-	computeNumberOfIntermediateEntities(values);
+	computeNumberOfActivities(values); // This requires number of source and leaf entities
+	computeNumberOfIntermediateEntities(values); // This requires number of activities
 	computeTotalNumberOfEntities();
 
 	assignActivitiesToLevels();
@@ -76,8 +77,7 @@ void ProvenanceGraph::computeNumberOfLeafEntities(const fc::ConfValues& values, 
 	switch (values.distribution) {
 	case fc::AssignmentDistribution::UNIFORM :
 	{
-		float alpha = ((1 - N) / (float)N) * values.triplesEntitiesDensity + 1;
-		nLeafEntities = (unsigned)round(alpha * N);
+		nLeafEntities = (unsigned)round(N - values.triplesEntitiesDensity * (N - 1));
 		break;
 	}
 	/**
@@ -96,7 +96,8 @@ void ProvenanceGraph::computeNumberOfIntermediateEntities(const fc::ConfValues& 
 	if (nLevels < 2) {
 		nIntermediateEntities = 0;
 	} else {
-		nIntermediateEntities = (unsigned)ceil(nActivities / 2.0f);
+		unsigned activitiesPerLevel = (unsigned) ceil(nActivities / (float)nLevels);
+		nIntermediateEntities = nActivities - activitiesPerLevel; // Substract the activities of one level
 	}
 
 }
@@ -115,10 +116,10 @@ void ProvenanceGraph::assignActivitiesToLevels() {
 	activityLevels[0] = 0; // The base level does not have any activities
 	if (nLevels > 1) {
 		// Divide the activities in equal chunks
-		unsigned activitiesPerLevel = (unsigned) ceil(nActivities / (nLevels - 1));
-		unsigned coveredActivities = 0;
+		unsigned activitiesPerLevel = (unsigned) ceil(nActivities / nLevels);
+		unsigned coveredActivities = -1;
 		unsigned level = 1;
-		while (level < nLevels) {
+		while (level <= nLevels) {
 			coveredActivities = min(coveredActivities + activitiesPerLevel, nActivities - 1);
 			activityLevels[level] = coveredActivities;
 			++level;
@@ -131,20 +132,21 @@ void ProvenanceGraph::assignEntitiesToLevels() {
 	// Intermediate entities are in the interval [nLeafEntities, nLeafEntities + nIntermediateEntities - 1]
 	// Sources are in the interval [nLeafEntities + nIntermediateEntities, nLeafEntities + nIntermediateEntities + nSourceEntities - 1]
 	unsigned level = 0;
-	entityLevels[0] = nLeafEntities - 1;
+	entityLevels[level] = nLeafEntities - 1;
+	level = 1;
 	if (nLevels > 1) {
 		// Divide the intermediate entities in chunks
 		unsigned shift = nLeafEntities;
+		unsigned limit = shift + nIntermediateEntities - 1;
 		unsigned entitiesPerLevel = (unsigned) ceil(nIntermediateEntities / (nLevels - 1));
-		unsigned coveredIntermediateEntities = 0;
+		unsigned coveredIntermediateEntities = shift;
 		while (level < nLevels) {
-			coveredIntermediateEntities = min(coveredIntermediateEntities + entitiesPerLevel,
-					nIntermediateEntities - 1);
-			entityLevels[level] = shift + coveredIntermediateEntities;
+			coveredIntermediateEntities = min(coveredIntermediateEntities + entitiesPerLevel, limit);
+			entityLevels[level] = coveredIntermediateEntities;
 			++level;
 		}
 
-		entityLevels[nLevels - 1] = nLeafEntities + nIntermediateEntities + nSourceEntities - 1;
+		entityLevels[nLevels] = nEntities - 1;
 	}
 }
 
@@ -164,6 +166,9 @@ unsigned ProvenanceGraph::getNumberOfActivities() {
 	return nActivities;
 }
 
+unsigned ProvenanceGraph::getNumberOfEntities() {
+	return nEntities;
+}
 
 
 } /* namespace provenance */
