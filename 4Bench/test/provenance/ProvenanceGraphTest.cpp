@@ -15,7 +15,7 @@
 
 #include "../include/conf/Conf.hpp"
 #include "../include/provenance/ProvenanceGraph.hpp"
-#include "../include/provenance/ProvenanceGraphBuilder.hpp"
+#include "../include/provenance/ProvenanceGraphFactory.hpp"
 #include "../include/parsing/FileParserFactory.hpp"
 #include "../include/parsing/TSVFileParser.hpp"
 #include "../include/parsing/ParsingStats.hpp"
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE( fourbench_test_provenance_graph_distribution__uniform_nsou
 	BOOST_REQUIRE(stats.numberOfTriples == 9);
 	BOOST_REQUIRE(stats.numberOfSubjects == 7);
 
-	bpr::ProvenanceGraphBuilder builder = bpr::ProvenanceGraphBuilder::getInstance();
+	bpr::ProvenanceGraphFactory builder = bpr::ProvenanceGraphFactory::getInstance();
 	bpr::ProvenanceGraph* graph = builder.buildProvenanceGraph(conf.getDefault(), stats);
 
 	cout << conf << endl;

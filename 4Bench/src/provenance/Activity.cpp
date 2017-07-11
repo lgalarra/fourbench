@@ -9,6 +9,8 @@
 
 #include "../include/provenance/ProvenanceObject.hpp"
 #include "../include/provenance/Activity.hpp"
+#include "../include/provenance/IRIBuilder.hpp"
+#include "../include/provenance/IRIType.hpp"
 
 namespace fourbench {
 namespace provenance {
@@ -23,9 +25,7 @@ Activity::~Activity() {
 }
 
 string Activity::getIRI() const {
-	stringstream strm;
-	strm << domain << "activity/" << id;
-	return strm.str();
+	return IRIBuilder::getInstance().getIRI(domain, IRIType::ACTIVITY, id);
 }
 
 } /* namespace provenance */

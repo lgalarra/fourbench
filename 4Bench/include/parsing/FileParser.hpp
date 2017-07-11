@@ -13,6 +13,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <algorithm>
 
 
 #include "ParsingStats.hpp"
@@ -33,12 +34,13 @@ protected:
 	map<string, unsigned> numberOfSubjectsPerFamily;
 
 	virtual void init();
-	virtual unsigned getNumberOfTriples(const string& family) const = 0;
-	virtual unsigned getNumberOfSubjects(const string& family) const = 0;
+	virtual unsigned getNumberOfTriples(const string& family) const;
+	virtual unsigned getNumberOfSubjects(const string& family) const;
 
 public:
 	virtual Triple* next() = 0;
-	virtual ParsingStats getParsingStats(const string& family) const = 0;
+	virtual ParsingStats getParsingStats(const string& family) const;
+	virtual shared_ptr<map<string, ParsingStats>> getAllParsingStats() const;
 	FileParser(const vector<string>& filenames);
 	virtual ~FileParser();
 };

@@ -8,12 +8,13 @@
 #include <ostream>
 
 #include "../include/provenance/ProvenanceObject.hpp"
+#include "../include/provenance/IRIBuilder.hpp"
 
 namespace fourbench {
 namespace provenance {
 
 ProvenanceObject::ProvenanceObject(unsigned id) : id(id),
-		domain(ProvenanceObject::defaultDomain) {
+		domain(IRIBuilder::getDefaultDomain()) {
 }
 
 ProvenanceObject::ProvenanceObject(unsigned id, const string& domain) :

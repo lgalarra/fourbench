@@ -117,7 +117,7 @@ am_ProvenanceGraphTest_OBJECTS =  \
 	../src/parsing/ProvenanceGraphTest-TSVFileParser.$(OBJEXT) \
 	../src/parsing/ProvenanceGraphTest-ParsingStats.$(OBJEXT) \
 	../src/provenance/ProvenanceGraphTest-ProvenanceGraph.$(OBJEXT) \
-	../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.$(OBJEXT) \
+	../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.$(OBJEXT) \
 	../src/provenance/ProvenanceGraphTest-ProvenanceSubgraph.$(OBJEXT)
 ProvenanceGraphTest_OBJECTS = $(am_ProvenanceGraphTest_OBJECTS)
 am__DEPENDENCIES_1 =
@@ -307,7 +307,7 @@ TSVFileParserTest_CPPFLAGS = -I$(top_srcdir)/include
 TSVFileParserTest_LDADD = $(BOOST_PROGRAM_OPTIONS_LIB)
 ProvenanceGraphTest_CPPFLAGS = $(TSVFileParserTest_CPPFLAGS)
 ProvenanceGraphTest_LDADD = $(TSVFileParserTest_LDADD)
-ProvenanceGraphTest_SOURCES = provenance/ProvenanceGraphTest.cpp ../src/conf/Conf.cpp ../src/utils/string.cpp ../src/parsing/FileParser.cpp ../src/parsing/FileParserFactory.cpp ../src/parsing/Triple.cpp ../src/parsing/TSVFileParser.cpp ../src/parsing/ParsingStats.cpp ../src/provenance/ProvenanceGraph.cpp ../src/provenance/ProvenanceGraphBuilder.cpp ../src/provenance/ProvenanceSubgraph.cpp 
+ProvenanceGraphTest_SOURCES = provenance/ProvenanceGraphTest.cpp ../src/conf/Conf.cpp ../src/utils/string.cpp ../src/parsing/FileParser.cpp ../src/parsing/FileParserFactory.cpp ../src/parsing/Triple.cpp ../src/parsing/TSVFileParser.cpp ../src/parsing/ParsingStats.cpp ../src/provenance/ProvenanceGraph.cpp ../src/provenance/ProvenanceGraphFactory.cpp ../src/provenance/ProvenanceSubgraph.cpp 
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
 AM_LDFLAGS = $(BOOST_LDFLAGS)
 all: all-am
@@ -442,7 +442,7 @@ provenance/ProvenanceGraphTest-ProvenanceGraphTest.$(OBJEXT):  \
 ../src/provenance/ProvenanceGraphTest-ProvenanceGraph.$(OBJEXT):  \
 	../src/provenance/$(am__dirstamp) \
 	../src/provenance/$(DEPDIR)/$(am__dirstamp)
-../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.$(OBJEXT):  \
+../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.$(OBJEXT):  \
 	../src/provenance/$(am__dirstamp) \
 	../src/provenance/$(DEPDIR)/$(am__dirstamp)
 ../src/provenance/ProvenanceGraphTest-ProvenanceSubgraph.$(OBJEXT):  \
@@ -511,7 +511,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-TSVFileParser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/parsing/$(DEPDIR)/TSVFileParserTest-Triple.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraph.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphBuilder.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphFactory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceSubgraph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/utils/$(DEPDIR)/ProvenanceGraphTest-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/utils/$(DEPDIR)/TSVFileParserTest-string.Po@am__quote@
@@ -660,19 +660,19 @@ provenance/ProvenanceGraphTest-ProvenanceGraphTest.obj: provenance/ProvenanceGra
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraph.obj `if test -f '../src/provenance/ProvenanceGraph.cpp'; then $(CYGPATH_W) '../src/provenance/ProvenanceGraph.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/provenance/ProvenanceGraph.cpp'; fi`
 
-../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.o: ../src/provenance/ProvenanceGraphBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.o -MD -MP -MF ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphBuilder.Tpo -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.o `test -f '../src/provenance/ProvenanceGraphBuilder.cpp' || echo '$(srcdir)/'`../src/provenance/ProvenanceGraphBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphBuilder.Tpo ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphBuilder.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/provenance/ProvenanceGraphBuilder.cpp' object='../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.o' libtool=no @AMDEPBACKSLASH@
+../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.o: ../src/provenance/ProvenanceGraphFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.o -MD -MP -MF ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphFactory.Tpo -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.o `test -f '../src/provenance/ProvenanceGraphFactory.cpp' || echo '$(srcdir)/'`../src/provenance/ProvenanceGraphFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphFactory.Tpo ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphFactory.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/provenance/ProvenanceGraphFactory.cpp' object='../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.o `test -f '../src/provenance/ProvenanceGraphBuilder.cpp' || echo '$(srcdir)/'`../src/provenance/ProvenanceGraphBuilder.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.o `test -f '../src/provenance/ProvenanceGraphFactory.cpp' || echo '$(srcdir)/'`../src/provenance/ProvenanceGraphFactory.cpp
 
-../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.obj: ../src/provenance/ProvenanceGraphBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.obj -MD -MP -MF ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphBuilder.Tpo -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.obj `if test -f '../src/provenance/ProvenanceGraphBuilder.cpp'; then $(CYGPATH_W) '../src/provenance/ProvenanceGraphBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/provenance/ProvenanceGraphBuilder.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphBuilder.Tpo ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphBuilder.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/provenance/ProvenanceGraphBuilder.cpp' object='../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.obj' libtool=no @AMDEPBACKSLASH@
+../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.obj: ../src/provenance/ProvenanceGraphFactory.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.obj -MD -MP -MF ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphFactory.Tpo -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.obj `if test -f '../src/provenance/ProvenanceGraphFactory.cpp'; then $(CYGPATH_W) '../src/provenance/ProvenanceGraphFactory.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/provenance/ProvenanceGraphFactory.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphFactory.Tpo ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceGraphFactory.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/provenance/ProvenanceGraphFactory.cpp' object='../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraphBuilder.obj `if test -f '../src/provenance/ProvenanceGraphBuilder.cpp'; then $(CYGPATH_W) '../src/provenance/ProvenanceGraphBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/provenance/ProvenanceGraphBuilder.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceGraphFactory.obj `if test -f '../src/provenance/ProvenanceGraphFactory.cpp'; then $(CYGPATH_W) '../src/provenance/ProvenanceGraphFactory.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/provenance/ProvenanceGraphFactory.cpp'; fi`
 
 ../src/provenance/ProvenanceGraphTest-ProvenanceSubgraph.o: ../src/provenance/ProvenanceSubgraph.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(ProvenanceGraphTest_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT ../src/provenance/ProvenanceGraphTest-ProvenanceSubgraph.o -MD -MP -MF ../src/provenance/$(DEPDIR)/ProvenanceGraphTest-ProvenanceSubgraph.Tpo -c -o ../src/provenance/ProvenanceGraphTest-ProvenanceSubgraph.o `test -f '../src/provenance/ProvenanceSubgraph.cpp' || echo '$(srcdir)/'`../src/provenance/ProvenanceSubgraph.cpp

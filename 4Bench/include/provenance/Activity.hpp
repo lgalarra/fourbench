@@ -10,6 +10,8 @@
 
 #include <string>
 
+#include "ProvenanceObject.hpp"
+
 using namespace std;
 
 namespace fourbench {

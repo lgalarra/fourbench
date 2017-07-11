@@ -57,31 +57,7 @@ Triple* TSVFileParser::next() {
 	}
 }
 
-ParsingStats TSVFileParser::getParsingStats(const string& family) const {
-	ParsingStats stats;
-	stats.numberOfSubjects = getNumberOfSubjects(family);
-	stats.numberOfTriples = getNumberOfTriples(family);
-	stats.numberOfInputFiles = filenames.size();
-	return stats;
-}
 
-unsigned TSVFileParser::getNumberOfTriples(const string& family) const {
-	auto itr = numberOfLinesPerFamily.find(family);
-	if (itr == numberOfLinesPerFamily.end()) {
-		return -1;
-	} else {
-		return itr->second;
-	}
-}
-
-unsigned TSVFileParser::getNumberOfSubjects(const string& family) const {
-	auto itr = numberOfSubjectsPerFamily.find(family);
-	if (itr == numberOfSubjectsPerFamily.end()) {
-		return -1;
-	} else {
-		return itr->second;
-	}
-}
 
 void TSVFileParser::init() {
 	map<string, set<string>> family2Subjects;
@@ -119,6 +95,8 @@ void TSVFileParser::init() {
 		currentStream = *streams.begin();
 	}
 }
+
+
 
 } /* namespace parsing */
 } /* namespace fourbench */

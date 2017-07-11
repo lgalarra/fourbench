@@ -10,16 +10,27 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
+#include <algorithm>
 
 #include "../include/conf/Conf.hpp"
+#include "../include/parsing/FileParser.hpp"
+#include "../include/parsing/FileParserFactory.hpp"
+#include "../include/parsing/TSVFileParser.hpp"
+#include "../include/provenance/ProvenanceGraphFactory.hpp"
+#include "../include/provenance/ProvenanceGraphPopulator.hpp"
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
 
 using namespace std;
-using namespace fourbench::conf;
+namespace fc = fourbench::conf;
 namespace po = boost::program_options;
+namespace fpar = fourbench::parsing;
+namespace fprov = fourbench::provenance;
+
+const vector<string> supportedInputFormats = {"tsv", "ttl", "n3", "n4"};
 
 po::options_description* readCmdArguments(int argc, char** argv, po::variables_map* optionsMap) {
 	po::options_description *description = new po::options_description("4Bench Usage");
@@ -27,26 +38,40 @@ po::options_description* readCmdArguments(int argc, char** argv, po::variables_m
 	description->add_options()
 	    ("help,h", "Display this help message")
 	    ("version,v", "Display the version number")
-		("config,c", po::value<string>(), "Configuration file (.ini)");
+		("config,c", po::value<string>(), "Configuration file (.ini)")
+		("input-files,F", po::value<vector<string>>(), "Input files");
+		("input-format,f", po::value<string>()->default_value("tsv"), "Format for input files (tsv, ttl, n3, n4)");
 
 	po::store(po::command_line_parser(argc, argv).options(*description).run(), *optionsMap);
 	po::notify(*optionsMap);
 	return description;
 }
 
+fpar::FileParser* buildParser(const string& inputFormat, const vector<string>& inputFiles) {
+	fpar::FileParserFactory& parserFactory = fpar::FileParserFactory::getInstance();
+	if (inputFormat == "tsv") {
+		return parserFactory.buildParser<fpar::TSVFileParser>(inputFiles);
+	} else {
+		cerr << "Format " << inputFormat << " is still not implemented";
+		return nullptr;
+	}
+}
+
 int main(int argc, char** argv) {
 	po::variables_map vm;
 	std::unique_ptr<po::options_description> description(readCmdArguments(argc, argv, &vm));
-	Conf &conf = Conf::defaultConfig();
+	fc::Conf &conf = fc::Conf::defaultConfig();
+	string iformat;
+	vector<string> ifiles;
 
 	if(vm.count("help")) {
 	    cout << *description;
-		exit(1);
+		exit(0);
 	}
 
 	if (vm.count("version")) {
 		cout << "0.1";
-		exit(1);
+		exit(0);
 	}
 
 	if (vm.count("config")) {
@@ -64,6 +89,41 @@ int main(int argc, char** argv) {
 		cout << "Parsing of individual arguments is not yet implemented" << endl;
 	}
 
+	if (vm.count("input-format")) {
+		iformat = vm["input-format"].as<string>();
+		auto search = find(supportedInputFormats.begin(), supportedInputFormats.end(), iformat);
+		if (search == end(supportedInputFormats)) {
+			cerr << "Unsupported format " << iformat << ". This program only supports tsv, ttl, n3 or n4";
+			exit(2);
+		}
+	} else {
+		iformat = "tsv";
+		cout << "Assuming tsv format for input files.";
+	}
+
+
+	if (vm.count("input-files") == 0) {
+		cerr << "No input files provided.";
+		exit(3);
+	} else {
+		ifiles = vm["input-files"].as<vector<string>>();
+	}
+
+	fpar::FileParser* parser = buildParser(iformat, ifiles);
+	if (parser == nullptr) {
+		exit(4);
+	}
+
+	fprov::ProvenanceGraphFactory& builder = fprov::ProvenanceGraphFactory::getInstance();
+	shared_ptr<map<string, shared_ptr<fprov::ProvenanceGraph>>> provenanceGraphs =
+			builder.buildProvenanceGraphs(conf, parser->getAllParsingStats());
+
+	fprov::ProvenanceGraphPopulator populator;
+	populator.populate(*parser, *provenanceGraphs.get());
+
 	cout << conf << endl;
+	delete parser;
+
+
 	return 0;
 }

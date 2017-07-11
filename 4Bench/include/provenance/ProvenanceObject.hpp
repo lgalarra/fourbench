@@ -23,7 +23,6 @@ protected:
 	string domain;
 
 public:
-	const static string defaultDomain = "http://fourbench.org/provenance/";
 
 	ProvenanceObject(unsigned id);
 	ProvenanceObject(unsigned id, const string& domain);

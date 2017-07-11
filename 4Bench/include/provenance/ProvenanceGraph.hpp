@@ -121,7 +121,7 @@ public:
 public:
 	virtual ~ProvenanceGraph();
 
-	friend class ProvenanceGraphBuilder;
+	friend class ProvenanceGraphFactory;
 };
 
 ostream& operator<<(ostream&, const ProvenanceGraph&);

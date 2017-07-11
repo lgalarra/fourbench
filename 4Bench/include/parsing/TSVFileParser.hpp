@@ -30,13 +30,10 @@ private:
 
 protected:
 	virtual void init();
-	virtual unsigned getNumberOfTriples(const string& family) const;
-	virtual unsigned getNumberOfSubjects(const string& family) const;
 
 public:
 	TSVFileParser(const vector<string>& filenames);
 	virtual Triple* next();
-	virtual ParsingStats getParsingStats(const string& family) const;
 	virtual ~TSVFileParser();
 };
 

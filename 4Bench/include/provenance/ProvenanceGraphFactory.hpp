@@ -11,10 +11,10 @@
 #define PROVENANCE_PROVENANCEGRAPHBUILDER_HPP_
 
 #include <memory>
-#include <vector>
+#include <map>
 
 #include "../include/conf/Conf.hpp"
-#include "../include/provenance/ProvenanceGraph.hpp"
+#include "ProvenanceGraph.hpp"
 
 namespace fc = fourbench::conf;
 
@@ -23,18 +23,18 @@ using namespace std;
 namespace fourbench {
 namespace provenance {
 
-class ProvenanceGraphBuilder {
+class ProvenanceGraphFactory {
 private:
-	static ProvenanceGraphBuilder instance;
-	ProvenanceGraphBuilder();
+	static ProvenanceGraphFactory instance;
+	ProvenanceGraphFactory();
 
 public:
-	static ProvenanceGraphBuilder& getInstance();
-	virtual ~ProvenanceGraphBuilder();
-	ProvenanceGraph* buildProvenanceGraph(const fc::ConfValues& conf,
+	static ProvenanceGraphFactory& getInstance();
+	virtual ~ProvenanceGraphFactory();
+	shared_ptr<ProvenanceGraph> buildProvenanceGraph(const fc::ConfValues& conf,
 			const fp::ParsingStats& stats);
-	vector<ProvenanceGraph*> buildProvenanceGraphs(const fc::Conf& conf,
-			const fp::ParsingStats& stats);
+	shared_ptr<map<string, shared_ptr<ProvenanceGraph>>> buildProvenanceGraphs(const fc::Conf& conf,
+			const shared_ptr<map<string, fp::ParsingStats>> stats);
 };
 
 } /* namespace provenance */
