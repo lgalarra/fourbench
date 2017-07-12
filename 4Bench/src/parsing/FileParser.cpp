@@ -21,7 +21,7 @@ namespace fourbench {
 namespace parsing {
 
 FileParser::FileParser(const vector<string>& filenames) : filenames(filenames),
-		currentFileIdx(0), currentStream(nullptr) {
+		currentFileIdx(-1), currentStream(nullptr), numberOfLines(0), lineNumber(0) {
 	init();
 }
 
@@ -34,11 +34,30 @@ FileParser::~FileParser() {
 	}
 }
 
-void FileParser::init() {}
+void FileParser::init() {
+	numberOfTriplesPerFamily["default"] = 0;
+	numberOfSubjectsPerFamily["default"] = 0;
+}
+
+int FileParser::getNumberOfLines() const {
+	return numberOfLines;
+}
+
+int FileParser::getLineNumber() const {
+	return lineNumber;
+}
+
+string FileParser::getCurrentFile() const {
+	if (currentFileIdx >= 0 && currentFileIdx < filenames.size()) {
+		return filenames[currentFileIdx];
+	} else {
+		return currentFileIdx < 0 ? "Parsing not started" : "Parsing finalized";
+	}
+}
 
 shared_ptr<map<string, ParsingStats>> FileParser::getAllParsingStats() const {
 	shared_ptr<map<string, ParsingStats>> resultPtr(new map<string, ParsingStats>);
-	for (auto itr = numberOfLinesPerFamily.begin(); itr != numberOfLinesPerFamily.end(); ++itr) {
+	for (auto itr = numberOfTriplesPerFamily.begin(); itr != numberOfTriplesPerFamily.end(); ++itr) {
 		ParsingStats stat = getParsingStats(itr->first);
 		resultPtr.get()->insert(pair<string, ParsingStats>(itr->first, stat));
 	}
@@ -54,9 +73,9 @@ ParsingStats FileParser::getParsingStats(const string& family) const {
 }
 
 unsigned FileParser::getNumberOfTriples(const string& family) const {
-	auto itr = numberOfLinesPerFamily.find(family);
-	if (itr == numberOfLinesPerFamily.end()) {
-		return -1;
+	auto itr = numberOfTriplesPerFamily.find(family);
+	if (itr == numberOfTriplesPerFamily.end()) {
+		return 0;
 	} else {
 		return itr->second;
 	}
@@ -65,7 +84,7 @@ unsigned FileParser::getNumberOfTriples(const string& family) const {
 unsigned FileParser::getNumberOfSubjects(const string& family) const {
 	auto itr = numberOfSubjectsPerFamily.find(family);
 	if (itr == numberOfSubjectsPerFamily.end()) {
-		return -1;
+		return 0;
 	} else {
 		return itr->second;
 	}

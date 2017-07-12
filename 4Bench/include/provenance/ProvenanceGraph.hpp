@@ -10,6 +10,7 @@
 
 #include <ostream>
 
+#include "../include/conf/Conf.hpp"
 #include "../include/parsing/ParsingStats.hpp"
 #include "ProvenanceSubgraph.hpp"
 

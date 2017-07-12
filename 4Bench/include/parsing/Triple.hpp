@@ -8,6 +8,7 @@
  */
 
 #include <string>
+#include <iostream>
 
 #ifndef PARSING_TRIPLE_HPP_
 #define PARSING_TRIPLE_HPP_
@@ -38,6 +39,8 @@ public:
 
 	friend class FileParser;
 };
+
+ostream& operator<<(ostream &strm, const Triple &a);
 
 } /* namespace parsing */
 } /* namespace fourbench */

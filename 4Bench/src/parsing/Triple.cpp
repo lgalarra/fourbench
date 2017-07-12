@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include <iostream>
 
 #include "../include/parsing/Triple.hpp"
 
@@ -35,6 +36,11 @@ string Triple::getObject() const {
 
 unsigned Triple::getLineNumber() const {
 	return lineNumber;
+}
+
+ostream& operator<<(ostream &strm, const Triple &a) {
+	strm << "[" << a.getSubject() << ", " << a.getPredicate() << ", " << a.getObject() << "]";
+	return strm;
 }
 
 } /* namespace parsing */

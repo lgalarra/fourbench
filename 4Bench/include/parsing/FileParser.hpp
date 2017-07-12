@@ -30,7 +30,9 @@ protected:
 	int currentFileIdx;
 	ifstream* currentStream;
 	vector<ifstream*> streams;
-	map<string, unsigned> numberOfLinesPerFamily;
+	int numberOfLines;
+	int lineNumber;
+	map<string, unsigned> numberOfTriplesPerFamily;
 	map<string, unsigned> numberOfSubjectsPerFamily;
 
 	virtual void init();
@@ -41,6 +43,9 @@ public:
 	virtual Triple* next() = 0;
 	virtual ParsingStats getParsingStats(const string& family) const;
 	virtual shared_ptr<map<string, ParsingStats>> getAllParsingStats() const;
+	int getNumberOfLines() const;
+	int getLineNumber() const;
+	string getCurrentFile() const;
 	FileParser(const vector<string>& filenames);
 	virtual ~FileParser();
 };

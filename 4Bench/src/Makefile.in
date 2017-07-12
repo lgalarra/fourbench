@@ -116,7 +116,8 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	parsing/4Bench-ParsingStats.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraph.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraphFactory.$(OBJEXT) \
-	provenance/4Bench-ProvenanceSubgraph.$(OBJEXT)
+	provenance/4Bench-ProvenanceSubgraph.$(OBJEXT) \
+	provenance/4Bench-ProvenanceGraphPopulator.$(OBJEXT)
 4Bench_OBJECTS = $(am_4Bench_OBJECTS)
 am__DEPENDENCIES_1 =
 4Bench_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -289,7 +290,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 4Bench_SOURCES = 4Bench.cpp utils/string.cpp conf/Conf.cpp parsing/FileParser.cpp parsing/FileParserFactory.cpp \
  parsing/Triple.cpp parsing/TSVFileParser.cpp parsing/ParsingStats.cpp \
- provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp
+ provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp
 
 4Bench_CPPFLAGS = -I$(top_srcdir)/include
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
@@ -417,6 +418,9 @@ provenance/4Bench-ProvenanceGraphFactory.$(OBJEXT):  \
 provenance/4Bench-ProvenanceSubgraph.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-ProvenanceGraphPopulator.$(OBJEXT):  \
+	provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
 
 4Bench$(EXEEXT): $(4Bench_OBJECTS) $(4Bench_DEPENDENCIES) $(EXTRA_4Bench_DEPENDENCIES) 
 	@rm -f 4Bench$(EXEEXT)
@@ -441,6 +445,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@parsing/$(DEPDIR)/4Bench-Triple.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceGraphFactory.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceGraphPopulator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceSubgraph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-string.Po@am__quote@
 
@@ -613,6 +618,20 @@ provenance/4Bench-ProvenanceSubgraph.obj: provenance/ProvenanceSubgraph.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/ProvenanceSubgraph.cpp' object='provenance/4Bench-ProvenanceSubgraph.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-ProvenanceSubgraph.obj `if test -f 'provenance/ProvenanceSubgraph.cpp'; then $(CYGPATH_W) 'provenance/ProvenanceSubgraph.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/ProvenanceSubgraph.cpp'; fi`
+
+provenance/4Bench-ProvenanceGraphPopulator.o: provenance/ProvenanceGraphPopulator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-ProvenanceGraphPopulator.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-ProvenanceGraphPopulator.Tpo -c -o provenance/4Bench-ProvenanceGraphPopulator.o `test -f 'provenance/ProvenanceGraphPopulator.cpp' || echo '$(srcdir)/'`provenance/ProvenanceGraphPopulator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-ProvenanceGraphPopulator.Tpo provenance/$(DEPDIR)/4Bench-ProvenanceGraphPopulator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/ProvenanceGraphPopulator.cpp' object='provenance/4Bench-ProvenanceGraphPopulator.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-ProvenanceGraphPopulator.o `test -f 'provenance/ProvenanceGraphPopulator.cpp' || echo '$(srcdir)/'`provenance/ProvenanceGraphPopulator.cpp
+
+provenance/4Bench-ProvenanceGraphPopulator.obj: provenance/ProvenanceGraphPopulator.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-ProvenanceGraphPopulator.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-ProvenanceGraphPopulator.Tpo -c -o provenance/4Bench-ProvenanceGraphPopulator.obj `if test -f 'provenance/ProvenanceGraphPopulator.cpp'; then $(CYGPATH_W) 'provenance/ProvenanceGraphPopulator.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/ProvenanceGraphPopulator.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-ProvenanceGraphPopulator.Tpo provenance/$(DEPDIR)/4Bench-ProvenanceGraphPopulator.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/ProvenanceGraphPopulator.cpp' object='provenance/4Bench-ProvenanceGraphPopulator.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-ProvenanceGraphPopulator.obj `if test -f 'provenance/ProvenanceGraphPopulator.cpp'; then $(CYGPATH_W) 'provenance/ProvenanceGraphPopulator.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/ProvenanceGraphPopulator.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique

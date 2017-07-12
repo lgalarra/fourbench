@@ -34,15 +34,17 @@ const vector<string> supportedInputFormats = {"tsv", "ttl", "n3", "n4"};
 
 po::options_description* readCmdArguments(int argc, char** argv, po::variables_map* optionsMap) {
 	po::options_description *description = new po::options_description("4Bench Usage");
+	po::positional_options_description posDescription;
 
 	description->add_options()
 	    ("help,h", "Display this help message")
 	    ("version,v", "Display the version number")
 		("config,c", po::value<string>(), "Configuration file (.ini)")
-		("input-files,F", po::value<vector<string>>(), "Input files");
+		("input-files,F", po::value<vector<string>>()->composing(), "Input files")
 		("input-format,f", po::value<string>()->default_value("tsv"), "Format for input files (tsv, ttl, n3, n4)");
 
-	po::store(po::command_line_parser(argc, argv).options(*description).run(), *optionsMap);
+	posDescription.add("input-files", -1);
+	po::store(po::command_line_parser(argc, argv).positional(posDescription).options(*description).run(), *optionsMap);
 	po::notify(*optionsMap);
 	return description;
 }
@@ -89,30 +91,32 @@ int main(int argc, char** argv) {
 		cout << "Parsing of individual arguments is not yet implemented" << endl;
 	}
 
-	if (vm.count("input-format")) {
-		iformat = vm["input-format"].as<string>();
-		auto search = find(supportedInputFormats.begin(), supportedInputFormats.end(), iformat);
-		if (search == end(supportedInputFormats)) {
-			cerr << "Unsupported format " << iformat << ". This program only supports tsv, ttl, n3 or n4";
-			exit(2);
-		}
-	} else {
-		iformat = "tsv";
-		cout << "Assuming tsv format for input files.";
-	}
-
-
 	if (vm.count("input-files") == 0) {
-		cerr << "No input files provided.";
+		cerr << "No input files provided." << endl;
 		exit(3);
 	} else {
 		ifiles = vm["input-files"].as<vector<string>>();
 	}
 
+	if (vm.count("input-format")) {
+		iformat = vm["input-format"].as<string>();
+		auto search = find(supportedInputFormats.begin(), supportedInputFormats.end(), iformat);
+		if (search == end(supportedInputFormats)) {
+			cerr << "Unsupported format " << iformat << ". This program only supports tsv, ttl, n3 or n4" << endl;
+			exit(2);
+		}
+	} else {
+		iformat = "tsv";
+		cout << "Assuming tsv format for input files." << endl;
+	}
+
+
 	fpar::FileParser* parser = buildParser(iformat, ifiles);
 	if (parser == nullptr) {
 		exit(4);
 	}
+
+	cout << conf << endl;
 
 	fprov::ProvenanceGraphFactory& builder = fprov::ProvenanceGraphFactory::getInstance();
 	shared_ptr<map<string, shared_ptr<fprov::ProvenanceGraph>>> provenanceGraphs =
@@ -121,7 +125,6 @@ int main(int argc, char** argv) {
 	fprov::ProvenanceGraphPopulator populator;
 	populator.populate(*parser, *provenanceGraphs.get());
 
-	cout << conf << endl;
 	delete parser;
 
 

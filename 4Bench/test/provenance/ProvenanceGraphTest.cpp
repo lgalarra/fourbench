@@ -11,6 +11,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <boost/test/included/unit_test.hpp>
 
 #include "../include/conf/Conf.hpp"
@@ -42,7 +43,8 @@ BOOST_AUTO_TEST_CASE( fourbench_test_provenance_graph_distribution__uniform_nsou
 	BOOST_REQUIRE(stats.numberOfSubjects == 7);
 
 	bpr::ProvenanceGraphFactory builder = bpr::ProvenanceGraphFactory::getInstance();
-	bpr::ProvenanceGraph* graph = builder.buildProvenanceGraph(conf.getDefault(), stats);
+	shared_ptr<bpr::ProvenanceGraph> graphPtr = builder.buildProvenanceGraph(conf.getDefault(), stats);
+	bpr::ProvenanceGraph* graph = graphPtr.get();
 
 	cout << conf << endl;
 	cout << *graph << endl;
@@ -52,7 +54,5 @@ BOOST_AUTO_TEST_CASE( fourbench_test_provenance_graph_distribution__uniform_nsou
 	BOOST_REQUIRE(graph->getNumberOfActivities() == 4);
 	BOOST_REQUIRE(graph->getNumberOfIntermediateEntities() == 2);
 	BOOST_REQUIRE(graph->getNumberOfEntities() == 9);
-
-	delete graph;
 
 }

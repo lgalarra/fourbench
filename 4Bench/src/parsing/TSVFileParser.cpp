@@ -18,8 +18,7 @@ namespace fc = fourbench::conf;
 namespace fourbench {
 namespace parsing {
 
-TSVFileParser::TSVFileParser(const vector<string>& filenames) : FileParser(filenames),
-		numberOfLines(0), lineNumber(0) {
+TSVFileParser::TSVFileParser(const vector<string>& filenames) : FileParser(filenames) {
 	init();
 }
 
@@ -27,6 +26,15 @@ TSVFileParser::~TSVFileParser() {
 }
 
 Triple* TSVFileParser::next() {
+	if (currentFileIdx < 0) {
+		currentFileIdx = 0;
+	}
+
+	if (currentFileIdx >= filenames.size()) {
+		return nullptr;
+	}
+
+
 	if (currentStream == nullptr) {
 		return nullptr;
 	}
@@ -45,8 +53,8 @@ Triple* TSVFileParser::next() {
 	string line;
 	if (getline(*currentStream, line)) {
 		vector<string> parts = split(line, "\t");
+		++lineNumber;
 		if (parts.size() >= 3) {
-			++lineNumber;
 			return new Triple(parts[0], parts[1],
 					parts[2], filenames[currentFileIdx], lineNumber);
 		} else {
@@ -71,9 +79,9 @@ void TSVFileParser::init() {
 			vector<string> parts = split(line, "\t");
 			if (parts.size() >= 3) {
 				string family = conf.getFamily(parts[1]);
-				auto itr = numberOfLinesPerFamily.find(family);
-				if (itr == numberOfLinesPerFamily.end()) {
-					numberOfLinesPerFamily[family] = 1;
+				auto itr = numberOfTriplesPerFamily.find(family);
+				if (itr == numberOfTriplesPerFamily.end()) {
+					numberOfTriplesPerFamily[family] = 1;
 				} else{
 					itr->second = itr->second + 1;
 				}

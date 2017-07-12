@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <map>
+#include <iostream>
 
 #include "../include/conf/Conf.hpp"
 #include "../include/parsing/ParsingStats.hpp"
@@ -35,7 +36,7 @@ shared_ptr<map<string, shared_ptr<ProvenanceGraph>>> ProvenanceGraphFactory::bui
 	shared_ptr<map<string, shared_ptr<ProvenanceGraph>>> resultPtr(new map<string, shared_ptr<ProvenanceGraph>>);
 
 	for (auto itr = conf.confs.begin(); itr != conf.confs.end(); ++itr) {
-		fp::ParsingStats stat; // bind stat to a value
+		fp::ParsingStats& stat = stats.get()->at(itr->first);
 		resultPtr.get()->insert(pair<string, shared_ptr<ProvenanceGraph>>(itr->first, buildProvenanceGraph(*itr->second, stat)));
 	}
 

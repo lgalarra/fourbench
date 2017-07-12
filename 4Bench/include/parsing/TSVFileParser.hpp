@@ -23,11 +23,6 @@ namespace fourbench {
 namespace parsing {
 
 class TSVFileParser : public FileParser {
-private:
-	unsigned numberOfLines;
-	unsigned lineNumber;
-
-
 protected:
 	virtual void init();
 
