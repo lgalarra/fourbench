@@ -20,7 +20,7 @@ namespace provenance {
 class IRIBuilder {
 private:
 	static IRIBuilder instance;
-	const static string defaultDomain = "http://fourbench.org/provenance/";
+	static const string defaultDomain;
 	IRIBuilder();
 
 public:

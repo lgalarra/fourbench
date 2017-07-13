@@ -83,7 +83,7 @@ public:
 	bool parseFromFile(const string& filename) throw();
 	bool parseFromOptions(const po::variables_map& vm);
 	ConfValues& getDefault();
-	string getFamily(string& property);
+	string getFamily(const string& property);
 	virtual ~Conf();
 
 };

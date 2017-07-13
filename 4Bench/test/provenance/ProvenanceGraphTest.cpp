@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE( fourbench_test_provenance_graph_distribution__uniform_nsou
 	defaultConf.sourcesDefinition = bc::SourcesDefinition::PERFILE; //This means 2 sources
 
 	bpa::FileParserFactory factory = bpa::FileParserFactory::getInstance();
-	bpa::TSVFileParser* tsvParser = factory.buildParser<bpa::TSVFileParser>(testFilePaths);
+	shared_ptr<bpa::TSVFileParser> tsvParser = factory.buildParser<bpa::TSVFileParser>(testFilePaths);
 	bpa::ParsingStats stats = tsvParser->getParsingStats("default");
 
 	BOOST_REQUIRE(stats.numberOfTriples == 9);
@@ -44,15 +44,14 @@ BOOST_AUTO_TEST_CASE( fourbench_test_provenance_graph_distribution__uniform_nsou
 
 	bpr::ProvenanceGraphFactory builder = bpr::ProvenanceGraphFactory::getInstance();
 	shared_ptr<bpr::ProvenanceGraph> graphPtr = builder.buildProvenanceGraph(conf.getDefault(), stats);
-	bpr::ProvenanceGraph* graph = graphPtr.get();
 
 	cout << conf << endl;
-	cout << *graph << endl;
+	cout << graphPtr << endl;
 
-	BOOST_REQUIRE(graph->getNumberOfSourceEntities() == testFilePaths.size());
-	BOOST_REQUIRE(graph->getNumberOfLeafEntities() == 5);
-	BOOST_REQUIRE(graph->getNumberOfActivities() == 4);
-	BOOST_REQUIRE(graph->getNumberOfIntermediateEntities() == 2);
-	BOOST_REQUIRE(graph->getNumberOfEntities() == 9);
+	BOOST_REQUIRE(graphPtr->getNumberOfSourceEntities() == testFilePaths.size());
+	BOOST_REQUIRE(graphPtr->getNumberOfLeafEntities() == 5);
+	BOOST_REQUIRE(graphPtr->getNumberOfActivities() == 4);
+	BOOST_REQUIRE(graphPtr->getNumberOfIntermediateEntities() == 2);
+	BOOST_REQUIRE(graphPtr->getNumberOfEntities() == 9);
 
 }

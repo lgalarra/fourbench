@@ -11,6 +11,7 @@
 #include <ostream>
 
 #include "../include/conf/Conf.hpp"
+#include "../include/conf/AssignmentDistribution.hpp"
 #include "../include/parsing/ParsingStats.hpp"
 #include "ProvenanceSubgraph.hpp"
 
@@ -22,6 +23,12 @@ namespace provenance {
 
 class ProvenanceGraph {
 private:
+	// Number of distinct subjects described by the provenance graph
+	unsigned nSubjects;
+
+	// Number of RDF triples described by the provenance graph
+	unsigned nTriples;
+
 	// Assignments of leaf to triples
 	bool perSubject; // If true the unit becomes the subject and not the triple
 
@@ -52,6 +59,12 @@ private:
 	// Levels for activites
 	unsigned* activityLevels;
 
+	// Sources and leaves density
+	float sources2LeavesDensity;
+
+	// Distribution
+	fc::AssignmentDistribution entities2TriplesDistribution;
+
 	// Adjacency matrix for prov:used relation (from activities to entities)
 	ProvenanceSubgraph provUsed;
 
@@ -77,6 +90,7 @@ private:
 	void computeTotalNumberOfEntities();
 
 	void assignEntitiesToLevels();
+
 
 	string toString(const unsigned* levelsMap) const {
 		stringstream strm;
@@ -108,15 +122,33 @@ public:
 		return strm;
 	}
 
-	unsigned getNumberOfSourceEntities();
+	unsigned getNumberOfSourceEntities() const;
 
-	unsigned getNumberOfLeafEntities();
+	unsigned getNumberOfLeafEntities() const;
 
-	unsigned getNumberOfIntermediateEntities();
+	unsigned getNumberOfIntermediateEntities() const;
 
-	unsigned getNumberOfActivities();
+	unsigned getNumberOfActivities() const;
 
-	unsigned getNumberOfEntities();
+	unsigned getNumberOfEntities() const;
+
+	float getSources2LeavesDensity() const;
+
+	fc::AssignmentDistribution getEntitiesToTriplesDistribution() const;
+
+	void connectSourceAndLeaf(unsigned sourceId, unsigned leafId);
+
+	unsigned getSourceAbsoluteId(unsigned sourceIdx) const;
+
+	unsigned getFirstLeafId() const;
+
+	bool isAssignmentPerSubject() const;
+
+	unsigned getNumberOfSubjects() const;
+
+	unsigned getNumberOfTriples() const;
+
+	unsigned getFirstSourceId() const;
 
 
 public:

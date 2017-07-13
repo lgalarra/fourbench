@@ -24,7 +24,8 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 	provUsed("prov:used"), provWasAttributedTo("prov:wasAttributedTo"),
 	provWasGeneratedBy("prov:wasGeneratedBy"), perSubject(values.provenancePerSubject),
 	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents),
-	nLevels(values.metadataDepth) {
+	nLevels(values.metadataDepth), entities2TriplesDistribution(values.distribution),
+	nSubjects(stats.numberOfSubjects), nTriples(stats.numberOfTriples) {
 
 	entityLevels = new unsigned[nLevels + 1];
 	activityLevels = new unsigned[nLevels + 1];
@@ -150,24 +151,60 @@ void ProvenanceGraph::assignEntitiesToLevels() {
 	}
 }
 
-unsigned ProvenanceGraph::getNumberOfSourceEntities() {
+unsigned ProvenanceGraph::getNumberOfSourceEntities() const {
 	return nSourceEntities;
 }
 
-unsigned ProvenanceGraph::getNumberOfLeafEntities() {
+unsigned ProvenanceGraph::getNumberOfLeafEntities() const {
 	return nLeafEntities;
 }
 
-unsigned ProvenanceGraph::getNumberOfIntermediateEntities() {
+unsigned ProvenanceGraph::getNumberOfIntermediateEntities() const {
 	return nIntermediateEntities;
 }
 
-unsigned ProvenanceGraph::getNumberOfActivities() {
+unsigned ProvenanceGraph::getNumberOfActivities() const {
 	return nActivities;
 }
 
-unsigned ProvenanceGraph::getNumberOfEntities() {
+unsigned ProvenanceGraph::getNumberOfEntities() const {
 	return nEntities;
+}
+
+fc::AssignmentDistribution ProvenanceGraph::getEntitiesToTriplesDistribution() const {
+	return entities2TriplesDistribution;
+}
+
+float ProvenanceGraph::getSources2LeavesDensity() const {
+	return sources2LeavesDensity;
+}
+
+void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
+	cout << "Connecting source entity with id " << sourceId << " and leaf with id";
+}
+
+unsigned ProvenanceGraph::getSourceAbsoluteId(unsigned sourceIdx) const {
+	return getFirstSourceId() + sourceIdx;
+}
+
+unsigned ProvenanceGraph::getFirstLeafId() const {
+	return 0;
+}
+
+unsigned ProvenanceGraph::getFirstSourceId() const {
+	return nLeafEntities + nIntermediateEntities;
+}
+
+bool ProvenanceGraph::isAssignmentPerSubject() const {
+	return perSubject;
+}
+
+unsigned ProvenanceGraph::getNumberOfSubjects() const {
+	return nSubjects;
+}
+
+unsigned ProvenanceGraph::getNumberOfTriples() const {
+	return nTriples;
 }
 
 

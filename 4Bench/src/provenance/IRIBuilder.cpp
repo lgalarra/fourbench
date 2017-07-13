@@ -6,6 +6,7 @@
  */
 
 #include <string>
+#include <sstream>
 
 #include "../include/provenance/IRIBuilder.hpp"
 #include "../include/provenance/IRIType.hpp"
@@ -16,7 +17,7 @@ namespace fourbench {
 namespace provenance {
 
 IRIBuilder IRIBuilder::instance;
-string IRIBuilder::defaultDomain;
+const string IRIBuilder::defaultDomain = "http://fourbench.org/provenance/";
 
 IRIBuilder::IRIBuilder() {
 

@@ -12,6 +12,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <boost/test/included/unit_test.hpp>
 
 #include "../include/parsing/FileParserFactory.hpp"
@@ -42,12 +43,10 @@ BOOST_AUTO_TEST_CASE( fourbench_test_tsvparser )
 	BOOST_REQUIRE(canReadTestFiles(testFilePaths));
 	bp::FileParserFactory factory = bp::FileParserFactory::getInstance();
 
-	bp::TSVFileParser* tsvParser = factory.buildParser<bp::TSVFileParser>(testFilePaths);
+	shared_ptr<bp::TSVFileParser> tsvParser = factory.buildParser<bp::TSVFileParser>(testFilePaths);
 	bp::ParsingStats stats = tsvParser->getParsingStats("default");
 	BOOST_REQUIRE(stats.numberOfTriples == 9);
 	BOOST_REQUIRE(stats.numberOfSubjects == 7);
-
-	delete tsvParser;
 
 }
 
@@ -57,14 +56,11 @@ BOOST_AUTO_TEST_CASE( fourbench_test_single_tsvparser )
 	BOOST_REQUIRE(canReadTestFiles(singletestFilePath));
 	bp::FileParserFactory factory = bp::FileParserFactory::getInstance();
 
-	bp::TSVFileParser* tsvParser = factory.buildParser<bp::TSVFileParser>(singletestFilePath);
+	shared_ptr<bp::TSVFileParser> tsvParser = factory.buildParser<bp::TSVFileParser>(singletestFilePath);
 	bp::ParsingStats stats = tsvParser->getParsingStats("default");
 
 	BOOST_REQUIRE(stats.numberOfTriples == 7);
 	BOOST_REQUIRE(stats.numberOfSubjects == 5);
-
-	delete tsvParser;
-
 
 }
 

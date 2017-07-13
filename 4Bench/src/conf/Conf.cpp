@@ -213,7 +213,7 @@ namespace conf {
 
 	}
 
-	string Conf::getFamily(string& property) {
+	string Conf::getFamily(const string& property) {
 		if (properties2Families.find(property) != properties2Families.end()) {
 			return this->properties2Families[property];
 		} else {

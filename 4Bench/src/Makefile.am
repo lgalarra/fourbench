@@ -1,7 +1,9 @@
 bin_PROGRAMS=4Bench
 4Bench_SOURCES=4Bench.cpp utils/string.cpp conf/Conf.cpp parsing/FileParser.cpp parsing/FileParserFactory.cpp \
  parsing/Triple.cpp parsing/TSVFileParser.cpp parsing/ParsingStats.cpp \
- provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp
+ provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp \
+ provenance/ProvenanceAssignment.cpp  provenance/ProvenanceAssignmentFactory.cpp provenance/UniformProvenanceAssignment.cpp \
+ provenance/IRIBuilder.cpp
 4Bench_CPPFLAGS=-I$(top_srcdir)/include
 AM_CPPFLAGS=$(BOOST_CPPFLAGS)
 AM_LDFLAGS=$(BOOST_LDFLAGS)

@@ -10,17 +10,20 @@
 
 #include <memory>
 
+#include "ProvenanceGraph.hpp"
+
 using namespace std;
 
 namespace fourbench {
 namespace provenance {
 
 class ProvenanceAssignment {
-private:
+protected:
 	shared_ptr<ProvenanceGraph> graphPtr;
-public:
 	ProvenanceAssignment(shared_ptr<ProvenanceGraph> graphPtr);
+public:
 	virtual ~ProvenanceAssignment();
+	virtual unsigned nextProvenanceId() = 0;
 };
 
 } /* namespace provenance */

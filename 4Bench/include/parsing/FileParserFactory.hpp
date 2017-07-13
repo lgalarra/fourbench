@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -26,9 +27,8 @@ public:
 	FileParserFactory();
 	static FileParserFactory& getInstance();
 
-	template <class Parser> Parser* buildParser(const vector<string>& filenames) {
-		Parser* parser = new Parser(filenames);
-		return parser;
+	template <class Parser> shared_ptr<Parser> buildParser(const vector<string>& filenames) {
+		return make_shared<Parser>(filenames);
 	}
 
 

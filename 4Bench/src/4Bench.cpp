@@ -49,7 +49,7 @@ po::options_description* readCmdArguments(int argc, char** argv, po::variables_m
 	return description;
 }
 
-fpar::FileParser* buildParser(const string& inputFormat, const vector<string>& inputFiles) {
+shared_ptr<fpar::FileParser> buildParser(const string& inputFormat, const vector<string>& inputFiles) {
 	fpar::FileParserFactory& parserFactory = fpar::FileParserFactory::getInstance();
 	if (inputFormat == "tsv") {
 		return parserFactory.buildParser<fpar::TSVFileParser>(inputFiles);
@@ -111,8 +111,8 @@ int main(int argc, char** argv) {
 	}
 
 
-	fpar::FileParser* parser = buildParser(iformat, ifiles);
-	if (parser == nullptr) {
+	shared_ptr<fpar::FileParser> parser = buildParser(iformat, ifiles);
+	if (parser.get() == nullptr) {
 		exit(4);
 	}
 
@@ -124,9 +124,6 @@ int main(int argc, char** argv) {
 
 	fprov::ProvenanceGraphPopulator populator;
 	populator.populate(*parser, *provenanceGraphs.get());
-
-	delete parser;
-
 
 	return 0;
 }
