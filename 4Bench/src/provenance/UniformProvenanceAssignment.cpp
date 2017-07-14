@@ -8,6 +8,8 @@
 #include <memory>
 #include <math.h>
 #include <map>
+#include <stdlib.h>
+#include <iostream>
 
 #include "../include/provenance/ProvenanceGraph.hpp"
 #include "../include/provenance/ProvenanceAssignment.hpp"
@@ -52,14 +54,29 @@ unsigned UniformProvenanceAssignment::nextProvenanceId() {
 		++numberOfAssignmentsLatestLeaf;
 	}
 
-	if (!allSourcesConnected) {
-		// Pick the top N unconnected sources
-		for (unsigned i = 0; i < sourcesPerLeaf; ++i) {
-			pair<unsigned, unsigned> top = sourcesPriorityQueue.top();
-			top.second = top.second + 1;
-			graphPtr->connectSourceAndLeaf(graphPtr->getSourceAbsoluteId(top.first), latestLeaf);
-			sourcesPriorityQueue.pop();
-			sourcesPriorityQueue.push(top);
+	if (graphPtr->getDepth() > 1) {
+		if (!allSourcesConnected) {
+			// Pick the top N unconnected sources
+			for (unsigned i = 0; i < sourcesPerLeaf; ++i) {
+				pair<unsigned, unsigned> top = sourcesPriorityQueue.top();
+				cout << "Top " << top.first << ", " << top.second << " ";
+				if (top.second > 0) {
+					// This means all sources had been used once
+					allSourcesConnected = true;
+				}
+				top.second = top.second + 1;
+				cout << "Using priority queue. ";
+				graphPtr->connectSourceAndLeaf(graphPtr->getSourceAbsoluteId(top.first), latestLeaf);
+				sourcesPriorityQueue.pop();
+				sourcesPriorityQueue.push(top);
+			}
+		} else {
+			// Pick random sources
+			for (unsigned i = 0; i < sourcesPerLeaf; ++i) {
+				unsigned sourceIdx = rand() % numberOfSources;
+				cout << "Using random assignment. ";
+				graphPtr->connectSourceAndLeaf(graphPtr->getSourceAbsoluteId(sourceIdx), latestLeaf);
+			}
 		}
 	}
 

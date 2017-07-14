@@ -23,6 +23,9 @@ namespace provenance {
 
 class ProvenanceGraph {
 private:
+	// Provenance graph name
+	string name;
+
 	// Number of distinct subjects described by the provenance graph
 	unsigned nSubjects;
 
@@ -54,10 +57,10 @@ private:
 	unsigned nLevels;
 
 	// Levels for entities
-	unsigned* entityLevels;
+	int* entityLevels;
 
 	// Levels for activites
-	unsigned* activityLevels;
+	int* activityLevels;
 
 	// Sources and leaves density
 	float sources2LeavesDensity;
@@ -91,16 +94,20 @@ private:
 
 	void assignEntitiesToLevels();
 
+	void connectEntities(unsigned sourceId, unsigned targetId, unsigned targetLevel);
 
-	string toString(const unsigned* levelsMap) const {
+	void getRandomEntityInLevel(unsigned level) const;
+
+
+	string toString(const int* levelsMap) const {
 		stringstream strm;
 		strm << "[";
-		unsigned start = 0;
-		unsigned end = 0;
+		int start = 0;
+		int end;
 		for (unsigned level = 0; level <= nLevels; ++level) {
 			end = levelsMap[level];
 			// If there are no items in that level, no need to write anything
-			if (end > start) {
+			if (end >= start) {
 				strm << level << ": [" << start << ", " << end << "] ";
 				start = end + 1;
 			}
@@ -112,6 +119,7 @@ private:
 public:
 	friend ostream& operator<<(ostream &strm, const ProvenanceGraph& g) {
 		strm << "Provenance graph: { ";
+		strm << "name: " << g.name << ", ";
 		strm << "# agents: " << g.nAgents << ", ";
 		strm << "# activities: " << g.nActivities << ", ";
 		strm << "# (total entities, leaf entities, intermediate entities, sources): ";
@@ -149,6 +157,8 @@ public:
 	unsigned getNumberOfTriples() const;
 
 	unsigned getFirstSourceId() const;
+
+	unsigned getDepth() const;
 
 
 public:

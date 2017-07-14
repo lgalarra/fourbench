@@ -116,11 +116,18 @@ int main(int argc, char** argv) {
 		exit(4);
 	}
 
+	cout << "-- Configuration --" << endl;
 	cout << conf << endl;
+	cout << "-- End of Configuration --" << endl;
 
 	fprov::ProvenanceGraphFactory& builder = fprov::ProvenanceGraphFactory::getInstance();
 	shared_ptr<map<string, shared_ptr<fprov::ProvenanceGraph>>> provenanceGraphs =
 			builder.buildProvenanceGraphs(conf, parser->getAllParsingStats());
+
+	for (auto itr = provenanceGraphs->begin(); itr != provenanceGraphs->end(); ++itr) {
+		cout << *(itr->second) << endl;
+	}
+
 
 	fprov::ProvenanceGraphPopulator populator;
 	populator.populate(*parser, *provenanceGraphs.get());

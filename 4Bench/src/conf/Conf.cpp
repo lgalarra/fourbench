@@ -48,7 +48,7 @@ namespace conf {
 					{PERPROPERTY, "per_property"}
 	};
 
-	ConfValues::ConfValues() : numberOfSources(Conf::DefaultNumberOfSources),
+	ConfValues::ConfValues() : familyName("default"), numberOfSources(Conf::DefaultNumberOfSources),
 			metadataDepth(Conf::DefaultDepth), distribution(UNIFORM),
 			sourcesDefinition(MANUAL), numberOfAgents(Conf::DefaultNumberOfAgents),
 			activitiesDensity(Conf::DefaultActivitiesDensity), triplesEntitiesDensity(Conf::DefaultTriplesEntitiesDensity),

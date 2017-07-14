@@ -11,9 +11,11 @@
 #include <cctype>
 #include <locale>
 #include <vector>
+#include <list>
 #include <set>
 #include <map>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 
 #include "../include/utils/string.hpp"
@@ -65,5 +67,13 @@ bool toBool(const string& s) {
 	}
 }
 
+string concat(const list<string>& strings) {
+	stringstream sstrm;
+	for (auto itr = strings.begin(); itr != strings.end(); ++itr) {
+		sstrm << *itr;
+	}
+
+	return sstrm.str();
+}
 
 }

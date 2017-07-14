@@ -5,6 +5,8 @@
  *      Author: galarraga
  */
 
+#include <map>
+#include <memory>
 #include <string>
 #include <sstream>
 
@@ -16,19 +18,20 @@ using namespace std;
 namespace fourbench {
 namespace provenance {
 
-IRIBuilder IRIBuilder::instance;
 const string IRIBuilder::defaultDomain = "http://fourbench.org/provenance/";
+map<string, shared_ptr<IRIBuilder>> IRIBuilder::instances;
 
-IRIBuilder::IRIBuilder() {
-
-}
+IRIBuilder::IRIBuilder(const string& prefix) : domain(prefix) {}
 
 IRIBuilder::~IRIBuilder() {
-	// TODO Auto-generated destructor stub
 }
 
-IRIBuilder& IRIBuilder::getInstance() {
-	return instance;
+shared_ptr<IRIBuilder> IRIBuilder::getInstance(const string& prefix) {
+	if (instances.find(prefix) == instances.end()) {
+		instances[prefix] = shared_ptr<IRIBuilder>(new IRIBuilder(prefix));
+	}
+
+	return instances[prefix];
 }
 
 string IRIBuilder::getDefaultDomain() {
@@ -36,10 +39,6 @@ string IRIBuilder::getDefaultDomain() {
 }
 
 string IRIBuilder::getIRI(IRIType type, unsigned id) const {
-	return getIRI(defaultDomain, type, id);
-}
-
-string IRIBuilder::getIRI(const string& domain, IRIType type, unsigned id) const {
 	stringstream sstrm;
 	switch (type) {
 	case ENTITY:
@@ -54,9 +53,7 @@ string IRIBuilder::getIRI(const string& domain, IRIType type, unsigned id) const
 	}
 
 	return sstrm.str();
-
 }
-
 
 } /* namespace provenance */
 } /* namespace fourbench */

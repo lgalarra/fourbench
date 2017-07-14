@@ -22,12 +22,12 @@ namespace provenance {
 
 struct SourceCountLessThanStruct {
 	bool operator()(const pair<unsigned, unsigned>& lhs, const pair<unsigned, unsigned>& rhs) const {
-		if (lhs.second < rhs.second)
+		if (lhs.second > rhs.second)
 			return true;
-		else if (lhs.second > rhs.second)
+		else if (lhs.second < rhs.second)
 			return false;
 		else
-			return lhs.first < rhs.first;
+			return lhs.first > rhs.first;
 	}
 };
 

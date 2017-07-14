@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 
 using namespace std;
 
@@ -24,6 +25,8 @@ string trim(const string& s);
 string toLower(const string& s);
 
 bool toBool(const string& s);
+
+string concat(const list<string> & strings);
 
 }
 

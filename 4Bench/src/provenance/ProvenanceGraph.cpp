@@ -20,15 +20,16 @@ namespace fp = fourbench::parsing;
 namespace fourbench {
 namespace provenance {
 
+
 ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::ParsingStats& stats) :
-	provUsed("prov:used"), provWasAttributedTo("prov:wasAttributedTo"),
+	name(values.familyName), provUsed("prov:used"), provWasAttributedTo("prov:wasAttributedTo"),
 	provWasGeneratedBy("prov:wasGeneratedBy"), perSubject(values.provenancePerSubject),
 	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents),
 	nLevels(values.metadataDepth), entities2TriplesDistribution(values.distribution),
 	nSubjects(stats.numberOfSubjects), nTriples(stats.numberOfTriples) {
 
-	entityLevels = new unsigned[nLevels + 1];
-	activityLevels = new unsigned[nLevels + 1];
+	entityLevels = new int[nLevels + 1];
+	activityLevels = new int[nLevels + 1];
 
 	if (nSourceEntities == fc::Conf::AUTO) {
 		computeNumberOfSourceEntities(values, stats);
@@ -114,7 +115,7 @@ void ProvenanceGraph::computeNumberOfActivities(const fc::ConfValues& values) {
 
 void ProvenanceGraph::assignActivitiesToLevels() {
 	// Activities range in the interval [0, nActivities - 1]
-	activityLevels[0] = 0; // The base level does not have any activities
+	activityLevels[0] = -1; // The base level does not have any activities
 	if (nLevels > 1) {
 		// Divide the activities in equal chunks
 		unsigned activitiesPerLevel = (unsigned) ceil(nActivities / nLevels);
@@ -180,7 +181,28 @@ float ProvenanceGraph::getSources2LeavesDensity() const {
 }
 
 void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
-	cout << "Connecting source entity with id " << sourceId << " and leaf with id";
+	unsigned latestEntity = leafId;
+	for (unsigned level = 1; level <= nLevels; ++level) {
+		// This means the target entity is the source
+		if (level == nLevels) {
+			connectEntities(latestEntity, sourceId, level);
+		} else {
+			// We have to look for intermediate entities in level + 1
+			unsigned entityNextLevel = getRandomEntityInLevel(level + 1);
+			connectEntities(latestEntity, entityNextLevel, level + 1);
+			latestEntity = entityNextLevel;
+		}
+	}
+
+	cout << ". Connecting source entity with id " << sourceId << " and leaf with id " << leafId << endl;
+}
+
+void ProvenanceGraph::connectEntities(unsigned sourceId, unsigned targetId, unsigned targetLevel) {
+
+}
+
+void ProvenanceGraph::getRandomEntityInLevel(unsigned level) const {
+
 }
 
 unsigned ProvenanceGraph::getSourceAbsoluteId(unsigned sourceIdx) const {
@@ -205,6 +227,10 @@ unsigned ProvenanceGraph::getNumberOfSubjects() const {
 
 unsigned ProvenanceGraph::getNumberOfTriples() const {
 	return nTriples;
+}
+
+unsigned ProvenanceGraph::getDepth() const {
+	return nLevels;
 }
 
 
