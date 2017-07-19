@@ -28,13 +28,13 @@ public:
 	ProvenanceObject(unsigned id, const string& domain);
 	virtual ~ProvenanceObject();
 	unsigned getId() const;
-	string getIRI() const = 0;
+	virtual string getIRI() const = 0;
 	ostream& dump(ostream& o) const;
+	ostream& operator<<(ostream& ostrm) {
+		return dump(ostrm);
+	}
 };
 
-ostream& operator<<(ostream& ostrm, const ProvenanceObject& o) {
-	return o.dump(ostrm);
-}
 
 } /* namespace provenance */
 } /* namespace fourbench */

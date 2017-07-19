@@ -9,6 +9,8 @@
  */
 
 #include <iostream>
+#include <ostream>
+#include <fstream>
 #include <memory>
 #include <vector>
 #include <algorithm>
@@ -17,6 +19,9 @@
 #include "../include/parsing/FileParser.hpp"
 #include "../include/parsing/FileParserFactory.hpp"
 #include "../include/parsing/TSVFileParser.hpp"
+#include "../include/output/ProvenanceDump.hpp"
+#include "../include/output/ProvenanceDumpFactory.hpp"
+#include "../include/output/QuadTSVProvenanceDump.hpp"
 #include "../include/provenance/ProvenanceGraphFactory.hpp"
 #include "../include/provenance/ProvenanceGraphPopulator.hpp"
 
@@ -29,6 +34,7 @@ namespace fc = fourbench::conf;
 namespace po = boost::program_options;
 namespace fpar = fourbench::parsing;
 namespace fprov = fourbench::provenance;
+namespace fo = fourbench::output;
 
 const vector<string> supportedInputFormats = {"tsv", "ttl", "n3", "n4"};
 
@@ -41,7 +47,9 @@ po::options_description* readCmdArguments(int argc, char** argv, po::variables_m
 	    ("version,v", "Display the version number")
 		("config,c", po::value<string>(), "Configuration file (.ini)")
 		("input-files,F", po::value<vector<string>>()->composing(), "Input files")
-		("input-format,f", po::value<string>()->default_value("tsv"), "Format for input files (tsv, ttl, n3, n4)");
+		("input-format,f", po::value<string>()->default_value("tsv"), "Format for input files (tsv, ttl, n3, n4)")
+		("output-format,t", po::value<string>()->default_value("tsv"), "Format for output file (tsv, ttl, n3, n4)")
+		("output,o", po::value<string>()->default_value("4bench_output"), "Output file");
 
 	posDescription.add("input-files", -1);
 	po::store(po::command_line_parser(argc, argv).positional(posDescription).options(*description).run(), *optionsMap);
@@ -55,6 +63,16 @@ shared_ptr<fpar::FileParser> buildParser(const string& inputFormat, const vector
 		return parserFactory.buildParser<fpar::TSVFileParser>(inputFiles);
 	} else {
 		cerr << "Format " << inputFormat << " is still not implemented";
+		return nullptr;
+	}
+}
+
+shared_ptr<fo::ProvenanceDump> getDump(const string& outputFormat, ostream& stream) {
+	fo::ProvenanceDumpFactory& dumpFactory = fo::ProvenanceDumpFactory::getInstance();
+	if (outputFormat == "tsv") {
+		return dumpFactory.buildDump<fo::QuadTSVProvenanceDump>(stream);
+	} else {
+		cerr << "Format " << outputFormat << " is still not implemented";
 		return nullptr;
 	}
 }
@@ -128,8 +146,10 @@ int main(int argc, char** argv) {
 		cout << *(itr->second) << endl;
 	}
 
+	ofstream outstream(vm["output"].as<string>());
+	shared_ptr<fo::ProvenanceDump> dump = getDump(vm["output-format"].as<string>(), outstream);
 
-	fprov::ProvenanceGraphPopulator populator;
+	fprov::ProvenanceGraphPopulator populator(dump);
 	populator.populate(*parser, *provenanceGraphs.get());
 
 	return 0;

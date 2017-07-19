@@ -5,8 +5,8 @@
  *      Author: galarraga
  */
 
-#ifndef PROVENANCESUBGRAPH_HPP_
-#define PROVENANCESUBGRAPH_HPP_
+#ifndef PROVENANCE_PROVENANCESUBGRAPH_HPP_
+#define PROVENANCE_PROVENANCESUBGRAPH_HPP_
 
 #include <string>
 #include <map>

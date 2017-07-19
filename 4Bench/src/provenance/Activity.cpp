@@ -6,11 +6,14 @@
  */
 
 #include <sstream>
+#include <memory>
 
 #include "../include/provenance/ProvenanceObject.hpp"
 #include "../include/provenance/Activity.hpp"
 #include "../include/provenance/IRIBuilder.hpp"
 #include "../include/provenance/IRIType.hpp"
+
+using namespace std;
 
 namespace fourbench {
 namespace provenance {
@@ -25,7 +28,8 @@ Activity::~Activity() {
 }
 
 string Activity::getIRI() const {
-	return IRIBuilder::getInstance().getIRI(domain, IRIType::ACTIVITY, id);
+	shared_ptr<IRIBuilder> builder = IRIBuilder::getInstance(domain);
+	return builder->getIRI(IRIType::ACTIVITY, id);
 }
 
 } /* namespace provenance */

@@ -13,15 +13,20 @@
 #include <string>
 
 #include "../include/parsing/FileParser.hpp"
+#include "../include/output/ProvenanceDump.hpp"
 
 namespace fpa = fourbench::parsing;
+namespace fo = fourbench::output;
 
 namespace fourbench {
 namespace provenance {
 
 class ProvenanceGraphPopulator {
+private:
+	shared_ptr<fo::ProvenanceDump> output;
+
 public:
-	ProvenanceGraphPopulator();
+	ProvenanceGraphPopulator(shared_ptr<fo::ProvenanceDump> out);
 
 	void populate(fpa::FileParser& parser, map<string, shared_ptr<ProvenanceGraph>>& graphs);
 

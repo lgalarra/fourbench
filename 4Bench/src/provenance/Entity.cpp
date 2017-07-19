@@ -28,7 +28,8 @@ Entity::~Entity() {
 }
 
 string Entity::getIRI() const {
-	return IRIBuilder::getInstance().getIRI(domain, IRIType::ENTITY, id);
+	shared_ptr<IRIBuilder> builderPtr = IRIBuilder::getInstance(domain);
+	return builderPtr->getIRI(IRIType::ENTITY, id);
 }
 
 

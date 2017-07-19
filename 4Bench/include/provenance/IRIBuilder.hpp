@@ -30,6 +30,7 @@ public:
 	static string getDefaultDomain();
 
 	string getIRI(IRIType type, unsigned id) const;
+	string getDomain() const;
 	virtual ~IRIBuilder();
 };
 

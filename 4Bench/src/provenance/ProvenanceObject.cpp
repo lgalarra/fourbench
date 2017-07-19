@@ -13,8 +13,7 @@
 namespace fourbench {
 namespace provenance {
 
-ProvenanceObject::ProvenanceObject(unsigned id) : id(id),
-		domain(IRIBuilder::getDefaultDomain()) {
+ProvenanceObject::ProvenanceObject(unsigned id) : id(id), domain(IRIBuilder::getDefaultDomain()) {
 }
 
 ProvenanceObject::ProvenanceObject(unsigned id, const string& domain) :
@@ -30,6 +29,7 @@ unsigned ProvenanceObject::getId() const {
 }
 
 ostream& ProvenanceObject::dump(ostream& o) const {
+	o << this->getIRI();
 	return o;
 }
 

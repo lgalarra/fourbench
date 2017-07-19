@@ -26,7 +26,8 @@ Agent::~Agent() {
 }
 
 string Agent::getIRI() const {
-	return IRIBuilder::getInstance().getIRI(domain, IRIType::AGENT, id);
+	shared_ptr<IRIBuilder> builder = IRIBuilder::getInstance(domain);
+	return builder->getIRI(IRIType::AGENT, id);
 }
 
 } /* namespace provenance */

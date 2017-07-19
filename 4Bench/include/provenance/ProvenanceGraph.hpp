@@ -9,17 +9,46 @@
 #define PROVENANCE_PROVENANCEGRAPH_HPP_
 
 #include <ostream>
+#include <iterator>
+#include <memory>
+#include <utility>
 
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
 #include "../include/parsing/ParsingStats.hpp"
+#include "../include/provenance/Activity.hpp"
+#include "../include/provenance/Entity.hpp"
 #include "ProvenanceSubgraph.hpp"
 
 namespace fc = fourbench::conf;
 namespace fp = fourbench::parsing;
 
+using namespace std;
+
 namespace fourbench {
 namespace provenance {
+
+template <class Domain, class Range>
+class EdgeIterator {
+private:
+	multimap<unsigned, unsigned>* matrix;
+	multimap<unsigned, unsigned>::const_iterator backIterator;
+	string property;
+
+	EdgeIterator(multimap<unsigned, unsigned>* matrix, const string& property);
+	EdgeIterator(multimap<unsigned, unsigned>* matrix, const string& property,
+			multimap<unsigned, unsigned>::const_iterator it);
+
+public:
+	~EdgeIterator();
+	EdgeIterator(const EdgeIterator& o);                   // Copy constructor
+	EdgeIterator& operator=(const EdgeIterator& o);        // Assignment operator
+	EdgeIterator& operator++();                   // Next element
+	tuple<shared_ptr<Domain>, string, shared_ptr<Range>> operator*();                    // Dereference
+	bool operator==(const EdgeIterator& o) const; // Comparison
+	bool operator!=(const EdgeIterator& o) const;
+	friend class ProvenanceGraph;
+};
 
 class ProvenanceGraph {
 private:
@@ -54,7 +83,7 @@ private:
 	unsigned nAgents;
 
 	// Number of levels
-	unsigned nLevels;
+	unsigned maxLevel;
 
 	// Levels for entities
 	int* entityLevels;
@@ -96,7 +125,10 @@ private:
 
 	void connectEntities(unsigned sourceId, unsigned targetId, unsigned targetLevel);
 
-	void getRandomEntityInLevel(unsigned level) const;
+	/**
+	 * It returns -1 if it cannot find any entity in the level.
+	 */
+	int getRandomEntityInLevel(unsigned level) const;
 
 
 	string toString(const int* levelsMap) const {
@@ -104,7 +136,7 @@ private:
 		strm << "[";
 		int start = 0;
 		int end;
-		for (unsigned level = 0; level <= nLevels; ++level) {
+		for (unsigned level = 0; level <= maxLevel; ++level) {
 			end = levelsMap[level];
 			// If there are no items in that level, no need to write anything
 			if (end >= start) {
@@ -160,6 +192,17 @@ public:
 
 	unsigned getDepth() const;
 
+	int getFirstEntityIdInLevel(unsigned level) const;
+
+	int getNumberOfEntitiesInLevel(unsigned level) const;
+
+	int getNumberOfActivitiesInLevel(unsigned level) const;
+
+	int getRandomActivityInLevel(unsigned level) const;
+
+	int getFirstActivityInLevel(unsigned level) const;
+
+	pair<EdgeIterator<Activity, Entity>, EdgeIterator<Activity, Entity>> getProvUsedIterators();
 
 public:
 	virtual ~ProvenanceGraph();

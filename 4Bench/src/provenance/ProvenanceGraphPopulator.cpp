@@ -12,9 +12,11 @@
 #include "../include/conf/Conf.hpp"
 #include "../include/parsing/FileParser.hpp"
 #include "../include/provenance/IRIBuilder.hpp"
+#include "../include/output/ProvenanceDump.hpp"
 #include "../include/provenance/ProvenanceAssignmentFactory.hpp"
 #include "../include/provenance/ProvenanceGraph.hpp"
 #include "../include/provenance/ProvenanceGraphPopulator.hpp"
+#include "../include/provenance/Entity.hpp"
 
 namespace fpa = fourbench::parsing;
 namespace fc = fourbench::conf;
@@ -25,7 +27,7 @@ using namespace std;
 namespace fourbench {
 namespace provenance {
 
-ProvenanceGraphPopulator::ProvenanceGraphPopulator() {}
+ProvenanceGraphPopulator::ProvenanceGraphPopulator(shared_ptr<fo::ProvenanceDump> out) : output(out) {}
 
 void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 		map<string, shared_ptr<ProvenanceGraph>>& graphs) {
@@ -53,14 +55,18 @@ void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 		} else {
 			// Generate a provenance identifier
 			cout << "======================" << endl;
-			unsigned provenanceId = assignItr->second->nextProvenanceId();
 			shared_ptr<IRIBuilder> iriBuilder = iriBuilders[family];
-			string provenanceIRI = iriBuilder->getIRI(IRIType::ENTITY, provenanceId);
-			cout << *triple << ", " << provenanceIRI << endl;
+			Entity provenanceEntity(assignItr->second->nextProvenanceId(), iriBuilder->getDomain());
+			output->dump(*triple, provenanceEntity);
+			cout << *triple << ", " << provenanceEntity.getIRI() << endl;
 			cout << "======================" << endl;
 		}
 		delete triple;
 		triple = parser.next();
+	}
+
+	for (auto itr = graphs.begin(); itr != graphs.end(); ++itr) {
+		output->dump(*itr->second);
 	}
 }
 

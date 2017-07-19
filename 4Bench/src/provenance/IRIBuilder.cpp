@@ -55,5 +55,9 @@ string IRIBuilder::getIRI(IRIType type, unsigned id) const {
 	return sstrm.str();
 }
 
+string IRIBuilder::getDomain() const {
+	return domain;
+}
+
 } /* namespace provenance */
 } /* namespace fourbench */
