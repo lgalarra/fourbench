@@ -9,6 +9,7 @@
 #define OUTPUT_QUADTSVPROVENANCEDUMP_HPP_
 
 #include "../include/output/ProvenanceDump.hpp"
+#include "../include/provenance/ProvenanceGraph.hpp"
 
 namespace fpar = fourbench::parsing;
 namespace fprov = fourbench::provenance;
@@ -19,6 +20,19 @@ namespace fourbench {
 namespace output {
 
 class QuadTSVProvenanceDump: public ProvenanceDump {
+private:
+
+	template<class Domain, class Range> inline void dump(const tuple<shared_ptr<Domain>, string, shared_ptr<Range>>& tuple) const {
+		this->formatIRI(get<0>(tuple)->getIRI());
+		stream << "\t";
+		this->formatIRI(get<1>(tuple));
+		stream << "\t";
+		this->formatIRI(get<2>(tuple)->getIRI());
+		stream << "\t";
+		this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
+		stream << endl;
+	}
+
 public:
 	QuadTSVProvenanceDump(ostream& strm);
 	void dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const;

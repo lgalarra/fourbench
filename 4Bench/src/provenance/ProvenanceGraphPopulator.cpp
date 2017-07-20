@@ -40,7 +40,9 @@ void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 			ProvenanceAssignmentFactory::getInstance();
 	fc::Conf& conf = fc::Conf::defaultConfig();
 
+	cout << "Initializing the assignments" << endl;
 	for (auto itr = graphs.begin(); itr != graphs.end(); ++itr) {
+		cout << "Assignment for " << itr->first << endl;
 		assignments[itr->first] = assignFactory.getProvenanceAssignment(itr->second);
 		iriBuilders[itr->first] = IRIBuilder::getInstance(
 				f::concat({IRIBuilder::getDefaultDomain(), itr->first, "/"}));
@@ -64,6 +66,7 @@ void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 		delete triple;
 		triple = parser.next();
 	}
+	output->flush();
 
 	for (auto itr = graphs.begin(); itr != graphs.end(); ++itr) {
 		output->dump(*itr->second);

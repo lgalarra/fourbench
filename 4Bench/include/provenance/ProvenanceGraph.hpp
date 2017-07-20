@@ -16,8 +16,10 @@
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
 #include "../include/parsing/ParsingStats.hpp"
-#include "../include/provenance/Activity.hpp"
-#include "../include/provenance/Entity.hpp"
+
+#include "Activity.hpp"
+#include "Agent.hpp"
+#include "Entity.hpp"
 #include "ProvenanceSubgraph.hpp"
 
 namespace fc = fourbench::conf;
@@ -52,6 +54,8 @@ public:
 
 class ProvenanceGraph {
 private:
+	static string provenanceGraphDefaultIRI;
+
 	// Provenance graph name
 	string name;
 
@@ -162,6 +166,8 @@ public:
 		return strm;
 	}
 
+	static string getDefaultProvenanceGraphIRI();
+
 	unsigned getNumberOfSourceEntities() const;
 
 	unsigned getNumberOfLeafEntities() const;
@@ -203,6 +209,10 @@ public:
 	int getFirstActivityInLevel(unsigned level) const;
 
 	pair<EdgeIterator<Activity, Entity>, EdgeIterator<Activity, Entity>> getProvUsedIterators();
+
+	pair<EdgeIterator<Entity, Activity>, EdgeIterator<Entity, Activity>> getProvWasGeneratedByIterators();
+
+	pair<EdgeIterator<Entity, Agent>, EdgeIterator<Entity, Agent>> getProvWasAttributedToIterators();
 
 public:
 	virtual ~ProvenanceGraph();

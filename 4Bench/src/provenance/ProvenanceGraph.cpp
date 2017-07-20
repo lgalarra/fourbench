@@ -13,10 +13,13 @@
 #include <iterator>
 
 #include "../include/utils/integer.hpp"
+#include "../include/utils/string.hpp"
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
 #include "../include/parsing/ParsingStats.hpp"
+#include "../include/provenance/IRIBuilder.hpp"
 #include "../include/provenance/ProvenanceGraph.hpp"
+#include "../include/provenance/PROVO.hpp"
 #include "../include/provenance/Activity.hpp"
 #include "../include/provenance/Entity.hpp"
 
@@ -37,7 +40,6 @@ template <class Domain, class Range>
 EdgeIterator<Domain, Range>::EdgeIterator(multimap<unsigned, unsigned>* matrix,
 		const string& property, multimap<unsigned, unsigned>::const_iterator it) : matrix(matrix),
 				backIterator(it), property(property) {
-
 }
 
 template <class Domain, class Range>
@@ -47,8 +49,7 @@ EdgeIterator<Domain, Range>::~EdgeIterator() {
 
 template <class Domain, class Range>
 EdgeIterator<Domain, Range>::EdgeIterator(const EdgeIterator& o) : matrix(o.matrix),
-		backIterator(o.backIterator), property(property) {
-
+		backIterator(o.backIterator), property(o.property) {
 }
 
 template <class Domain, class Range>
@@ -74,7 +75,7 @@ tuple<shared_ptr<Domain>, string, shared_ptr<Range>> EdgeIterator<Domain, Range>
 
 template <class Domain, class Range>
 bool EdgeIterator<Domain, Range>::operator==(const EdgeIterator& o) const {
-	return matrix == o.matrix && backIterator == o.backIterator && property == property;
+	return matrix == o.matrix && backIterator == o.backIterator && property == o.property;
 }
 
 template <class Domain, class Range>
@@ -83,11 +84,18 @@ bool EdgeIterator<Domain, Range>::operator!=(const EdgeIterator& o) const {
 }
 
 template class EdgeIterator<Activity, Entity>;
+template class EdgeIterator<Entity, Activity>;
+template class EdgeIterator<Entity, Agent>;
 
+string ProvenanceGraph::provenanceGraphDefaultIRI = f::concat({"http:/google.com/", "/graph/"});
+
+string ProvenanceGraph::getDefaultProvenanceGraphIRI() {
+	return provenanceGraphDefaultIRI;
+}
 
 ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::ParsingStats& stats) :
-	name(values.familyName), provUsed("prov:used"), provWasAttributedTo("prov:wasAttributedTo"),
-	provWasGeneratedBy("prov:wasGeneratedBy"), perSubject(values.provenancePerSubject),
+	name(values.familyName), provUsed(PROVO::used), provWasAttributedTo(PROVO::wasAttributedTo),
+	provWasGeneratedBy(PROVO::wasGeneratedBy), perSubject(values.provenancePerSubject),
 	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents),
 	maxLevel(values.metadataDepth), entities2TriplesDistribution(values.distribution),
 	nSubjects(stats.numberOfSubjects), nTriples(stats.numberOfTriples) {
@@ -263,7 +271,7 @@ void ProvenanceGraph::connectEntities(unsigned sourceId, unsigned targetId, unsi
 	int randomActivity = getRandomActivityInLevel(targetLevel);
 	if (randomActivity >= 0) {
 		// Add it to the sparse matrix
-		provWasGeneratedBy.addEdge(randomActivity, sourceId);
+		provWasGeneratedBy.addEdge(sourceId, randomActivity);
 		provUsed.addEdge(randomActivity, targetId);
 	}
 }
@@ -357,6 +365,18 @@ unsigned ProvenanceGraph::getDepth() const {
 pair<EdgeIterator<Activity, Entity>, EdgeIterator<Activity, Entity>> ProvenanceGraph::getProvUsedIterators() {
 	EdgeIterator<Activity, Entity> begin(&provUsed.matrix, "prov:used");
 	EdgeIterator<Activity, Entity> end(&provUsed.matrix, "prov:used", provUsed.matrix.cend());
+	return make_pair(begin, end);
+}
+
+pair<EdgeIterator<Entity, Activity>, EdgeIterator<Entity, Activity>> ProvenanceGraph::getProvWasGeneratedByIterators() {
+	EdgeIterator<Entity, Activity> begin(&provWasGeneratedBy.matrix, PROVO::wasGeneratedBy);
+	EdgeIterator<Entity, Activity> end(&provWasGeneratedBy.matrix, PROVO::wasGeneratedBy, provWasGeneratedBy.matrix.cend());
+	return make_pair(begin, end);
+}
+
+pair<EdgeIterator<Entity, Agent>, EdgeIterator<Entity, Agent>> ProvenanceGraph::getProvWasAttributedToIterators() {
+	EdgeIterator<Entity, Agent> begin(&provWasAttributedTo.matrix, PROVO::wasAttributedTo);
+	EdgeIterator<Entity, Agent> end(&provWasAttributedTo.matrix, PROVO::wasAttributedTo, provWasAttributedTo.matrix.cend());
 	return make_pair(begin, end);
 }
 

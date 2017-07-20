@@ -20,6 +20,10 @@ ProvenanceDump::ProvenanceDump(ostream& strm) : stream(strm) {
 ProvenanceDump::~ProvenanceDump() {
 }
 
+void ProvenanceDump::flush() {
+	stream.flush();
+}
+
 ostream& ProvenanceDump::formatIRI(const string& iri) const {
 	stream << "<" << iri << ">";
 	return stream;
