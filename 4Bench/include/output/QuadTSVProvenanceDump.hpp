@@ -8,6 +8,8 @@
 #ifndef OUTPUT_QUADTSVPROVENANCEDUMP_HPP_
 #define OUTPUT_QUADTSVPROVENANCEDUMP_HPP_
 
+#include <vector>
+
 #include "../include/output/ProvenanceDump.hpp"
 #include "../include/provenance/ProvenanceGraph.hpp"
 
@@ -31,6 +33,19 @@ private:
 		stream << "\t";
 		this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
 		stream << endl;
+	}
+
+	template<class Domain, class Range> void dump(const Domain& domain, const string& property, vector<shared_ptr<Range>> ranges) const {
+		for (auto itr = ranges.begin(); itr != ranges.end(); ++itr) {
+			this->formatIRI(domain.getIRI());
+			stream << "\t";
+			this->formatIRI(property);
+			stream << "\t";
+			this->formatIRI((*itr)->getIRI());
+			stream << "\t";
+			this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
+			stream << endl;
+		}
 	}
 
 public:

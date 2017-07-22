@@ -11,6 +11,7 @@
 #include "../include/provenance/Activity.hpp"
 #include "../include/provenance/Entity.hpp"
 #include "../include/provenance/ProvenanceGraph.hpp"
+#include "../include/provenance/PROVO.hpp"
 #include "../include/output/QuadTSVProvenanceDump.hpp"
 #include "../include/output/ProvenanceDump.hpp"
 
@@ -28,6 +29,7 @@ QuadTSVProvenanceDump::QuadTSVProvenanceDump(ostream& strm) : ProvenanceDump(str
 QuadTSVProvenanceDump::~QuadTSVProvenanceDump() {
 
 }
+
 
 void QuadTSVProvenanceDump::dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const {
 	this->formatIRI(triple.getSubject());
@@ -52,9 +54,15 @@ void QuadTSVProvenanceDump::dump(fprov::ProvenanceGraph& graph) const {
 		this->dump<fprov::Entity, fprov::Activity>(*it);
 	}
 
-	pair<fprov::EdgeIterator<fprov::Entity, fprov::Agent>, fprov::EdgeIterator<fprov::Entity, fprov::Agent>> provWasAttributedTo = graph.getProvWasAttributedToIterators();
-	for (auto it = provWasAttributedTo.first; it != provWasAttributedTo.second; ++it) {
-		this->dump<fprov::Entity, fprov::Agent>(*it);
+	for (unsigned activityId = 0; activityId < graph.getNumberOfActivities(); ++activityId) {
+		fprov::Activity activity(activityId, graph.getDomain());
+		this->dump<fprov::Activity, fprov::Agent>(activity, fprov::PROVO::wasAssociatedWith ,graph.getAgentsForActivity(activity));
+	}
+
+	unsigned firstSource = graph.getFirstSourceId();
+	for (unsigned sourceEntityId = firstSource; sourceEntityId < firstSource + graph.getNumberOfSourceEntities(); ++sourceEntityId) {
+		fprov::Entity entity(sourceEntityId, graph.getDomain());
+		this->dump<fprov::Entity, fprov::Agent>(entity, fprov::PROVO::wasAttributedTo, graph.getAgentsForSource(entity));
 	}
 }
 

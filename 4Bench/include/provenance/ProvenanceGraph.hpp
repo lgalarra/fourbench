@@ -16,14 +16,17 @@
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
 #include "../include/parsing/ParsingStats.hpp"
+#include "../include/utils/string.hpp"
 
 #include "Activity.hpp"
 #include "Agent.hpp"
 #include "Entity.hpp"
 #include "ProvenanceSubgraph.hpp"
+#include "IRIBuilder.hpp"
 
 namespace fc = fourbench::conf;
 namespace fp = fourbench::parsing;
+namespace f = fourbench;
 
 using namespace std;
 
@@ -36,9 +39,10 @@ private:
 	multimap<unsigned, unsigned>* matrix;
 	multimap<unsigned, unsigned>::const_iterator backIterator;
 	string property;
+	string domain;
 
-	EdgeIterator(multimap<unsigned, unsigned>* matrix, const string& property);
-	EdgeIterator(multimap<unsigned, unsigned>* matrix, const string& property,
+	EdgeIterator(multimap<unsigned, unsigned>* matrix, const string& domain, const string& property);
+	EdgeIterator(multimap<unsigned, unsigned>* matrix, const string& domain, const string& property,
 			multimap<unsigned, unsigned>::const_iterator it);
 
 public:
@@ -58,6 +62,9 @@ private:
 
 	// Provenance graph name
 	string name;
+
+	// Pointer to an IRI builder
+	shared_ptr<IRIBuilder> iriBuilder;
 
 	// Number of distinct subjects described by the provenance graph
 	unsigned nSubjects;
@@ -85,6 +92,12 @@ private:
 
 	// Total number of agents
 	unsigned nAgents;
+
+	// Maximum number of agents assigned to each activity
+	unsigned maxNAgentsPerActivity;
+
+	// Maximum number of agents assigned to each source entity
+	unsigned maxNAgentsPerSource;
 
 	// Number of levels
 	unsigned maxLevel;
@@ -168,6 +181,10 @@ public:
 
 	static string getDefaultProvenanceGraphIRI();
 
+	string getName() const;
+
+	string getDomain() const;
+
 	unsigned getNumberOfSourceEntities() const;
 
 	unsigned getNumberOfLeafEntities() const;
@@ -207,6 +224,10 @@ public:
 	int getRandomActivityInLevel(unsigned level) const;
 
 	int getFirstActivityInLevel(unsigned level) const;
+
+	vector<shared_ptr<Agent>> getAgentsForActivity(const Activity&) const;
+
+	vector<shared_ptr<Agent>> getAgentsForSource(const Entity&) const;
 
 	pair<EdgeIterator<Activity, Entity>, EdgeIterator<Activity, Entity>> getProvUsedIterators();
 

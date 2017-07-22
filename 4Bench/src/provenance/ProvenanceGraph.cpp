@@ -5,12 +5,14 @@
  *      Author: galarraga
  */
 
+#include <stdlib.h>
 #include <math.h>
 #include <ostream>
 #include <iostream>
 #include <map>
 #include <tuple>
 #include <iterator>
+#include <memory>
 
 #include "../include/utils/integer.hpp"
 #include "../include/utils/string.hpp"
@@ -22,6 +24,7 @@
 #include "../include/provenance/PROVO.hpp"
 #include "../include/provenance/Activity.hpp"
 #include "../include/provenance/Entity.hpp"
+#include "../include/provenance/Agent.hpp"
 
 namespace fc = fourbench::conf;
 namespace fp = fourbench::parsing;
@@ -32,14 +35,14 @@ namespace provenance {
 
 template <class Domain, class Range>
 EdgeIterator<Domain, Range>::EdgeIterator(multimap<unsigned, unsigned>* matrix,
-		const string& property): matrix(matrix), backIterator(matrix->cbegin()),
-				property(property) {
+		const string& domain, const string& property): matrix(matrix), domain(domain),
+		backIterator(matrix->cbegin()), property(property) {
 }
 
 template <class Domain, class Range>
 EdgeIterator<Domain, Range>::EdgeIterator(multimap<unsigned, unsigned>* matrix,
-		const string& property, multimap<unsigned, unsigned>::const_iterator it) : matrix(matrix),
-				backIterator(it), property(property) {
+		const string& domain, const string& property, multimap<unsigned, unsigned>::const_iterator it) : matrix(matrix),
+		domain(domain), backIterator(it), property(property) {
 }
 
 template <class Domain, class Range>
@@ -48,13 +51,14 @@ EdgeIterator<Domain, Range>::~EdgeIterator() {
 }
 
 template <class Domain, class Range>
-EdgeIterator<Domain, Range>::EdgeIterator(const EdgeIterator& o) : matrix(o.matrix),
+EdgeIterator<Domain, Range>::EdgeIterator(const EdgeIterator& o) : matrix(o.matrix), domain(o.domain),
 		backIterator(o.backIterator), property(o.property) {
 }
 
 template <class Domain, class Range>
 EdgeIterator<Domain, Range>& EdgeIterator<Domain, Range>::operator=(const EdgeIterator& o) {
 	matrix = o.matrix;
+	domain = o.domain;
 	backIterator = o.backIterator;
 	property = o.property;
 	return *this;
@@ -70,12 +74,12 @@ EdgeIterator<Domain, Range>& EdgeIterator<Domain, Range>::operator++() {
 template <class Domain, class Range>
 tuple<shared_ptr<Domain>, string, shared_ptr<Range>> EdgeIterator<Domain, Range>::operator*() {
 	const pair<unsigned, unsigned>& pair = *backIterator;
-	return make_tuple(make_shared<Domain>(pair.first), property, make_shared<Range>(pair.second));
+	return make_tuple(make_shared<Domain>(pair.first, domain), property, make_shared<Range>(pair.second, domain));
 }
 
 template <class Domain, class Range>
 bool EdgeIterator<Domain, Range>::operator==(const EdgeIterator& o) const {
-	return matrix == o.matrix && backIterator == o.backIterator && property == o.property;
+	return matrix == o.matrix && domain == o.domain && backIterator == o.backIterator && property == o.property;
 }
 
 template <class Domain, class Range>
@@ -85,9 +89,8 @@ bool EdgeIterator<Domain, Range>::operator!=(const EdgeIterator& o) const {
 
 template class EdgeIterator<Activity, Entity>;
 template class EdgeIterator<Entity, Activity>;
-template class EdgeIterator<Entity, Agent>;
 
-string ProvenanceGraph::provenanceGraphDefaultIRI = f::concat({"http:/google.com/", "/graph/"});
+string ProvenanceGraph::provenanceGraphDefaultIRI = f::concat({IRIBuilder::getDefaultDomain(), "/graph/"});
 
 string ProvenanceGraph::getDefaultProvenanceGraphIRI() {
 	return provenanceGraphDefaultIRI;
@@ -97,6 +100,7 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 	name(values.familyName), provUsed(PROVO::used), provWasAttributedTo(PROVO::wasAttributedTo),
 	provWasGeneratedBy(PROVO::wasGeneratedBy), perSubject(values.provenancePerSubject),
 	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents),
+	maxNAgentsPerActivity(values.maxNumberOfAgentsPerActivity), maxNAgentsPerSource(values.maxNumberOfAgentsPerSourceEntity),
 	maxLevel(values.metadataDepth), entities2TriplesDistribution(values.distribution),
 	nSubjects(stats.numberOfSubjects), nTriples(stats.numberOfTriples) {
 
@@ -119,6 +123,8 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 
 	assignActivitiesToLevels();
 	assignEntitiesToLevels();
+
+	iriBuilder = IRIBuilder::getInstance(f::concat({IRIBuilder::getDefaultDomain(), name, "/"}));
 }
 
 ProvenanceGraph::~ProvenanceGraph() {
@@ -224,6 +230,14 @@ void ProvenanceGraph::assignEntitiesToLevels() {
 	}
 }
 
+string ProvenanceGraph::getName() const {
+	return name;
+}
+
+string ProvenanceGraph::getDomain() const {
+	return iriBuilder->getDomain();
+}
+
 unsigned ProvenanceGraph::getNumberOfSourceEntities() const {
 	return nSourceEntities;
 }
@@ -254,7 +268,7 @@ float ProvenanceGraph::getSources2LeavesDensity() const {
 
 void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 	unsigned latestEntity = leafId;
-	for (unsigned level = 1; level <= maxLevel; ++level) {
+	for (unsigned level = 0; level <= maxLevel; ++level) {
 		// This means the target entity is the source
 		if (level == maxLevel) {
 			connectEntities(latestEntity, sourceId, level);
@@ -268,7 +282,9 @@ void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 }
 
 void ProvenanceGraph::connectEntities(unsigned sourceId, unsigned targetId, unsigned targetLevel) {
+
 	int randomActivity = getRandomActivityInLevel(targetLevel);
+	cout << "connectEntities(" << sourceId << ", " << targetId << ", " << targetLevel << ") uses random activity " << randomActivity << endl;
 	if (randomActivity >= 0) {
 		// Add it to the sparse matrix
 		provWasGeneratedBy.addEdge(sourceId, randomActivity);
@@ -362,21 +378,40 @@ unsigned ProvenanceGraph::getDepth() const {
 	return maxLevel;
 }
 
+vector<shared_ptr<Agent>> ProvenanceGraph::getAgentsForActivity(const Activity& activity) const {
+	vector<shared_ptr<Agent>> result;
+	srand(activity.getId()); // I want to guarantee that an activity always gets the same random sequence of agents
+	for (unsigned i = 0; i < maxNAgentsPerActivity; ++i) {
+		result.push_back(make_shared<Agent>(f::urand(0, nAgents), getDomain()));
+	}
+	return result;
+}
+
+vector<shared_ptr<Agent>> ProvenanceGraph::getAgentsForSource(const Entity& sourceEntity) const {
+	vector<shared_ptr<Agent>> result;
+	srand(sourceEntity.getId());
+	for (unsigned i = 0; i < maxNAgentsPerSource; ++i) {
+		result.push_back(make_shared<Agent>(f::urand(0, nAgents), getDomain()));
+	}
+
+	return result;
+}
+
 pair<EdgeIterator<Activity, Entity>, EdgeIterator<Activity, Entity>> ProvenanceGraph::getProvUsedIterators() {
-	EdgeIterator<Activity, Entity> begin(&provUsed.matrix, "prov:used");
-	EdgeIterator<Activity, Entity> end(&provUsed.matrix, "prov:used", provUsed.matrix.cend());
+	EdgeIterator<Activity, Entity> begin(&provUsed.matrix, getDomain(), PROVO::used);
+	EdgeIterator<Activity, Entity> end(&provUsed.matrix, getDomain(), PROVO::used, provUsed.matrix.cend());
 	return make_pair(begin, end);
 }
 
 pair<EdgeIterator<Entity, Activity>, EdgeIterator<Entity, Activity>> ProvenanceGraph::getProvWasGeneratedByIterators() {
-	EdgeIterator<Entity, Activity> begin(&provWasGeneratedBy.matrix, PROVO::wasGeneratedBy);
-	EdgeIterator<Entity, Activity> end(&provWasGeneratedBy.matrix, PROVO::wasGeneratedBy, provWasGeneratedBy.matrix.cend());
+	EdgeIterator<Entity, Activity> begin(&provWasGeneratedBy.matrix, getDomain(), PROVO::wasGeneratedBy);
+	EdgeIterator<Entity, Activity> end(&provWasGeneratedBy.matrix, getDomain(), PROVO::wasGeneratedBy, provWasGeneratedBy.matrix.cend());
 	return make_pair(begin, end);
 }
 
 pair<EdgeIterator<Entity, Agent>, EdgeIterator<Entity, Agent>> ProvenanceGraph::getProvWasAttributedToIterators() {
-	EdgeIterator<Entity, Agent> begin(&provWasAttributedTo.matrix, PROVO::wasAttributedTo);
-	EdgeIterator<Entity, Agent> end(&provWasAttributedTo.matrix, PROVO::wasAttributedTo, provWasAttributedTo.matrix.cend());
+	EdgeIterator<Entity, Agent> begin(&provWasAttributedTo.matrix, getDomain(), PROVO::wasAttributedTo);
+	EdgeIterator<Entity, Agent> end(&provWasAttributedTo.matrix, getDomain(), PROVO::wasAttributedTo, provWasAttributedTo.matrix.cend());
 	return make_pair(begin, end);
 }
 

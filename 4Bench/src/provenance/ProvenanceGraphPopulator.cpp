@@ -33,8 +33,6 @@ void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 		map<string, shared_ptr<ProvenanceGraph>>& graphs) {
 	// Construct a map of provenance assignments
 	map<string, shared_ptr<ProvenanceAssignment>> assignments;
-	// IRIBuilders
-	map<string, shared_ptr<IRIBuilder>> iriBuilders;
 
 	ProvenanceAssignmentFactory& assignFactory =
 			ProvenanceAssignmentFactory::getInstance();
@@ -44,8 +42,6 @@ void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 	for (auto itr = graphs.begin(); itr != graphs.end(); ++itr) {
 		cout << "Assignment for " << itr->first << endl;
 		assignments[itr->first] = assignFactory.getProvenanceAssignment(itr->second);
-		iriBuilders[itr->first] = IRIBuilder::getInstance(
-				f::concat({IRIBuilder::getDefaultDomain(), itr->first, "/"}));
 	}
 
 	fpa::Triple *triple = parser.next();
@@ -57,8 +53,8 @@ void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 		} else {
 			// Generate a provenance identifier
 			cout << "======================" << endl;
-			shared_ptr<IRIBuilder> iriBuilder = iriBuilders[family];
-			Entity provenanceEntity(assignItr->second->nextProvenanceId(), iriBuilder->getDomain());
+			shared_ptr<ProvenanceGraph> graphPtr = assignItr->second->getGraph();
+			Entity provenanceEntity(assignItr->second->nextProvenanceId(), graphPtr->getDomain());
 			output->dump(*triple, provenanceEntity);
 			cout << *triple << ", " << provenanceEntity.getIRI() << endl;
 			cout << "======================" << endl;

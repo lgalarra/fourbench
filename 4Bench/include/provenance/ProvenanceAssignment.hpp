@@ -24,6 +24,7 @@ protected:
 public:
 	virtual ~ProvenanceAssignment();
 	virtual unsigned nextProvenanceId() = 0;
+	shared_ptr<ProvenanceGraph> getGraph() const;
 };
 
 } /* namespace provenance */

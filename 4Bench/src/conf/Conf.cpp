@@ -52,8 +52,8 @@ namespace conf {
 			metadataDepth(Conf::DefaultDepth), distribution(UNIFORM),
 			sourcesDefinition(MANUAL), numberOfAgents(Conf::DefaultNumberOfAgents),
 			activitiesDensity(Conf::DefaultActivitiesDensity), triplesEntitiesDensity(Conf::DefaultTriplesEntitiesDensity),
-			activitiesEntitiesDensity(Conf::DefaultActivitiesEntitiesDensity), agentsEntitiesDensity(Conf::DefaultAgentsEntitiesDensity),
-			provenancePerSubject(false) { }
+			activitiesEntitiesDensity(Conf::DefaultActivitiesEntitiesDensity), maxNumberOfAgentsPerSourceEntity(Conf::DefaultMaxNumberOfAgentsPerSourceEntity),
+			provenancePerSubject(false), maxNumberOfAgentsPerActivity(Conf::DefaultMaxNumberOfAgentsPerActivity) { }
 
 	bool ConfValues::parseField(const string& fieldName, const string& value) {
 		if (fieldName == "numberOfSources") {
@@ -85,8 +85,10 @@ namespace conf {
 			activitiesDensity = stof(value);
 		} else if (fieldName == "activitiesEntitiesDensity") {
 			activitiesEntitiesDensity = stof(value);
-		} else if (fieldName == "agentsEntitiesDensity") {
-			agentsEntitiesDensity = stof(value);
+		} else if (fieldName == "maxNumberOfAgentsPerSourceEntity") {
+			maxNumberOfAgentsPerSourceEntity = stoul(value);
+		} else if (fieldName == "maxNumberOfAgentsPerActivity") {
+			maxNumberOfAgentsPerActivity = stoul(value);
 		} else if (fieldName == "properties") {
 			vector<string> inputProperties = split(value, ",");
 			for_each(inputProperties.begin(), inputProperties.end(), fourbench::trim);
@@ -138,6 +140,10 @@ namespace conf {
 
 	ConfValues& Conf::getDefault() {
 		return *(confs["default"]);
+	}
+
+	ConfValues& Conf::get(const string& family) {
+		return *(confs[family]);
 	}
 
 	bool Conf::parseFromFile(const string& filename) throw() {
@@ -240,7 +246,8 @@ namespace conf {
 		strm << "triplesEntitiesDensity: " << a.triplesEntitiesDensity << ", ";
 		strm << "activitiesDensity: " << a.activitiesDensity << ", ";
 		strm << "activitiesEntitiesDensity: " << a.activitiesEntitiesDensity << ", ";
-		strm << "agentsEntitiesDensity: " << a.agentsEntitiesDensity << ", ";
+		strm << "maxNumberOfAgentsPerActivity: " << a.maxNumberOfAgentsPerActivity << ", ";
+ 		strm << "maxNumberOfAgentsPerSourceEntity: " << a.maxNumberOfAgentsPerSourceEntity << ", ";
 		strm << "provenancePerSubject: " << a.provenancePerSubject << ", ";
 		if (a.properties.empty()) {
 			strm << "properties: *";

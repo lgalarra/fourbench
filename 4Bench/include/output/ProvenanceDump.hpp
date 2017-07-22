@@ -9,6 +9,7 @@
 #define OUTPUT_PROVENANCEDUMP_HPP_
 
 #include <ostream>
+#include <vector>
 
 #include "../include/parsing/Triple.hpp"
 #include "../include/provenance/Entity.hpp"
@@ -34,6 +35,7 @@ public:
 	virtual void dump(fprov::ProvenanceGraph& graph) const = 0;
 	void flush();
 	virtual ~ProvenanceDump();
+
 	friend class ProvenanceDumpFactory;
 };
 

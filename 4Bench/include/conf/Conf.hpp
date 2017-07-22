@@ -38,7 +38,8 @@ struct ConfValues {
 	float triplesEntitiesDensity;
 	float activitiesDensity;
 	float activitiesEntitiesDensity;
-	float agentsEntitiesDensity;
+	unsigned maxNumberOfAgentsPerActivity;
+	unsigned maxNumberOfAgentsPerSourceEntity;
 	bool provenancePerSubject;
 	string familyName;
 	set<string> properties;
@@ -74,7 +75,8 @@ public:
 	static constexpr float DefaultTriplesEntitiesDensity = 0.5f;
 	static constexpr float DefaultActivitiesDensity = 0.5f;
 	static constexpr float DefaultActivitiesEntitiesDensity = 0.5f;
-	static constexpr float DefaultAgentsEntitiesDensity = 0.5f;
+	static const unsigned DefaultMaxNumberOfAgentsPerSourceEntity = 1;
+	static const unsigned DefaultMaxNumberOfAgentsPerActivity = 1;
 	static const unsigned AUTO = 0;
 
 	map<string, ConfValues*> confs;
@@ -83,6 +85,7 @@ public:
 	bool parseFromFile(const string& filename) throw();
 	bool parseFromOptions(const po::variables_map& vm);
 	ConfValues& getDefault();
+	ConfValues& get(const string& family);
 	string getFamily(const string& property);
 	virtual ~Conf();
 
