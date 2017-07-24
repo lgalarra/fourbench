@@ -18,6 +18,8 @@ namespace fourbench {
 namespace provenance {
 
 class Activity : public ProvenanceObject {
+protected:
+	void initialize() const;
 public:
 	Activity(unsigned id);
 	Activity(unsigned id, const string& domain);

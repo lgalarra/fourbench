@@ -11,8 +11,13 @@
 
 #include <string>
 #include <ostream>
+#include <map>
+
+#include "../include/datatypes/DataType.hpp"
 
 using namespace std;
+
+namespace fd = fourbench::datatypes;
 
 namespace fourbench {
 namespace provenance {
@@ -21,9 +26,10 @@ class ProvenanceObject {
 protected:
 	unsigned id;
 	string domain;
+	map<string, fd::DataValue> attributes;
+	virtual void initialize() const = 0;
 
 public:
-
 	ProvenanceObject(unsigned id);
 	ProvenanceObject(unsigned id, const string& domain);
 	virtual ~ProvenanceObject();
