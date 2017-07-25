@@ -18,6 +18,9 @@ const string PROVO::wasAttributedTo = f::concat({PROVO::prefix, "wasAttributedTo
 const string PROVO::wasAssociatedWith = f::concat({PROVO::prefix, "wasAssociatedWith"});
 const string PROVO::used = f::concat({PROVO::prefix, "used"});
 const string PROVO::wasGeneratedBy = f::concat({PROVO::prefix, "wasGeneratedBy"});
+const string PROVO::Activity = f::concat({PROVO::prefix, "Activity"});
+const string PROVO::Agent = f::concat({PROVO::prefix, "Agent"});
+const string PROVO::Entity = f::concat({PROVO::prefix, "Entity"});
 
 PROVO::PROVO() {}
 

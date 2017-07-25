@@ -109,7 +109,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	utils/4Bench-string.$(OBJEXT) conf/4Bench-Conf.$(OBJEXT) \
-	utils/4Bench-integer.$(OBJEXT) \
+	utils/4Bench-integer.$(OBJEXT) utils/4Bench-float.$(OBJEXT) \
 	parsing/4Bench-FileParser.$(OBJEXT) \
 	parsing/4Bench-FileParserFactory.$(OBJEXT) \
 	parsing/4Bench-Triple.$(OBJEXT) \
@@ -130,7 +130,10 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	provenance/4Bench-PROVO.$(OBJEXT) \
 	output/4Bench-ProvenanceDump.$(OBJEXT) \
 	output/4Bench-ProvenanceDumpFactory.$(OBJEXT) \
-	output/4Bench-QuadTSVProvenanceDump.$(OBJEXT)
+	output/4Bench-QuadTSVProvenanceDump.$(OBJEXT) \
+	datatypes/4Bench-DataType.$(OBJEXT) \
+	datatypes/4Bench-DataValue.$(OBJEXT) \
+	datatypes/4Bench-DataValueBuilder.$(OBJEXT)
 4Bench_OBJECTS = $(am_4Bench_OBJECTS)
 am__DEPENDENCIES_1 =
 4Bench_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -301,12 +304,13 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-4Bench_SOURCES = 4Bench.cpp utils/string.cpp conf/Conf.cpp  utils/integer.cpp \
+4Bench_SOURCES = 4Bench.cpp utils/string.cpp conf/Conf.cpp  utils/integer.cpp utils/float.cpp \
  parsing/FileParser.cpp parsing/FileParserFactory.cpp parsing/Triple.cpp parsing/TSVFileParser.cpp parsing/ParsingStats.cpp \
  provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp \
  provenance/ProvenanceAssignment.cpp  provenance/ProvenanceAssignmentFactory.cpp provenance/UniformProvenanceAssignment.cpp \
  provenance/IRIBuilder.cpp provenance/ProvenanceObject.cpp provenance/Activity.cpp provenance/Entity.cpp provenance/Agent.cpp provenance/PROVO.cpp \
- output/ProvenanceDump.cpp output/ProvenanceDumpFactory.cpp output/QuadTSVProvenanceDump.cpp
+ output/ProvenanceDump.cpp output/ProvenanceDumpFactory.cpp output/QuadTSVProvenanceDump.cpp \
+ datatypes/DataType.cpp datatypes/DataValue.cpp datatypes/DataValueBuilder.cpp
 
 4Bench_CPPFLAGS = -I$(top_srcdir)/include
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
@@ -405,6 +409,8 @@ conf/4Bench-Conf.$(OBJEXT): conf/$(am__dirstamp) \
 	conf/$(DEPDIR)/$(am__dirstamp)
 utils/4Bench-integer.$(OBJEXT): utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
+utils/4Bench-float.$(OBJEXT): utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
 parsing/$(am__dirstamp):
 	@$(MKDIR_P) parsing
 	@: > parsing/$(am__dirstamp)
@@ -473,6 +479,18 @@ output/4Bench-ProvenanceDumpFactory.$(OBJEXT): output/$(am__dirstamp) \
 	output/$(DEPDIR)/$(am__dirstamp)
 output/4Bench-QuadTSVProvenanceDump.$(OBJEXT): output/$(am__dirstamp) \
 	output/$(DEPDIR)/$(am__dirstamp)
+datatypes/$(am__dirstamp):
+	@$(MKDIR_P) datatypes
+	@: > datatypes/$(am__dirstamp)
+datatypes/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) datatypes/$(DEPDIR)
+	@: > datatypes/$(DEPDIR)/$(am__dirstamp)
+datatypes/4Bench-DataType.$(OBJEXT): datatypes/$(am__dirstamp) \
+	datatypes/$(DEPDIR)/$(am__dirstamp)
+datatypes/4Bench-DataValue.$(OBJEXT): datatypes/$(am__dirstamp) \
+	datatypes/$(DEPDIR)/$(am__dirstamp)
+datatypes/4Bench-DataValueBuilder.$(OBJEXT):  \
+	datatypes/$(am__dirstamp) datatypes/$(DEPDIR)/$(am__dirstamp)
 
 4Bench$(EXEEXT): $(4Bench_OBJECTS) $(4Bench_DEPENDENCIES) $(EXTRA_4Bench_DEPENDENCIES) 
 	@rm -f 4Bench$(EXEEXT)
@@ -481,6 +499,7 @@ output/4Bench-QuadTSVProvenanceDump.$(OBJEXT): output/$(am__dirstamp) \
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f conf/*.$(OBJEXT)
+	-rm -f datatypes/*.$(OBJEXT)
 	-rm -f output/*.$(OBJEXT)
 	-rm -f parsing/*.$(OBJEXT)
 	-rm -f provenance/*.$(OBJEXT)
@@ -491,6 +510,9 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/4Bench-4Bench.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@conf/$(DEPDIR)/4Bench-Conf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@datatypes/$(DEPDIR)/4Bench-DataType.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@datatypes/$(DEPDIR)/4Bench-DataValue.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@output/$(DEPDIR)/4Bench-ProvenanceDump.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@output/$(DEPDIR)/4Bench-ProvenanceDumpFactory.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@output/$(DEPDIR)/4Bench-QuadTSVProvenanceDump.Po@am__quote@
@@ -512,6 +534,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceObject.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceSubgraph.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-UniformProvenanceAssignment.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-float.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-integer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-string.Po@am__quote@
 
@@ -586,6 +609,20 @@ utils/4Bench-integer.obj: utils/integer.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/integer.cpp' object='utils/4Bench-integer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-integer.obj `if test -f 'utils/integer.cpp'; then $(CYGPATH_W) 'utils/integer.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/integer.cpp'; fi`
+
+utils/4Bench-float.o: utils/float.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utils/4Bench-float.o -MD -MP -MF utils/$(DEPDIR)/4Bench-float.Tpo -c -o utils/4Bench-float.o `test -f 'utils/float.cpp' || echo '$(srcdir)/'`utils/float.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/4Bench-float.Tpo utils/$(DEPDIR)/4Bench-float.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/float.cpp' object='utils/4Bench-float.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-float.o `test -f 'utils/float.cpp' || echo '$(srcdir)/'`utils/float.cpp
+
+utils/4Bench-float.obj: utils/float.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utils/4Bench-float.obj -MD -MP -MF utils/$(DEPDIR)/4Bench-float.Tpo -c -o utils/4Bench-float.obj `if test -f 'utils/float.cpp'; then $(CYGPATH_W) 'utils/float.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/float.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/4Bench-float.Tpo utils/$(DEPDIR)/4Bench-float.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/float.cpp' object='utils/4Bench-float.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-float.obj `if test -f 'utils/float.cpp'; then $(CYGPATH_W) 'utils/float.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/float.cpp'; fi`
 
 parsing/4Bench-FileParser.o: parsing/FileParser.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-FileParser.o -MD -MP -MF parsing/$(DEPDIR)/4Bench-FileParser.Tpo -c -o parsing/4Bench-FileParser.o `test -f 'parsing/FileParser.cpp' || echo '$(srcdir)/'`parsing/FileParser.cpp
@@ -881,6 +918,48 @@ output/4Bench-QuadTSVProvenanceDump.obj: output/QuadTSVProvenanceDump.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o output/4Bench-QuadTSVProvenanceDump.obj `if test -f 'output/QuadTSVProvenanceDump.cpp'; then $(CYGPATH_W) 'output/QuadTSVProvenanceDump.cpp'; else $(CYGPATH_W) '$(srcdir)/output/QuadTSVProvenanceDump.cpp'; fi`
 
+datatypes/4Bench-DataType.o: datatypes/DataType.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataType.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataType.Tpo -c -o datatypes/4Bench-DataType.o `test -f 'datatypes/DataType.cpp' || echo '$(srcdir)/'`datatypes/DataType.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataType.Tpo datatypes/$(DEPDIR)/4Bench-DataType.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataType.cpp' object='datatypes/4Bench-DataType.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataType.o `test -f 'datatypes/DataType.cpp' || echo '$(srcdir)/'`datatypes/DataType.cpp
+
+datatypes/4Bench-DataType.obj: datatypes/DataType.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataType.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataType.Tpo -c -o datatypes/4Bench-DataType.obj `if test -f 'datatypes/DataType.cpp'; then $(CYGPATH_W) 'datatypes/DataType.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataType.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataType.Tpo datatypes/$(DEPDIR)/4Bench-DataType.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataType.cpp' object='datatypes/4Bench-DataType.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataType.obj `if test -f 'datatypes/DataType.cpp'; then $(CYGPATH_W) 'datatypes/DataType.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataType.cpp'; fi`
+
+datatypes/4Bench-DataValue.o: datatypes/DataValue.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValue.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValue.Tpo -c -o datatypes/4Bench-DataValue.o `test -f 'datatypes/DataValue.cpp' || echo '$(srcdir)/'`datatypes/DataValue.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValue.Tpo datatypes/$(DEPDIR)/4Bench-DataValue.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValue.cpp' object='datatypes/4Bench-DataValue.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValue.o `test -f 'datatypes/DataValue.cpp' || echo '$(srcdir)/'`datatypes/DataValue.cpp
+
+datatypes/4Bench-DataValue.obj: datatypes/DataValue.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValue.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValue.Tpo -c -o datatypes/4Bench-DataValue.obj `if test -f 'datatypes/DataValue.cpp'; then $(CYGPATH_W) 'datatypes/DataValue.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValue.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValue.Tpo datatypes/$(DEPDIR)/4Bench-DataValue.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValue.cpp' object='datatypes/4Bench-DataValue.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValue.obj `if test -f 'datatypes/DataValue.cpp'; then $(CYGPATH_W) 'datatypes/DataValue.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValue.cpp'; fi`
+
+datatypes/4Bench-DataValueBuilder.o: datatypes/DataValueBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValueBuilder.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo -c -o datatypes/4Bench-DataValueBuilder.o `test -f 'datatypes/DataValueBuilder.cpp' || echo '$(srcdir)/'`datatypes/DataValueBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValueBuilder.cpp' object='datatypes/4Bench-DataValueBuilder.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValueBuilder.o `test -f 'datatypes/DataValueBuilder.cpp' || echo '$(srcdir)/'`datatypes/DataValueBuilder.cpp
+
+datatypes/4Bench-DataValueBuilder.obj: datatypes/DataValueBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValueBuilder.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo -c -o datatypes/4Bench-DataValueBuilder.obj `if test -f 'datatypes/DataValueBuilder.cpp'; then $(CYGPATH_W) 'datatypes/DataValueBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValueBuilder.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValueBuilder.cpp' object='datatypes/4Bench-DataValueBuilder.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValueBuilder.obj `if test -f 'datatypes/DataValueBuilder.cpp'; then $(CYGPATH_W) 'datatypes/DataValueBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValueBuilder.cpp'; fi`
+
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
 tags: tags-am
@@ -998,6 +1077,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f conf/$(DEPDIR)/$(am__dirstamp)
 	-rm -f conf/$(am__dirstamp)
+	-rm -f datatypes/$(DEPDIR)/$(am__dirstamp)
+	-rm -f datatypes/$(am__dirstamp)
 	-rm -f output/$(DEPDIR)/$(am__dirstamp)
 	-rm -f output/$(am__dirstamp)
 	-rm -f parsing/$(DEPDIR)/$(am__dirstamp)
@@ -1015,7 +1096,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) output/$(DEPDIR) parsing/$(DEPDIR) provenance/$(DEPDIR) utils/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) datatypes/$(DEPDIR) output/$(DEPDIR) parsing/$(DEPDIR) provenance/$(DEPDIR) utils/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -1061,7 +1142,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) output/$(DEPDIR) parsing/$(DEPDIR) provenance/$(DEPDIR) utils/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) conf/$(DEPDIR) datatypes/$(DEPDIR) output/$(DEPDIR) parsing/$(DEPDIR) provenance/$(DEPDIR) utils/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

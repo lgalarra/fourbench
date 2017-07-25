@@ -10,6 +10,8 @@
 
 #include <string>
 #include <memory>
+#include <string>
+#include <set>
 
 #include "DataValue.hpp"
 
@@ -21,7 +23,7 @@ namespace datatypes {
 class DataType {
 protected:
 	string typeName;
-	DataType();
+	DataType(const string& name);
 public:
 	string getName() const;
 	virtual shared_ptr<DataValue> getRandomValue() const = 0;
@@ -49,6 +51,7 @@ public:
 	virtual ~RatioType();
 };
 
+
 class DateType : public DataType {
 public:
 	DateType();
@@ -56,14 +59,35 @@ public:
 	virtual ~DateType();
 };
 
-class StringType : public DataType {
-public:
+class EnumeratedDomain {
+protected :
+	set<string> values;
+	EnumeratedDomain(const string& filename);
+	string getRandomValue() const;
+public :
+	virtual ~EnumeratedDomain();
+};
+
+class StringType : public DataType, public EnumeratedDomain {
+private:
+	static StringType instance;
 	StringType();
+public:
+	static StringType& getInstance();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~StringType();
 };
 
-class CountryType : public DataType {
+class IRIType : public DataType {
+public:
+	IRIType();
+	IRIType(const string& type);
+	shared_ptr<DataValue> getRandomValue() const;
+	virtual ~IRIType();
+
+};
+
+class CountryType : public IRIType, public EnumeratedDomain {
 public:
 	CountryType();
 	shared_ptr<DataValue> getRandomValue() const;

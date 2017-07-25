@@ -8,7 +8,12 @@
 #ifndef PROVENANCE_IRITYPE_HPP_
 #define PROVENANCE_IRITYPE_HPP_
 
+namespace fourbench {
+namespace provenance {
+
 typedef enum IRIType { ENTITY, ACTIVITY, AGENT } IRIType;
 
+}
+}
 
 #endif /* IRITYPE_HPP_ */

@@ -19,17 +19,22 @@ enum AgentTypeEnum {PERSON, ORGANIZATION, SOFTWARE_AGENT};
 enum EntityTypeEnum{FILE, DATABASE, DATA_MAPPING, WEB_SERVICE};
 enum ActivityTypeEnum{EXTRACTION, JOIN, AGGREGATION};
 
+typedef struct Date {
+public:
+	int day;
+	int month;
+	int year;
+
+	Date(int day, int month, int year);
+
+} Date;
+
 class DataValue {
 protected:
 	virtual void* get() const = 0;
-public:
-	template<typename T> T getAs() const {
-		void* content = this->get();
-		T* contentPointer = static_cast<T*>(this->get());
-		return *T;
-	}
-
 	DataValue();
+public:
+	template<typename T> T getAs() const;
 	virtual ~DataValue();
 };
 
@@ -63,19 +68,14 @@ public:
 	virtual ~RatioValue();
 };
 
-typedef struct Date {
-	unsigned day;
-	unsigned month;
-	unsigned year;
-};
 
 class DateValue : public DataValue {
 private:
-	Date dateValue;
+	time_t dateValue;
 protected:
 	void* get() const;
 public:
-	DateValue(const Date& d);
+	DateValue(time_t arg);
 	virtual ~DateValue();
 };
 
@@ -89,7 +89,17 @@ public:
 	virtual ~StringValue();
 };
 
-class CountryValue: public StringValue {
+class IRIValue : public DataValue {
+protected:
+	string iriValue;
+	void* get() const;
+public:
+	IRIValue(const string& s);
+	virtual ~IRIValue();
+
+};
+
+class CountryValue: public IRIValue {
 public:
 	CountryValue(const string& s);
 	virtual ~CountryValue();

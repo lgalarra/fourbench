@@ -5,10 +5,17 @@
  *      Author: galarraga
  */
 
+#include <time.h>
+
 #include "../include/datatypes/DataValue.hpp"
+
 
 namespace fourbench {
 namespace datatypes {
+
+Date::Date(int day, int month, int year) : day(day), month(month), year(year) {
+
+}
 
 DataValue::DataValue() {
 	// TODO Auto-generated constructor stub
@@ -17,6 +24,24 @@ DataValue::DataValue() {
 
 DataValue::~DataValue() {
 	// TODO Auto-generated destructor stub
+}
+
+template<typename T> T DataValue::getAs() const {
+	void* content = this->get();
+	T* contentPointer = static_cast<T*>(content);
+	return *contentPointer;
+}
+
+template Date DataValue::getAs<Date>() const {
+	void* content = this->get();
+	time_t* timeValPoint = static_cast<time_t*>(content);
+	char day[3], month[3], year[5];
+	struct tm *ts = localtime(timeValPoint);
+	strftime(day, sizeof(day), "%d", ts);
+	strftime(month, sizeof(month), "%m", ts);
+	strftime(year, sizeof(year), "%Y", ts);
+	Date d(atoi(day), atoi(month), atoi(year));
+	return d;
 }
 
 IntegerValue::IntegerValue(int n) : DataValue(), intValue(n) {
@@ -51,7 +76,7 @@ void* RatioValue::get() const {
 	return (void*)&floatValue;
 }
 
-DateValue::DateValue(const Date& d) : DataValue(), dateValue(d) {
+DateValue::DateValue(time_t d) : DataValue(), dateValue(d) {
 
 }
 
@@ -75,7 +100,20 @@ void* StringValue::get() const {
 	return (void*)&stringValue;
 }
 
-CountryValue::CountryValue(const string& d) : StringValue(d) {
+
+IRIValue::IRIValue(const string& s) : DataValue(), iriValue(s) {
+
+}
+
+void* IRIValue::get() const {
+	return (void*)iriValue;
+}
+
+IRIValue::~IRIValue() {
+
+}
+
+CountryValue::CountryValue(const string& d) : IRIValue(d) {
 
 }
 

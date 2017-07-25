@@ -19,7 +19,7 @@ namespace provenance {
 
 class Activity : public ProvenanceObject {
 protected:
-	void initialize() const;
+	void initialize();
 public:
 	Activity(unsigned id);
 	Activity(unsigned id, const string& domain);

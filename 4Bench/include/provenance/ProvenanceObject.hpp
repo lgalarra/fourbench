@@ -12,6 +12,7 @@
 #include <string>
 #include <ostream>
 #include <map>
+#include <memory>
 
 #include "../include/datatypes/DataType.hpp"
 
@@ -26,8 +27,8 @@ class ProvenanceObject {
 protected:
 	unsigned id;
 	string domain;
-	map<string, fd::DataValue> attributes;
-	virtual void initialize() const = 0;
+	map<string, shared_ptr<fd::DataValue>> attributes;
+	virtual void initialize();
 
 public:
 	ProvenanceObject(unsigned id);

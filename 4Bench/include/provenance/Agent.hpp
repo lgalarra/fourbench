@@ -14,6 +14,8 @@ namespace fourbench {
 namespace provenance {
 
 class Agent: public ProvenanceObject {
+protected:
+	void initialize();
 public:
 	Agent(unsigned id);
 	Agent(unsigned id, const string& domain);
