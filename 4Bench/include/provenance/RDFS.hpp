@@ -19,6 +19,7 @@ class RDFS {
 private:
 	RDFS();
 public:
+	static const string prefix;
 	static const string label;
 	virtual ~RDFS();
 };

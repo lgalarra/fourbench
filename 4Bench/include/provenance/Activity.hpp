@@ -10,9 +10,12 @@
 
 #include <string>
 
+#include "../include/conf/Conf.hpp"
 #include "ProvenanceObject.hpp"
 
 using namespace std;
+
+namespace fc = fourbench::conf;
 
 namespace fourbench {
 namespace provenance {
@@ -25,6 +28,7 @@ public:
 	Activity(unsigned id, const string& domain);
 	virtual ~Activity();
 	string getIRI() const;
+	void populateWithAttributes(const fc::ConfValues& conf);
 };
 
 } /* namespace provenance */

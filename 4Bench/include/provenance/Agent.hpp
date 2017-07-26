@@ -8,7 +8,10 @@
 #ifndef AGENT_HPP_
 #define AGENT_HPP_
 
-#include <provenance/ProvenanceObject.hpp>
+#include "../include/conf/Conf.hpp"
+#include "ProvenanceObject.hpp"
+
+namespace fc = fourbench::conf;
 
 namespace fourbench {
 namespace provenance {
@@ -21,6 +24,7 @@ public:
 	Agent(unsigned id, const string& domain);
 	virtual ~Agent();
 	string getIRI() const;
+	void populateWithAttributes(const fc::ConfValues& values);
 };
 
 } /* namespace provenance */

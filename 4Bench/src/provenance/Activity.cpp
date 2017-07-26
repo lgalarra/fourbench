@@ -36,7 +36,7 @@ Activity::Activity(unsigned id, const string& domain) : ProvenanceObject(id, dom
 void Activity::initialize() {
 	ProvenanceObject::initialize();
 	fd::DataValueBuilder& dataBuilder = fd::DataValueBuilder::getInstance();
-	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(PROVO::Activity);
+	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(getIRI());
 	attributes[RDFS::label] = dataBuilder.get<fd::StringValue>(f::concat({"Activity ", to_string(id)}));
 }
 
@@ -46,6 +46,10 @@ Activity::~Activity() {
 string Activity::getIRI() const {
 	shared_ptr<IRIBuilder> builder = IRIBuilder::getInstance(domain);
 	return builder->getIRI(IRIType::ACTIVITY, id);
+}
+
+void Activity::populateWithAttributes(const fc::ConfValues& conf) {
+	ProvenanceObject::populateWithAttributes(conf);
 }
 
 } /* namespace provenance */

@@ -5,6 +5,7 @@
  *      Author: galarraga
  */
 
+#include "../include/conf/Conf.hpp"
 #include "../include/datatypes/DataValueBuilder.hpp"
 #include "../include/datatypes/DataValue.hpp"
 #include "../include/provenance/ProvenanceObject.hpp"
@@ -50,6 +51,9 @@ string Entity::getIRI() const {
 	return builderPtr->getIRI(IRIType::ENTITY, id);
 }
 
+void Entity::populateWithAttributes(const fc::ConfValues& conf) {
+
+}
 
 
 } /* namespace provenance */

@@ -20,7 +20,7 @@ DataValueBuilder::~DataValueBuilder() {
 	// TODO Auto-generated destructor stub
 }
 
-static DataValueBuilder& DataValueBuilder::getInstance() {
+DataValueBuilder& DataValueBuilder::getInstance() {
 	return instance;
 }
 

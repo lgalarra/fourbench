@@ -14,11 +14,13 @@
 #include <map>
 #include <memory>
 
+#include "../include/conf/Conf.hpp"
 #include "../include/datatypes/DataType.hpp"
 
 using namespace std;
 
 namespace fd = fourbench::datatypes;
+namespace fc = fourbench::conf;
 
 namespace fourbench {
 namespace provenance {
@@ -40,6 +42,8 @@ public:
 	ostream& operator<<(ostream& ostrm) {
 		return dump(ostrm);
 	}
+
+	virtual void populateWithAttributes(const fc::ConfValues& conf);
 };
 
 

@@ -40,6 +40,10 @@ IntegerType::IntegerType() : DataType("integer") {
 
 }
 
+IntegerType::~IntegerType() {
+
+}
+
 shared_ptr<DataValue> IntegerType::getRandomValue() const {
 	return make_shared<IntegerValue>(rand());
 }
@@ -115,7 +119,7 @@ StringType& StringType::getInstance() {
 }
 
 shared_ptr<DataValue> StringType::getRandomValue() const {
-
+	return make_shared<StringValue>(EnumeratedDomain::getRandomValue());
 }
 
 StringType::~StringType() {
@@ -158,7 +162,7 @@ CountryType::CountryType() : IRIType("country"), EnumeratedDomain("input/domain/
 }
 
 shared_ptr<DataValue> CountryType::getRandomValue() const {
-	return make_shared<CountryValue>(getRandomValue());
+	return make_shared<CountryValue>(EnumeratedDomain::getRandomValue());
 }
 
 CountryType::~CountryType() {

@@ -5,6 +5,7 @@
  *      Author: galarraga
  */
 
+#include "../include/utils/string.hpp"
 #include "../include/provenance/RDFS.hpp"
 
 namespace f = fourbench;
@@ -12,7 +13,7 @@ namespace f = fourbench;
 namespace fourbench {
 namespace provenance {
 
-const string RDFS::prefix = "http://www.w3.org/2000/01/rdf-schema#"
+const string RDFS::prefix = "http://www.w3.org/2000/01/rdf-schema#";
 const string RDFS::label = f::concat({prefix, "label"});
 
 RDFS::RDFS() {}

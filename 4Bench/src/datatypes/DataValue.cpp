@@ -32,7 +32,7 @@ template<typename T> T DataValue::getAs() const {
 	return *contentPointer;
 }
 
-template Date DataValue::getAs<Date>() const {
+template<> Date DataValue::getAs<Date>() const {
 	void* content = this->get();
 	time_t* timeValPoint = static_cast<time_t*>(content);
 	char day[3], month[3], year[5];
@@ -50,6 +50,10 @@ IntegerValue::IntegerValue(int n) : DataValue(), intValue(n) {
 
 void* IntegerValue::get() const {
 	return (void*)&intValue;
+}
+
+IntegerValue::~IntegerValue() {
+
 }
 
 BooleanValue::BooleanValue(bool b) : DataValue(), booleanValue(b) {
@@ -106,7 +110,7 @@ IRIValue::IRIValue(const string& s) : DataValue(), iriValue(s) {
 }
 
 void* IRIValue::get() const {
-	return (void*)iriValue;
+	return (void*)&iriValue;
 }
 
 IRIValue::~IRIValue() {

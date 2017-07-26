@@ -12,6 +12,7 @@
 #include <iterator>
 #include <memory>
 #include <utility>
+#include <set>
 
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
@@ -32,6 +33,38 @@ using namespace std;
 
 namespace fourbench {
 namespace provenance {
+
+template <class Domain>
+class NodeIterator {
+protected:
+	vector<unsigned>* ids;
+	fc::ConfValues* conf;
+	int cursor;
+	IRIBuilder* iriBuilder;
+	NodeIterator(vector<unsigned>* ids, fc::ConfValues* confVal, IRIBuilder *iriBuilder);
+	NodeIterator(vector<unsigned>* ids, fc::ConfValues* confVal, IRIBuilder* iriBuilder, int cursor);
+public:
+	~NodeIterator();
+	NodeIterator(const NodeIterator& o);
+	NodeIterator& operator=(const NodeIterator& o);
+	NodeIterator& operator++();
+	shared_ptr<Domain> operator*();
+	bool operator==(const NodeIterator& o) const;
+	bool operator!=(const NodeIterator& o) const;
+	friend class ProvenanceGraph;
+};
+
+template <class Domain>
+class ImplicitNodeIterator : public NodeIterator<Domain> {
+private:
+	unsigned maxId;
+	ImplicitNodeIterator(unsigned maxId, fc::ConfValues* confVal, IRIBuilder* iriBuilder);
+	ImplicitNodeIterator(unsigned maxId, fc::ConfValues* confVal, IRIBuilder* iriBuilder, int cursor);
+public:
+	shared_ptr<Domain> operator*();
+	~ImplicitNodeIterator();
+	friend class ProvenanceGraph;
+};
 
 template <class Domain, class Range>
 class EdgeIterator {
@@ -234,6 +267,12 @@ public:
 	pair<EdgeIterator<Entity, Activity>, EdgeIterator<Entity, Activity>> getProvWasGeneratedByIterators();
 
 	pair<EdgeIterator<Entity, Agent>, EdgeIterator<Entity, Agent>> getProvWasAttributedToIterators();
+
+	pair<NodeIterator<Agent>, NodeIterator<Agent>> getAgentIterators();
+
+	pair<NodeIterator<Activity>, NodeIterator<Activity>> getActivityIterators();
+
+	pair<NodeIterator<Entity>, NodeIterator<Entity>> getEntityIterators();
 
 public:
 	virtual ~ProvenanceGraph();

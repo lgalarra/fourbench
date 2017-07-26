@@ -8,7 +8,11 @@
 #ifndef PROVENANCE_ENTITY_HPP_
 #define PROVENANCE_ENTITY_HPP_
 
+#include "../include/conf/Conf.hpp"
+
 #include "ProvenanceObject.hpp"
+
+namespace fc = fourbench::conf;
 
 namespace fourbench {
 namespace provenance {
@@ -21,6 +25,7 @@ public:
 	Entity(unsigned id, const string& domain);
 	virtual ~Entity();
 	string getIRI() const;
+	void populateWithAttributes(const fc::ConfValues& conf);
 
 };
 

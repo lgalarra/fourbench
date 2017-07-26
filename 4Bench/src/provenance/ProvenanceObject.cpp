@@ -49,5 +49,9 @@ ostream& ProvenanceObject::dump(ostream& o) const {
 	return o;
 }
 
+void ProvenanceObject::populateWithAttributes(const fc::ConfValues& conf) {
+
+}
+
 } /* namespace provenance */
 } /* namespace fourbench */

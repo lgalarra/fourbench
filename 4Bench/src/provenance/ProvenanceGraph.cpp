@@ -13,6 +13,8 @@
 #include <tuple>
 #include <iterator>
 #include <memory>
+#include <set>
+#include <vector>
 
 #include "../include/utils/integer.hpp"
 #include "../include/utils/string.hpp"
@@ -32,6 +34,94 @@ namespace f = fourbench;
 
 namespace fourbench {
 namespace provenance {
+
+template<class Domain>
+NodeIterator<Domain>::NodeIterator(vector<unsigned>* ids, fc::ConfValues* confVal, IRIBuilder* iriBuilder) :
+	cursor(0), conf(confVal), ids(ids), iriBuilder(iriBuilder) {
+
+}
+
+template<class Domain>
+NodeIterator<Domain>::NodeIterator(vector<unsigned>* ids, fc::ConfValues* confVal, IRIBuilder* iriBuilder, int cursor) :
+	conf(confVal), ids(ids), iriBuilder(iriBuilder), cursor(cursor) {
+
+}
+
+template <class Domain>
+NodeIterator<Domain>::NodeIterator(const NodeIterator& o) :
+	cursor(o.cursor), conf(o.conf), ids(o.ids), iriBuilder(o.iriBuilder) {
+
+}
+
+template <class Domain>
+NodeIterator<Domain>& NodeIterator<Domain>::operator=(const NodeIterator& o) {
+	cursor = o.cursor;
+	conf = o.conf;
+	ids = o.ids;
+	iriBuilder = o.iriBuilder;
+}
+
+template <class Domain>
+NodeIterator<Domain>& NodeIterator<Domain>::operator++() {
+	++cursor;
+	return *this;
+}
+
+template <class Domain>
+shared_ptr<Domain> NodeIterator<Domain>::operator*() {
+	shared_ptr<Domain> objectPtr = make_shared<Domain>(ids->at(cursor), iriBuilder->getDomain());
+	objectPtr->populateWithAttributes(*conf);
+	return objectPtr;
+}
+
+template <class Domain>
+bool NodeIterator<Domain>::operator==(const NodeIterator& o) const {
+	return ids == o.ids && cursor == o.cursor && conf == o.conf && iriBuilder == o.iriBuilder;
+}
+
+template <class Domain>
+bool NodeIterator<Domain>::operator!=(const NodeIterator& o) const {
+	return !(*this == o);
+}
+
+template <class Domain>
+ImplicitNodeIterator<Domain>::ImplicitNodeIterator(unsigned maxId, fc::ConfValues* confVal, IRIBuilder* iriBuilder)
+	: NodeIterator<Domain>(nullptr, confVal, iriBuilder), maxId(maxId) {
+
+}
+
+template <class Domain>
+ImplicitNodeIterator<Domain>::ImplicitNodeIterator(unsigned maxId, fc::ConfValues* confVal, IRIBuilder* iriBuilder, int cursor)
+	: NodeIterator<Domain>(nullptr, confVal, iriBuilder, cursor), maxId(maxId){
+
+}
+
+
+template <class Domain>
+NodeIterator<Domain>::~NodeIterator() {
+
+}
+
+
+template <class Domain>
+ImplicitNodeIterator<Domain>::~ImplicitNodeIterator() {
+
+}
+
+template <class Domain>
+shared_ptr<Domain> ImplicitNodeIterator<Domain>::operator*() {
+	shared_ptr<Domain> objectPtr = make_shared<Domain>(this->cursor, this->iriBuilder->getDomain());
+	objectPtr->populateWithAttributes(*this->conf);
+	return objectPtr;
+}
+
+
+template class NodeIterator<Agent>;
+template class NodeIterator<Entity>;
+template class NodeIterator<Activity>;
+template class ImplicitNodeIterator<Agent>;
+template class ImplicitNodeIterator<Entity>;
+template class ImplicitNodeIterator<Activity>;
 
 template <class Domain, class Range>
 EdgeIterator<Domain, Range>::EdgeIterator(multimap<unsigned, unsigned>* matrix,
@@ -413,6 +503,24 @@ pair<EdgeIterator<Entity, Agent>, EdgeIterator<Entity, Agent>> ProvenanceGraph::
 	EdgeIterator<Entity, Agent> begin(&provWasAttributedTo.matrix, getDomain(), PROVO::wasAttributedTo);
 	EdgeIterator<Entity, Agent> end(&provWasAttributedTo.matrix, getDomain(), PROVO::wasAttributedTo, provWasAttributedTo.matrix.cend());
 	return make_pair(begin, end);
+}
+
+pair<NodeIterator<Agent>, NodeIterator<Agent>> ProvenanceGraph::getAgentIterators() {
+	fc::ConfValues& confVal = fc::Conf::defaultConfig().get(this->name);
+	ImplicitNodeIterator<Agent> begin(this->nAgents, &confVal, this->iriBuilder.get());
+	ImplicitNodeIterator<Agent> end(this->nAgents, &confVal, this->iriBuilder.get(), this->nAgents);
+	return make_pair(begin, end);
+}
+
+pair<NodeIterator<Activity>, NodeIterator<Activity>> ProvenanceGraph::getActivityIterators() {
+	fc::ConfValues& confVal = fc::Conf::defaultConfig().get(this->name);
+	ImplicitNodeIterator<Activity> begin(this->nActivities, &confVal, this->iriBuilder.get());
+	ImplicitNodeIterator<Activity> end(this->nActivities, &confVal, this->iriBuilder.get(), this->nActivities);
+	return make_pair(begin, end);
+}
+
+pair<NodeIterator<Entity>, NodeIterator<Entity>> ProvenanceGraph::getEntityIterators() {
+
 }
 
 
