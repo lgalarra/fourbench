@@ -48,6 +48,9 @@ private:
 		}
 	}
 
+protected:
+	void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const;
+
 public:
 	QuadTSVProvenanceDump(ostream& strm);
 	void dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const;

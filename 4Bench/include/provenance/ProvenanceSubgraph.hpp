@@ -10,6 +10,8 @@
 
 #include <string>
 #include <map>
+#include <memory>
+#include <vector>
 
 using namespace std;
 
@@ -28,6 +30,8 @@ public:
 	string getName() const;
 
 	bool addEdge(unsigned source, unsigned target);
+
+	shared_ptr<vector<unsigned>> getDomain() const;
 
 	virtual ~ProvenanceSubgraph();
 

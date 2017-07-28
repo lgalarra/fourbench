@@ -30,6 +30,14 @@ QuadTSVProvenanceDump::~QuadTSVProvenanceDump() {
 
 }
 
+void QuadTSVProvenanceDump::dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const {
+	this->formatIRI(obj.getIRI());
+	stream << "\t";
+	this->formatIRI(attributeName);
+	stream << "\t";
+	this->format(attributeValue);
+	stream << endl;
+}
 
 void QuadTSVProvenanceDump::dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const {
 	this->formatIRI(triple.getSubject());

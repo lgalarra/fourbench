@@ -31,21 +31,30 @@ public:
 };
 
 class IntegerType : public DataType {
+private:
+	static IntegerType instance;
 public:
+	static IntegerType& getInstance();
 	IntegerType();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~IntegerType();
 };
 
 class BooleanType : public DataType {
+private:
+	static BooleanType instance;
 public:
+	static BooleanType& getInstance();
 	BooleanType();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~BooleanType();
 };
 
 class RatioType : public DataType {
+private:
+	static RatioType instance;
 public:
+	static RatioType& getInstance();
 	RatioType();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~RatioType();
@@ -53,7 +62,10 @@ public:
 
 
 class DateType : public DataType {
+private:
+	static DateType instance;
 public:
+	static DateType& getInstance();
 	DateType();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~DateType();
@@ -79,7 +91,10 @@ public:
 };
 
 class IRIType : public DataType {
+private:
+	static IRIType instance;
 public:
+	static IRIType& getInstance();
 	IRIType();
 	IRIType(const string& type);
 	shared_ptr<DataValue> getRandomValue() const;
@@ -88,28 +103,40 @@ public:
 };
 
 class CountryType : public IRIType, public EnumeratedDomain {
+private:
+	static CountryType instance;
 public:
+	static CountryType& getInstance();
 	CountryType();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~CountryType();
 };
 
 class AgentType : public DataType {
+private:
+	static AgentType instance;
 public:
+	static AgentType& getInstance();
 	AgentType();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~AgentType();
 };
 
 class EntityType : public DataType {
+private:
+	static EntityType instance;
 public:
+	static EntityType& getInstance();
 	EntityType();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~EntityType();
 };
 
 class ActivityType : public DataType {
+private:
+	static ActivityType instance;
 public:
+	static ActivityType& getInstance();
 	ActivityType();
 	shared_ptr<DataValue> getRandomValue() const;
 	virtual ~ActivityType();

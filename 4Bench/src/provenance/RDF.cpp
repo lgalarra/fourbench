@@ -12,14 +12,9 @@ namespace provenance {
 
 const string RDF::type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
 
-RDF::RDF() {
-	// TODO Auto-generated constructor stub
+RDF::RDF() {}
 
-}
-
-RDF::~RDF() {
-	// TODO Auto-generated destructor stub
-}
+RDF::~RDF() {}
 
 } /* namespace provenance */
 } /* namespace fourbench */

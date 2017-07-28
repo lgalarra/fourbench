@@ -27,10 +27,14 @@ namespace f = fourbench;
 namespace fourbench {
 namespace provenance {
 
-Activity::Activity(unsigned id) : ProvenanceObject(id) {
+Activity::Activity(unsigned id) : ProvenanceObject(id, IRIBuilder::getDefaultDomain(), 0) {
 }
 
-Activity::Activity(unsigned id, const string& domain) : ProvenanceObject(id, domain) {
+Activity::Activity(unsigned id, const string& domain) : ProvenanceObject(id, domain, 0) {
+}
+
+Activity::Activity(unsigned id, const string& domain, unsigned maxNumberOfAttributes) : ProvenanceObject(id, domain, maxNumberOfAttributes) {
+
 }
 
 void Activity::initialize() {
@@ -46,10 +50,6 @@ Activity::~Activity() {
 string Activity::getIRI() const {
 	shared_ptr<IRIBuilder> builder = IRIBuilder::getInstance(domain);
 	return builder->getIRI(IRIType::ACTIVITY, id);
-}
-
-void Activity::populateWithAttributes(const fc::ConfValues& conf) {
-	ProvenanceObject::populateWithAttributes(conf);
 }
 
 } /* namespace provenance */

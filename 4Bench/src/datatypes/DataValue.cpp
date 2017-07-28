@@ -8,6 +8,7 @@
 #include <time.h>
 
 #include "../include/datatypes/DataValue.hpp"
+#include "../include/datatypes/DataType.hpp"
 
 
 namespace fourbench {
@@ -17,8 +18,7 @@ Date::Date(int day, int month, int year) : day(day), month(month), year(year) {
 
 }
 
-DataValue::DataValue() {
-	// TODO Auto-generated constructor stub
+DataValue::DataValue(DataType* type) : type(type) {
 
 }
 
@@ -44,7 +44,9 @@ template<> Date DataValue::getAs<Date>() const {
 	return d;
 }
 
-IntegerValue::IntegerValue(int n) : DataValue(), intValue(n) {
+template AgentTypeEnum DataValue::getAs<AgentTypeEnum>() const;
+
+IntegerValue::IntegerValue(int n) : DataValue(&IntegerType::getInstance()), intValue(n) {
 
 }
 
@@ -56,7 +58,7 @@ IntegerValue::~IntegerValue() {
 
 }
 
-BooleanValue::BooleanValue(bool b) : DataValue(), booleanValue(b) {
+BooleanValue::BooleanValue(bool b) : DataValue(&BooleanType::getInstance()), booleanValue(b) {
 
 }
 
@@ -68,7 +70,7 @@ void* BooleanValue::get() const {
 	return (void*)&booleanValue;
 }
 
-RatioValue::RatioValue(float f) : DataValue(), floatValue(f) {
+RatioValue::RatioValue(float f) : DataValue(&RatioType::getInstance()), floatValue(f) {
 
 }
 
@@ -80,7 +82,7 @@ void* RatioValue::get() const {
 	return (void*)&floatValue;
 }
 
-DateValue::DateValue(time_t d) : DataValue(), dateValue(d) {
+DateValue::DateValue(time_t d) : DataValue(&DateType::getInstance()), dateValue(d) {
 
 }
 
@@ -92,7 +94,7 @@ void* DateValue::get() const {
 	return (void*)&dateValue;
 }
 
-StringValue::StringValue(const string& d) : DataValue(), stringValue(d) {
+StringValue::StringValue(const string& d) : DataValue(&StringType::getInstance()), stringValue(d) {
 
 }
 
@@ -105,7 +107,7 @@ void* StringValue::get() const {
 }
 
 
-IRIValue::IRIValue(const string& s) : DataValue(), iriValue(s) {
+IRIValue::IRIValue(const string& s) : DataValue(&IRIType::getInstance()), iriValue(s) {
 
 }
 
@@ -126,7 +128,7 @@ CountryValue::~CountryValue() {
 }
 
 
-AgentTypeValue::AgentTypeValue(AgentTypeEnum arg) : DataValue(), agentType(arg) {
+AgentTypeValue::AgentTypeValue(AgentTypeEnum arg) : DataValue(&AgentType::getInstance()), agentType(arg) {
 
 }
 
@@ -138,7 +140,7 @@ AgentTypeValue::~AgentTypeValue() {
 
 }
 
-EntityTypeValue::EntityTypeValue(EntityTypeEnum arg) : DataValue(), entityType(arg) {
+EntityTypeValue::EntityTypeValue(EntityTypeEnum arg) : DataValue(&EntityType::getInstance()), entityType(arg) {
 
 }
 
@@ -150,7 +152,7 @@ EntityTypeValue::~EntityTypeValue() {
 
 }
 
-ActivityTypeValue::ActivityTypeValue(ActivityTypeEnum arg) : DataValue(), activityType(arg) {
+ActivityTypeValue::ActivityTypeValue(ActivityTypeEnum arg) : DataValue(&ActivityType::getInstance()), activityType(arg) {
 
 }
 

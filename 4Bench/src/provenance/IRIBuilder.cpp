@@ -18,6 +18,7 @@ using namespace std;
 namespace fourbench {
 namespace provenance {
 
+const string IRIBuilder::defaultPrefix = "http://fourbench.org/";
 const string IRIBuilder::defaultDomain = "http://fourbench.org/provenance/";
 map<string, shared_ptr<IRIBuilder>> IRIBuilder::instances;
 
@@ -36,6 +37,10 @@ shared_ptr<IRIBuilder> IRIBuilder::getInstance(const string& prefix) {
 
 string IRIBuilder::getDefaultDomain() {
 	return defaultDomain;
+}
+
+string IRIBuilder::getDefaultPrefix() {
+	return defaultPrefix;
 }
 
 string IRIBuilder::getIRI(IRIType type, unsigned id) const {

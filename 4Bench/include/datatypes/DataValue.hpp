@@ -19,6 +19,8 @@ enum AgentTypeEnum {PERSON, ORGANIZATION, SOFTWARE_AGENT};
 enum EntityTypeEnum{FILE, DATABASE, DATA_MAPPING, WEB_SERVICE};
 enum ActivityTypeEnum{EXTRACTION, JOIN, AGGREGATION};
 
+class DataType;
+
 typedef struct Date {
 public:
 	int day;
@@ -31,10 +33,12 @@ public:
 
 class DataValue {
 protected:
+	DataType* type;
 	virtual void* get() const = 0;
-	DataValue();
+	DataValue(DataType* type);
 public:
 	template<typename T> T getAs() const;
+	DataType& getType() const;
 	virtual ~DataValue();
 };
 

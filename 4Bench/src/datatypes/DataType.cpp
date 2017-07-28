@@ -36,6 +36,12 @@ string DataType::getName() const {
 	return typeName;
 }
 
+IntegerType IntegerType::instance;
+
+IntegerType& IntegerType::getInstance() {
+	return instance;
+}
+
 IntegerType::IntegerType() : DataType("integer") {
 
 }
@@ -47,6 +53,13 @@ IntegerType::~IntegerType() {
 shared_ptr<DataValue> IntegerType::getRandomValue() const {
 	return make_shared<IntegerValue>(rand());
 }
+
+BooleanType BooleanType::instance;
+
+BooleanType& BooleanType::getInstance() {
+	return instance;
+}
+
 
 BooleanType::BooleanType() : DataType("boolean") {
 
@@ -60,6 +73,12 @@ BooleanType::~BooleanType() {
 
 }
 
+RatioType RatioType::instance;
+
+RatioType& RatioType::getInstance() {
+	return instance;
+}
+
 RatioType::RatioType() : DataType("ratio") {
 
 }
@@ -71,6 +90,13 @@ shared_ptr<DataValue> RatioType::getRandomValue() const {
 RatioType::~RatioType() {
 
 }
+
+DateType DateType::instance;
+
+DateType& DateType::getInstance() {
+	return instance;
+}
+
 
 DateType::DateType() : DataType("date") {
 
@@ -126,6 +152,13 @@ StringType::~StringType() {
 
 }
 
+IRIType IRIType::instance;
+
+IRIType& IRIType::getInstance() {
+	return instance;
+}
+
+
 IRIType::IRIType() : DataType("IRI") {
 
 }
@@ -156,6 +189,12 @@ IRIType::~IRIType() {
 
 }
 
+CountryType CountryType::instance;
+
+CountryType& CountryType::getInstance() {
+	return instance;
+}
+
 
 CountryType::CountryType() : IRIType("country"), EnumeratedDomain("input/domain/countries") {
 
@@ -169,6 +208,13 @@ CountryType::~CountryType() {
 
 }
 
+AgentType AgentType::instance;
+
+AgentType& AgentType::getInstance() {
+	return instance;
+}
+
+
 AgentType::AgentType() : DataType("agentType") {
 
 }
@@ -181,6 +227,13 @@ AgentType::~AgentType() {
 
 }
 
+EntityType EntityType::instance;
+
+EntityType& EntityType::getInstance() {
+	return instance;
+}
+
+
 EntityType::EntityType() : DataType("entityType") {
 
 }
@@ -192,6 +245,13 @@ shared_ptr<DataValue> EntityType::getRandomValue() const {
 EntityType::~EntityType() {
 
 }
+
+ActivityType ActivityType::instance;
+
+ActivityType& ActivityType::getInstance() {
+	return instance;
+}
+
 
 ActivityType::ActivityType() : DataType("activityType") {
 

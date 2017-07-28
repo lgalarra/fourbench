@@ -6,8 +6,11 @@
  */
 
 #include <ostream>
+#include <utility>
+#include <map>
 
 #include "../include/utils/string.hpp"
+#include "../include/utils/integer.hpp"
 #include "../include/datatypes/DataValueBuilder.hpp"
 #include "../include/datatypes/DataValue.hpp"
 #include "../include/provenance/ProvenanceObject.hpp"
@@ -22,22 +25,53 @@ namespace fd = fourbench::datatypes;
 namespace fourbench {
 namespace provenance {
 
-ProvenanceObject::ProvenanceObject(unsigned id) : id(id), domain(IRIBuilder::getDefaultDomain()) {
+const map<string, fd::DataType*> ProvenanceObject::attributeTypes = {
+		{fd::IntegerType::getInstance().getName(), &fd::IntegerType::getInstance()},
+		{fd::BooleanType::getInstance().getName(), &fd::BooleanType::getInstance()},
+		{fd::RatioType::getInstance().getName(), &fd::RatioType::getInstance()},
+		{fd::DateType::getInstance().getName(), &fd::DateType::getInstance()},
+		{fd::StringType::getInstance().getName(), &fd::StringType::getInstance()},
+		{fd::IRIType::getInstance().getName(), &fd::IRIType::getInstance()},
+		{fd::CountryType::getInstance().getName(), &fd::CountryType::getInstance()},
+		{fd::AgentType::getInstance().getName(), &fd::AgentType::getInstance()},
+		{fd::ActivityType::getInstance().getName(), &fd::ActivityType::getInstance()},
+		{fd::EntityType::getInstance().getName(), &fd::EntityType::getInstance()}
+};
+
+ProvenanceObject::ProvenanceObject(unsigned id) : id(id), domain(IRIBuilder::getDefaultDomain()), maxNumberOfAttributes(0) {
 	initialize();
 }
 
 ProvenanceObject::ProvenanceObject(unsigned id, const string& domain) :
-	id(id), domain(domain) {
+	id(id), domain(domain), maxNumberOfAttributes(0) {
 	initialize();
 }
+
+ProvenanceObject::ProvenanceObject(unsigned id, const string& domain, unsigned maxNumberOfAttributes) :
+	id(id), domain(domain), maxNumberOfAttributes(maxNumberOfAttributes) {
+	initialize();
+}
+
 
 ProvenanceObject::~ProvenanceObject() {
 	// TODO Auto-generated destructor stub
 }
 
 void ProvenanceObject::initialize() {
+	unsigned attributesLeft = f::urand(1, maxNumberOfAttributes) - 1;
 	fd::DataValueBuilder& dtbuilder = fd::DataValueBuilder::getInstance();
 	attributes[f::concat({domain, "id"})] = dtbuilder.get<fd::IntegerValue>(id);
+	if (attributesLeft > 0) {
+		for (unsigned i = 0; i < attributesLeft; ++i) {
+			map<string, fd::DataType*>::const_iterator it = attributeTypes.begin();
+			advance(it,  i % attributeTypes.size());
+			attributes[f::concat({it->first, "_", to_string(i)})] = it->second->getRandomValue();
+		}
+	}
+}
+
+pair<map<string, shared_ptr<fd::DataValue>>::const_iterator, map<string, shared_ptr<fd::DataValue>>::const_iterator> ProvenanceObject::getAttributeIterators() const {
+	return make_pair<map<string, shared_ptr<fd::DataValue>>::const_iterator, map<string, shared_ptr<fd::DataValue>>::const_iterator>(attributes.cbegin(), attributes.cend());
 }
 
 unsigned ProvenanceObject::getId() const {
@@ -47,10 +81,6 @@ unsigned ProvenanceObject::getId() const {
 ostream& ProvenanceObject::dump(ostream& o) const {
 	o << this->getIRI();
 	return o;
-}
-
-void ProvenanceObject::populateWithAttributes(const fc::ConfValues& conf) {
-
 }
 
 } /* namespace provenance */

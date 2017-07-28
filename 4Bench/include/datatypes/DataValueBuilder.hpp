@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "../include/datatypes/DataValue.hpp"
+#include "../include/datatypes/DataType.hpp"
 
 using namespace std;
 
@@ -31,6 +32,10 @@ public:
 
 	template<class D> shared_ptr<DataValue> get(const string& arg) {
 		return make_shared<D>(arg);
+	}
+
+	template<class TypeClass> shared_ptr<DataValue> getRandomValue() {
+		return TypeClass::getInstance().getRandomValue();
 	}
 
 	virtual ~DataValueBuilder();

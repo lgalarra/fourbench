@@ -13,6 +13,7 @@
 #include <memory>
 #include <utility>
 #include <set>
+#include <vector>
 
 #include "../include/conf/Conf.hpp"
 #include "../include/conf/AssignmentDistribution.hpp"
@@ -34,15 +35,17 @@ using namespace std;
 namespace fourbench {
 namespace provenance {
 
+class ProvenanceGraph;
+
 template <class Domain>
 class NodeIterator {
+private:
+	vector<unsigned>* usedIds;
 protected:
-	vector<unsigned>* ids;
-	fc::ConfValues* conf;
-	int cursor;
-	IRIBuilder* iriBuilder;
-	NodeIterator(vector<unsigned>* ids, fc::ConfValues* confVal, IRIBuilder *iriBuilder);
-	NodeIterator(vector<unsigned>* ids, fc::ConfValues* confVal, IRIBuilder* iriBuilder, int cursor);
+	unsigned cursor;
+	ProvenanceGraph *graph;
+	NodeIterator(ProvenanceGraph *graph, vector<unsigned> *ids);
+	NodeIterator(ProvenanceGraph *graph, vector<unsigned>* ids, int cursor);
 public:
 	~NodeIterator();
 	NodeIterator(const NodeIterator& o);
@@ -58,8 +61,8 @@ template <class Domain>
 class ImplicitNodeIterator : public NodeIterator<Domain> {
 private:
 	unsigned maxId;
-	ImplicitNodeIterator(unsigned maxId, fc::ConfValues* confVal, IRIBuilder* iriBuilder);
-	ImplicitNodeIterator(unsigned maxId, fc::ConfValues* confVal, IRIBuilder* iriBuilder, int cursor);
+	ImplicitNodeIterator(unsigned maxId, ProvenanceGraph *graph);
+	ImplicitNodeIterator(unsigned maxId, ProvenanceGraph *graph, int cursor);
 public:
 	shared_ptr<Domain> operator*();
 	~ImplicitNodeIterator();
@@ -122,6 +125,9 @@ private:
 
 	// Total number of activities
 	unsigned nActivities;
+
+	// Maximal number of attributes for objects of type entity, activity or agent
+	unsigned maxNAttributes;
 
 	// Total number of agents
 	unsigned nAgents;
@@ -228,6 +234,8 @@ public:
 
 	unsigned getNumberOfEntities() const;
 
+	unsigned getNumberOfAgents() const;
+
 	float getSources2LeavesDensity() const;
 
 	fc::AssignmentDistribution getEntitiesToTriplesDistribution() const;
@@ -258,6 +266,12 @@ public:
 
 	int getFirstActivityInLevel(unsigned level) const;
 
+	unsigned getMaxNumberOfAttributes() const;
+
+	EntityLevel getLevelForEntityId(unsigned entityId) const;
+
+	int getLevelValueForEntityId(unsigned entityId) const;
+
 	vector<shared_ptr<Agent>> getAgentsForActivity(const Activity&) const;
 
 	vector<shared_ptr<Agent>> getAgentsForSource(const Entity&) const;
@@ -273,6 +287,8 @@ public:
 	pair<NodeIterator<Activity>, NodeIterator<Activity>> getActivityIterators();
 
 	pair<NodeIterator<Entity>, NodeIterator<Entity>> getEntityIterators();
+
+	shared_ptr<vector<unsigned>> getUsedEntityIds() const;
 
 public:
 	virtual ~ProvenanceGraph();

@@ -22,12 +22,14 @@ namespace provenance {
 class IRIBuilder {
 private:
 	static const string defaultDomain;
+	static const string defaultPrefix;
 	string domain;
 	IRIBuilder(const string& prefix);
 public:
 	static map<string, shared_ptr<IRIBuilder>> instances;
 	static shared_ptr<IRIBuilder> getInstance(const string& prefix);
 	static string getDefaultDomain();
+	static string getDefaultPrefix();
 
 	string getIRI(IRIType type, unsigned id) const;
 	string getDomain() const;

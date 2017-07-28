@@ -8,24 +8,25 @@
 #ifndef PROVENANCE_ENTITY_HPP_
 #define PROVENANCE_ENTITY_HPP_
 
-#include "../include/conf/Conf.hpp"
 
 #include "ProvenanceObject.hpp"
-
-namespace fc = fourbench::conf;
+#include "EntityLevel.hpp"
 
 namespace fourbench {
 namespace provenance {
 
 class Entity : public ProvenanceObject {
+private:
+	EntityLevel level;
 protected:
 	void initialize();
 public:
 	Entity(unsigned id);
 	Entity(unsigned id, const string& domain);
+	Entity(unsigned id, const string& domain, unsigned maxNumberOfProperties);
+	Entity(unsigned id, const string& domain, unsigned maxNumberOfProperties, EntityLevel level);
 	virtual ~Entity();
 	string getIRI() const;
-	void populateWithAttributes(const fc::ConfValues& conf);
 
 };
 

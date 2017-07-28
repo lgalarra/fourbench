@@ -40,6 +40,7 @@ struct ConfValues {
 	float activitiesEntitiesDensity;
 	unsigned maxNumberOfAgentsPerActivity;
 	unsigned maxNumberOfAgentsPerSourceEntity;
+	unsigned maxNumberOfAttributes;
 	bool provenancePerSubject;
 	string familyName;
 	set<string> properties;
@@ -77,6 +78,7 @@ public:
 	static constexpr float DefaultActivitiesEntitiesDensity = 0.5f;
 	static const unsigned DefaultMaxNumberOfAgentsPerSourceEntity = 1;
 	static const unsigned DefaultMaxNumberOfAgentsPerActivity = 1;
+	static const unsigned DefaultMaxNumberOfAttributesForEntities = 5;
 	static const unsigned AUTO = 0;
 
 	map<string, ConfValues*> confs;

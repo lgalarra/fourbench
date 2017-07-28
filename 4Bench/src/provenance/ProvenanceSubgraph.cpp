@@ -6,6 +6,9 @@
  */
 
 #include <algorithm>
+#include <memory>
+#include <vector>
+#include <set>
 
 #include "../include/provenance/ProvenanceSubgraph.hpp"
 
@@ -35,6 +38,15 @@ bool ProvenanceSubgraph::addEdge(unsigned source, unsigned target) {
 
 	matrix.insert(make_pair(source, target));
 	return false;
+}
+
+shared_ptr<vector<unsigned>> ProvenanceSubgraph::getDomain() const {
+	set<unsigned> unique;
+	for (auto it = matrix.begin(); it != matrix.end(); ++it) {
+		unique.insert(it->first);
+	}
+	shared_ptr<vector<unsigned>> result = make_shared<vector<unsigned>>(unique.begin(), unique.end());
+	return result;
 }
 
 

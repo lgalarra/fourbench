@@ -36,29 +36,28 @@ namespace fourbench {
 namespace provenance {
 
 template<class Domain>
-NodeIterator<Domain>::NodeIterator(vector<unsigned>* ids, fc::ConfValues* confVal, IRIBuilder* iriBuilder) :
-	cursor(0), conf(confVal), ids(ids), iriBuilder(iriBuilder) {
+NodeIterator<Domain>::NodeIterator(ProvenanceGraph *graph, vector<unsigned>* ids) : cursor(0), graph(graph), usedIds(ids) {
 
 }
 
 template<class Domain>
-NodeIterator<Domain>::NodeIterator(vector<unsigned>* ids, fc::ConfValues* confVal, IRIBuilder* iriBuilder, int cursor) :
-	conf(confVal), ids(ids), iriBuilder(iriBuilder), cursor(cursor) {
+NodeIterator<Domain>::NodeIterator(ProvenanceGraph *graph, vector<unsigned>* ids, int cursor) :
+	graph(graph), cursor(cursor), usedIds(ids) {
 
 }
 
+
 template <class Domain>
 NodeIterator<Domain>::NodeIterator(const NodeIterator& o) :
-	cursor(o.cursor), conf(o.conf), ids(o.ids), iriBuilder(o.iriBuilder) {
+	cursor(o.cursor), graph(o.graph), usedIds(o.usedIds) {
 
 }
 
 template <class Domain>
 NodeIterator<Domain>& NodeIterator<Domain>::operator=(const NodeIterator& o) {
 	cursor = o.cursor;
-	conf = o.conf;
-	ids = o.ids;
-	iriBuilder = o.iriBuilder;
+	graph = o.graph;
+	usedIds = o.usedIds;
 }
 
 template <class Domain>
@@ -69,14 +68,14 @@ NodeIterator<Domain>& NodeIterator<Domain>::operator++() {
 
 template <class Domain>
 shared_ptr<Domain> NodeIterator<Domain>::operator*() {
-	shared_ptr<Domain> objectPtr = make_shared<Domain>(ids->at(cursor), iriBuilder->getDomain());
-	objectPtr->populateWithAttributes(*conf);
+	unsigned id = usedIds->at(cursor);
+	shared_ptr<Domain> objectPtr = make_shared<Domain>(usedIds->at(cursor), graph->getDomain(), graph->getMaxNumberOfAttributes(), graph->getLevelForEntityId(id));
 	return objectPtr;
 }
 
 template <class Domain>
 bool NodeIterator<Domain>::operator==(const NodeIterator& o) const {
-	return ids == o.ids && cursor == o.cursor && conf == o.conf && iriBuilder == o.iriBuilder;
+	return graph == o.graph && cursor == o.cursor && usedIds == o.usedIds;
 }
 
 template <class Domain>
@@ -85,14 +84,14 @@ bool NodeIterator<Domain>::operator!=(const NodeIterator& o) const {
 }
 
 template <class Domain>
-ImplicitNodeIterator<Domain>::ImplicitNodeIterator(unsigned maxId, fc::ConfValues* confVal, IRIBuilder* iriBuilder)
-	: NodeIterator<Domain>(nullptr, confVal, iriBuilder), maxId(maxId) {
+ImplicitNodeIterator<Domain>::ImplicitNodeIterator(unsigned maxId, ProvenanceGraph *graph)
+	: NodeIterator<Domain>(graph, nullptr), maxId(maxId) {
 
 }
 
 template <class Domain>
-ImplicitNodeIterator<Domain>::ImplicitNodeIterator(unsigned maxId, fc::ConfValues* confVal, IRIBuilder* iriBuilder, int cursor)
-	: NodeIterator<Domain>(nullptr, confVal, iriBuilder, cursor), maxId(maxId){
+ImplicitNodeIterator<Domain>::ImplicitNodeIterator(unsigned maxId, ProvenanceGraph *graph, int cursor)
+	: NodeIterator<Domain>(graph, nullptr, cursor), maxId(maxId) {
 
 }
 
@@ -110,15 +109,12 @@ ImplicitNodeIterator<Domain>::~ImplicitNodeIterator() {
 
 template <class Domain>
 shared_ptr<Domain> ImplicitNodeIterator<Domain>::operator*() {
-	shared_ptr<Domain> objectPtr = make_shared<Domain>(this->cursor, this->iriBuilder->getDomain());
-	objectPtr->populateWithAttributes(*this->conf);
+	shared_ptr<Domain> objectPtr = make_shared<Domain>(this->cursor, this->graph->getDomain(), this->graph->getMaxNumberOfAttributes());
 	return objectPtr;
 }
 
 
-template class NodeIterator<Agent>;
 template class NodeIterator<Entity>;
-template class NodeIterator<Activity>;
 template class ImplicitNodeIterator<Agent>;
 template class ImplicitNodeIterator<Entity>;
 template class ImplicitNodeIterator<Activity>;
@@ -192,7 +188,7 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents),
 	maxNAgentsPerActivity(values.maxNumberOfAgentsPerActivity), maxNAgentsPerSource(values.maxNumberOfAgentsPerSourceEntity),
 	maxLevel(values.metadataDepth), entities2TriplesDistribution(values.distribution),
-	nSubjects(stats.numberOfSubjects), nTriples(stats.numberOfTriples) {
+	nSubjects(stats.numberOfSubjects), nTriples(stats.numberOfTriples), maxNAttributes(values.maxNumberOfAttributes) {
 
 	entityLevels = new int[maxLevel + 1];
 	activityLevels = new int[maxLevel + 1];
@@ -356,6 +352,10 @@ float ProvenanceGraph::getSources2LeavesDensity() const {
 	return sources2LeavesDensity;
 }
 
+unsigned ProvenanceGraph::getMaxNumberOfAttributes() const {
+	return maxNAttributes;
+}
+
 void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 	unsigned latestEntity = leafId;
 	for (unsigned level = 0; level <= maxLevel; ++level) {
@@ -468,6 +468,46 @@ unsigned ProvenanceGraph::getDepth() const {
 	return maxLevel;
 }
 
+unsigned ProvenanceGraph::getNumberOfAgents() const {
+	return nAgents;
+}
+
+
+EntityLevel ProvenanceGraph::getLevelForEntityId(unsigned entityId) const {
+	if (maxLevel == 0) {
+		if (entityId < nEntities) {
+			return EntityLevel::SOURCE_AND_LEAF;
+		} else {
+			return EntityLevel::UNDEFINED;
+		}
+	} else {
+		int level = getLevelValueForEntityId(entityId);
+		if (level == 0) {
+			return EntityLevel::LEAF;
+		} else if (level == maxLevel) {
+			return EntityLevel::SOURCE;
+		} else if (level == -1) {
+			return EntityLevel::UNDEFINED;
+		} else {
+			return EntityLevel::INTERMEDIATE;
+		}
+	}
+}
+
+int ProvenanceGraph::getLevelValueForEntityId(unsigned entityId) const {
+	if (entityId >= nEntities) {
+		return -1;
+	}
+
+	unsigned level = 0;
+	while (level <= maxLevel && entityLevels[level] < entityId) {
+		++level;
+	}
+
+	return level;
+}
+
+
 vector<shared_ptr<Agent>> ProvenanceGraph::getAgentsForActivity(const Activity& activity) const {
 	vector<shared_ptr<Agent>> result;
 	srand(activity.getId()); // I want to guarantee that an activity always gets the same random sequence of agents
@@ -506,20 +546,34 @@ pair<EdgeIterator<Entity, Agent>, EdgeIterator<Entity, Agent>> ProvenanceGraph::
 }
 
 pair<NodeIterator<Agent>, NodeIterator<Agent>> ProvenanceGraph::getAgentIterators() {
-	fc::ConfValues& confVal = fc::Conf::defaultConfig().get(this->name);
-	ImplicitNodeIterator<Agent> begin(this->nAgents, &confVal, this->iriBuilder.get());
-	ImplicitNodeIterator<Agent> end(this->nAgents, &confVal, this->iriBuilder.get(), this->nAgents);
+	ImplicitNodeIterator<Agent> begin(this->getNumberOfAgents(), this);
+	ImplicitNodeIterator<Agent> end(this->getNumberOfAgents(), this, this->getNumberOfAgents());
 	return make_pair(begin, end);
 }
 
 pair<NodeIterator<Activity>, NodeIterator<Activity>> ProvenanceGraph::getActivityIterators() {
-	fc::ConfValues& confVal = fc::Conf::defaultConfig().get(this->name);
-	ImplicitNodeIterator<Activity> begin(this->nActivities, &confVal, this->iriBuilder.get());
-	ImplicitNodeIterator<Activity> end(this->nActivities, &confVal, this->iriBuilder.get(), this->nActivities);
+	ImplicitNodeIterator<Activity> begin(this->getNumberOfActivities(), this);
+	ImplicitNodeIterator<Activity> end(this->getNumberOfActivities(), this, this->getNumberOfActivities());
 	return make_pair(begin, end);
 }
 
 pair<NodeIterator<Entity>, NodeIterator<Entity>> ProvenanceGraph::getEntityIterators() {
+	shared_ptr<vector<unsigned>> entityIds = provUsed.getDomain();
+	if (entities2TriplesDistribution == fc::AssignmentDistribution::UNIFORM) {
+		if (maxLevel < 1) {
+			ImplicitNodeIterator<Entity> begin(this->nEntities, this);
+			ImplicitNodeIterator<Entity> end(this->nEntities, this, this->nEntities);
+			return make_pair(begin, end);
+
+		} else {
+			// This means there are only leaves
+			NodeIterator<Entity> begin(this, entityIds.get());
+			NodeIterator<Entity> end(this, entityIds.get(), entityIds->size());
+			return make_pair(begin, end);
+		}
+	}
+
+	// TODO: Support for other assignment policies
 
 }
 

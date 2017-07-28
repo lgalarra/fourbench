@@ -53,7 +53,8 @@ namespace conf {
 			sourcesDefinition(MANUAL), numberOfAgents(Conf::DefaultNumberOfAgents),
 			activitiesDensity(Conf::DefaultActivitiesDensity), triplesEntitiesDensity(Conf::DefaultTriplesEntitiesDensity),
 			activitiesEntitiesDensity(Conf::DefaultActivitiesEntitiesDensity), maxNumberOfAgentsPerSourceEntity(Conf::DefaultMaxNumberOfAgentsPerSourceEntity),
-			provenancePerSubject(false), maxNumberOfAgentsPerActivity(Conf::DefaultMaxNumberOfAgentsPerActivity) { }
+			provenancePerSubject(false), maxNumberOfAgentsPerActivity(Conf::DefaultMaxNumberOfAgentsPerActivity),
+			maxNumberOfAttributes(Conf::DefaultMaxNumberOfAgentsPerActivity) { }
 
 	bool ConfValues::parseField(const string& fieldName, const string& value) {
 		if (fieldName == "numberOfSources") {
@@ -95,6 +96,8 @@ namespace conf {
 			properties.insert(inputProperties.begin(), inputProperties.end());
 		} else if (fieldName == "provenancePerSubject") {
 			provenancePerSubject = fourbench::toBool(value);
+		} else if (fieldName == "maxNumberOfAttributes") {
+			maxNumberOfAttributes = stoul(value);
 		} else {
 			return false;
 		}
@@ -248,6 +251,7 @@ namespace conf {
 		strm << "activitiesEntitiesDensity: " << a.activitiesEntitiesDensity << ", ";
 		strm << "maxNumberOfAgentsPerActivity: " << a.maxNumberOfAgentsPerActivity << ", ";
  		strm << "maxNumberOfAgentsPerSourceEntity: " << a.maxNumberOfAgentsPerSourceEntity << ", ";
+ 		strm << "maxNumberOfAttributesForLeafEntitiesAndAgents: " << a.maxNumberOfAttributes << ", ";
 		strm << "provenancePerSubject: " << a.provenancePerSubject << ", ";
 		if (a.properties.empty()) {
 			strm << "properties: *";
