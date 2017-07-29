@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <memory>
+#include <ctime>
 
 #include "../include/provenance/ProvenanceObject.hpp"
 #include "../include/provenance/Activity.hpp"
@@ -16,6 +17,7 @@
 #include "../include/provenance/RDF.hpp"
 #include "../include/provenance/RDFS.hpp"
 #include "../include/utils/string.hpp"
+#include "../include/utils/integer.hpp"
 #include "../include/datatypes/DataValueBuilder.hpp"
 #include "../include/datatypes/DataValue.hpp"
 
@@ -28,20 +30,26 @@ namespace fourbench {
 namespace provenance {
 
 Activity::Activity(unsigned id) : ProvenanceObject(id, IRIBuilder::getDefaultDomain(), 0) {
+	initialize();
 }
 
 Activity::Activity(unsigned id, const string& domain) : ProvenanceObject(id, domain, 0) {
+	initialize();
 }
 
 Activity::Activity(unsigned id, const string& domain, unsigned maxNumberOfAttributes) : ProvenanceObject(id, domain, maxNumberOfAttributes) {
-
+	initialize();
 }
 
 void Activity::initialize() {
 	ProvenanceObject::initialize();
+	time_t now = time(nullptr);
+	time_t before = now - (time_t) f::urand(1, 3600 * 48); // random timestamp between now and 48 hours ago
 	fd::DataValueBuilder& dataBuilder = fd::DataValueBuilder::getInstance();
 	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(getIRI());
 	attributes[RDFS::label] = dataBuilder.get<fd::StringValue>(f::concat({"Activity ", to_string(id)}));
+	attributes[PROVO::startedAtTime] = dataBuilder.get<fd::DateValue>(before);
+	attributes[PROVO::endedAtTime] = dataBuilder.get<fd::DateValue>(now);
 }
 
 Activity::~Activity() {

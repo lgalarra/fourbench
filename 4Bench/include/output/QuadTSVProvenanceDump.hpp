@@ -50,11 +50,12 @@ private:
 
 protected:
 	void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const;
+	void dump(const fprov::ProvenanceObject& obj) const;
 
 public:
 	QuadTSVProvenanceDump(ostream& strm);
 	void dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const;
-	void dump(fprov::ProvenanceGraph& graph) const;
+	void dump(shared_ptr<fprov::ProvenanceGraph> graph) const;
 	virtual ~QuadTSVProvenanceDump();
 };
 

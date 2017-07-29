@@ -31,11 +31,14 @@ QuadTSVProvenanceDump::~QuadTSVProvenanceDump() {
 }
 
 void QuadTSVProvenanceDump::dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const {
+	cout << "Printing attr " << attributeName << " for " << obj.getIRI() << endl;
 	this->formatIRI(obj.getIRI());
 	stream << "\t";
 	this->formatIRI(attributeName);
 	stream << "\t";
 	this->format(attributeValue);
+	stream << "\t ";
+	this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
 	stream << endl;
 }
 
@@ -50,28 +53,48 @@ void QuadTSVProvenanceDump::dump(const fpar::Triple& triple, const fprov::Entity
 	stream << endl;
 }
 
+void QuadTSVProvenanceDump::dump(const fprov::ProvenanceObject& obj) const {
+	ProvenanceDump::dump(obj);
+}
 
-void QuadTSVProvenanceDump::dump(fprov::ProvenanceGraph& graph) const {
-	pair<fprov::EdgeIterator<fprov::Activity, fprov::Entity>, fprov::EdgeIterator<fprov::Activity, fprov::Entity>> provUsedIterators = graph.getProvUsedIterators();
+
+void QuadTSVProvenanceDump::dump(shared_ptr<fprov::ProvenanceGraph> graph) const {
+	pair<fprov::EdgeIterator<fprov::Activity, fprov::Entity>, fprov::EdgeIterator<fprov::Activity, fprov::Entity>> provUsedIterators = graph->getProvUsedIterators();
 	for (auto it = provUsedIterators.first; it != provUsedIterators.second; ++it) {
 		this->dump<fprov::Activity, fprov::Entity>(*it);
 	}
 
-	pair<fprov::EdgeIterator<fprov::Entity, fprov::Activity>, fprov::EdgeIterator<fprov::Entity, fprov::Activity>> provWasGeneratedBy = graph.getProvWasGeneratedByIterators();
+	pair<fprov::EdgeIterator<fprov::Entity, fprov::Activity>, fprov::EdgeIterator<fprov::Entity, fprov::Activity>> provWasGeneratedBy = graph->getProvWasGeneratedByIterators();
 	for (auto it = provWasGeneratedBy.first; it != provWasGeneratedBy.second; ++it) {
 		this->dump<fprov::Entity, fprov::Activity>(*it);
 	}
 
-	for (unsigned activityId = 0; activityId < graph.getNumberOfActivities(); ++activityId) {
-		fprov::Activity activity(activityId, graph.getDomain());
-		this->dump<fprov::Activity, fprov::Agent>(activity, fprov::PROVO::wasAssociatedWith ,graph.getAgentsForActivity(activity));
+	for (unsigned activityId = 0; activityId < graph->getNumberOfActivities(); ++activityId) {
+		fprov::Activity activity(activityId, graph->getDomain());
+		// Print all its edges
+		this->dump<fprov::Activity, fprov::Agent>(activity, fprov::PROVO::wasAssociatedWith, graph->getAgentsForActivity(activity));
+		this->dump(activity);
+
 	}
 
-	unsigned firstSource = graph.getFirstSourceId();
-	for (unsigned sourceEntityId = firstSource; sourceEntityId < firstSource + graph.getNumberOfSourceEntities(); ++sourceEntityId) {
-		fprov::Entity entity(sourceEntityId, graph.getDomain());
-		this->dump<fprov::Entity, fprov::Agent>(entity, fprov::PROVO::wasAttributedTo, graph.getAgentsForSource(entity));
+	unsigned firstSource = graph->getFirstSourceId();
+	for (unsigned sourceEntityId = firstSource; sourceEntityId < firstSource + graph->getNumberOfSourceEntities(); ++sourceEntityId) {
+		fprov::Entity entity(sourceEntityId, graph->getDomain());
+		this->dump<fprov::Entity, fprov::Agent>(entity, fprov::PROVO::wasAttributedTo, graph->getAgentsForSource(entity));
 	}
+
+	// Dump the agents
+	cout << "# agents " << graph->getNumberOfAgents() << endl;
+	for (unsigned agentId = 0; agentId < graph->getNumberOfAgents(); ++agentId) {
+		fprov::Agent agent(agentId, graph->getDomain(), graph->getMaxNumberOfAttributes());
+		this->dump(agent);
+	}
+/**	shared_ptr<vector<unsigned>> usedEntityIds = graph->getUsedEntityIds();
+	cout << "Used entity ids " << usedEntityIds->size() << endl;
+	for (auto it = usedEntityIds->begin(); it != usedEntityIds->end(); ++it) {
+		fprov::Entity entity(*it, graph->getDomain(), graph->getMaxNumberOfAttributes());
+		this->dump(entity);
+	}*/
 }
 
 } /* namespace output */

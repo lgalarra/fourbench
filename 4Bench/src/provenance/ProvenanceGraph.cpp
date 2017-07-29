@@ -358,7 +358,9 @@ unsigned ProvenanceGraph::getMaxNumberOfAttributes() const {
 
 void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 	unsigned latestEntity = leafId;
+	cout << "Starting connectSourceAndLeaf" << endl;
 	for (unsigned level = 0; level <= maxLevel; ++level) {
+		cout << "connectSourceAndLeaf " << " level = " << level << endl;
 		// This means the target entity is the source
 		if (level == maxLevel) {
 			connectEntities(latestEntity, sourceId, level);
@@ -369,6 +371,7 @@ void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 			latestEntity = entityNextLevel;
 		}
 	}
+	cout << "Done with connectSourceAndLeaf(" << sourceId << ", " << leafId << ")" << endl;
 }
 
 void ProvenanceGraph::connectEntities(unsigned sourceId, unsigned targetId, unsigned targetLevel) {
@@ -575,6 +578,10 @@ pair<NodeIterator<Entity>, NodeIterator<Entity>> ProvenanceGraph::getEntityItera
 
 	// TODO: Support for other assignment policies
 
+}
+
+shared_ptr<vector<unsigned>> ProvenanceGraph::getUsedEntityIds() const {
+	return provWasGeneratedBy.getDomain();
 }
 
 

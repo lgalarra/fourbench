@@ -6,6 +6,7 @@
  */
 
 #include <ostream>
+#include <iostream>
 #include <utility>
 #include <map>
 
@@ -39,17 +40,15 @@ const map<string, fd::DataType*> ProvenanceObject::attributeTypes = {
 };
 
 ProvenanceObject::ProvenanceObject(unsigned id) : id(id), domain(IRIBuilder::getDefaultDomain()), maxNumberOfAttributes(0) {
-	initialize();
 }
 
 ProvenanceObject::ProvenanceObject(unsigned id, const string& domain) :
 	id(id), domain(domain), maxNumberOfAttributes(0) {
-	initialize();
 }
 
 ProvenanceObject::ProvenanceObject(unsigned id, const string& domain, unsigned maxNumberOfAttributes) :
 	id(id), domain(domain), maxNumberOfAttributes(maxNumberOfAttributes) {
-	initialize();
+
 }
 
 
@@ -58,7 +57,11 @@ ProvenanceObject::~ProvenanceObject() {
 }
 
 void ProvenanceObject::initialize() {
-	unsigned attributesLeft = f::urand(1, maxNumberOfAttributes) - 1;
+	unsigned attributesLeft = 0;
+	if (maxNumberOfAttributes > 1) {
+		attributesLeft = f::urand(1, maxNumberOfAttributes);
+	}
+
 	fd::DataValueBuilder& dtbuilder = fd::DataValueBuilder::getInstance();
 	attributes[f::concat({domain, "id"})] = dtbuilder.get<fd::IntegerValue>(id);
 	if (attributesLeft > 0) {

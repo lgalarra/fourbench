@@ -150,7 +150,7 @@ int main(int argc, char** argv) {
 	shared_ptr<fo::ProvenanceDump> dump = getDump(vm["output-format"].as<string>(), outstream);
 
 	fprov::ProvenanceGraphPopulator populator(dump);
-	populator.populate(*parser, *provenanceGraphs.get());
+	populator.populate(parser, provenanceGraphs);
 
 	return 0;
 }

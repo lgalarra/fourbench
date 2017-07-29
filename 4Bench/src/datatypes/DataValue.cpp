@@ -32,6 +32,10 @@ template<typename T> T DataValue::getAs() const {
 	return *contentPointer;
 }
 
+DataType& DataValue::getType() const {
+	return *type;
+}
+
 template<> Date DataValue::getAs<Date>() const {
 	void* content = this->get();
 	time_t* timeValPoint = static_cast<time_t*>(content);
@@ -45,6 +49,11 @@ template<> Date DataValue::getAs<Date>() const {
 }
 
 template AgentTypeEnum DataValue::getAs<AgentTypeEnum>() const;
+template string DataValue::getAs<string>() const;
+template int DataValue::getAs<int>() const;
+template float DataValue::getAs<float>() const;
+template ActivityTypeEnum DataValue::getAs<ActivityTypeEnum>() const;
+template EntityTypeEnum DataValue::getAs<EntityTypeEnum>() const;
 
 IntegerValue::IntegerValue(int n) : DataValue(&IntegerType::getInstance()), intValue(n) {
 

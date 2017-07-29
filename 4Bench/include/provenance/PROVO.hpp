@@ -25,6 +25,8 @@ public:
 	static const string wasAssociatedWith;
 	static const string used;
 	static const string wasGeneratedBy;
+	static const string startedAtTime;
+	static const string endedAtTime;
 	static const string Activity;
 	static const string Agent;
 	static const string Entity;

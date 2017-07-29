@@ -28,21 +28,22 @@ namespace fourbench {
 namespace provenance {
 
 Entity::Entity(unsigned id) : ProvenanceObject(id, IRIBuilder::getDefaultDomain(), 0), level(EntityLevel::UNDEFINED) {
+	initialize();
 
 }
 
 Entity::Entity(unsigned id, const string& domain): ProvenanceObject(id, domain, 0), level(EntityLevel::UNDEFINED) {
-
+	initialize();
 }
 
 Entity::Entity(unsigned id, const string& domain, unsigned maxNumberOfAttributes) :
 	ProvenanceObject(id, domain, maxNumberOfAttributes), level(EntityLevel::UNDEFINED) {
-
+	initialize();
 }
 
 Entity::Entity(unsigned id, const string& domain, unsigned maxNumberOfProperties, EntityLevel level) :
 	ProvenanceObject(id, domain, maxNumberOfProperties), level(level) {
-
+	initialize();
 }
 
 void Entity::initialize() {

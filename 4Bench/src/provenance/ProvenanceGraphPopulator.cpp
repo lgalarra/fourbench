@@ -29,8 +29,8 @@ namespace provenance {
 
 ProvenanceGraphPopulator::ProvenanceGraphPopulator(shared_ptr<fo::ProvenanceDump> out) : output(out) {}
 
-void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
-		map<string, shared_ptr<ProvenanceGraph>>& graphs) {
+void ProvenanceGraphPopulator::populate(shared_ptr<fpa::FileParser> parser,
+		shared_ptr<map<string, shared_ptr<ProvenanceGraph>>> graphs) {
 	// Construct a map of provenance assignments
 	map<string, shared_ptr<ProvenanceAssignment>> assignments;
 
@@ -39,12 +39,12 @@ void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 	fc::Conf& conf = fc::Conf::defaultConfig();
 
 	cout << "Initializing the assignments" << endl;
-	for (auto itr = graphs.begin(); itr != graphs.end(); ++itr) {
+	for (auto itr = graphs->begin(); itr != graphs->end(); ++itr) {
 		cout << "Assignment for " << itr->first << endl;
 		assignments[itr->first] = assignFactory.getProvenanceAssignment(itr->second);
 	}
 
-	fpa::Triple *triple = parser.next();
+	fpa::Triple *triple = parser->next();
 	while (triple != nullptr) {
 		string family = conf.getFamily(triple->getPredicate());
 		auto assignItr = assignments.find(family);
@@ -55,17 +55,19 @@ void ProvenanceGraphPopulator::populate(fpa::FileParser& parser,
 			cout << "======================" << endl;
 			shared_ptr<ProvenanceGraph> graphPtr = assignItr->second->getGraph();
 			Entity provenanceEntity(assignItr->second->nextProvenanceId(), graphPtr->getDomain());
+			cout << "Object created" << endl;
 			output->dump(*triple, provenanceEntity);
 			cout << *triple << ", " << provenanceEntity.getIRI() << endl;
 			cout << "======================" << endl;
 		}
 		delete triple;
-		triple = parser.next();
+		triple = parser->next();
 	}
 	output->flush();
 
-	for (auto itr = graphs.begin(); itr != graphs.end(); ++itr) {
-		output->dump(*itr->second);
+	for (auto itr = graphs->begin(); itr != graphs->end(); ++itr) {
+		output->dump(itr->second);
+		output->flush();
 	}
 }
 

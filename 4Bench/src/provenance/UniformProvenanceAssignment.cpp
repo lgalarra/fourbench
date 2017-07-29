@@ -47,6 +47,7 @@ UniformProvenanceAssignment::~UniformProvenanceAssignment() {
 }
 
 unsigned UniformProvenanceAssignment::nextProvenanceId() {
+	cout << "nextProvenanceId" << endl;
 	if (numberOfAssignmentsLatestLeaf >= maxItemsPerLeaf) {
 		++latestLeaf;
 		numberOfAssignmentsLatestLeaf = 1;
@@ -56,6 +57,7 @@ unsigned UniformProvenanceAssignment::nextProvenanceId() {
 
 	if (graphPtr->getDepth() > 1) {
 		if (!allSourcesConnected) {
+			cout << "Sources per leaf " << sourcesPerLeaf << endl;
 			// Pick the top N unconnected sources
 			for (unsigned i = 0; i < sourcesPerLeaf; ++i) {
 				pair<unsigned, unsigned> top = sourcesPriorityQueue.top();
@@ -79,6 +81,10 @@ unsigned UniformProvenanceAssignment::nextProvenanceId() {
 			}
 		}
 	}
+
+	cout << "done nextProvenanceId, returning " << latestLeaf  << endl;
+
+	return latestLeaf;
 
 }
 

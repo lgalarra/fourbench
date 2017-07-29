@@ -6,6 +6,7 @@
  */
 
 #include <string>
+#include <iostream>
 
 #include "../include/conf/Conf.hpp"
 #include "../include/datatypes/DataType.hpp"
@@ -32,11 +33,17 @@ namespace fd = fourbench::datatypes;
 namespace fourbench {
 namespace provenance {
 
-Agent::Agent(unsigned id) : ProvenanceObject(id, IRIBuilder::getDefaultDomain(), 0) {}
+Agent::Agent(unsigned id) : ProvenanceObject(id, IRIBuilder::getDefaultDomain(), 0) {
+	initialize();
+}
 
-Agent::Agent(unsigned id, const string& domain) : ProvenanceObject(id, domain, 0) {}
+Agent::Agent(unsigned id, const string& domain) : ProvenanceObject(id, domain, 0) {
+	initialize();
+}
 
-Agent::Agent(unsigned id, const string& domain, unsigned maxNumberOfProperties) : ProvenanceObject(id, domain, maxNumberOfProperties) {}
+Agent::Agent(unsigned id, const string& domain, unsigned maxNumberOfProperties) : ProvenanceObject(id, domain, maxNumberOfProperties) {
+	initialize();
+}
 
 void Agent::initialize() {
 	ProvenanceObject::initialize();

@@ -28,7 +28,7 @@ private:
 public:
 	ProvenanceGraphPopulator(shared_ptr<fo::ProvenanceDump> out);
 
-	void populate(fpa::FileParser& parser, map<string, shared_ptr<ProvenanceGraph>>& graphs);
+	void populate(shared_ptr<fpa::FileParser> parser, shared_ptr<map<string, shared_ptr<ProvenanceGraph>>> graphs);
 
 	virtual ~ProvenanceGraphPopulator();
 };
