@@ -176,7 +176,7 @@ bool EdgeIterator<Domain, Range>::operator!=(const EdgeIterator& o) const {
 template class EdgeIterator<Activity, Entity>;
 template class EdgeIterator<Entity, Activity>;
 
-string ProvenanceGraph::provenanceGraphDefaultIRI = f::concat({IRIBuilder::getDefaultDomain(), "/graph/"});
+string ProvenanceGraph::provenanceGraphDefaultIRI = f::concat({IRIBuilder::getDefaultDomain(), "graph/"});
 
 string ProvenanceGraph::getDefaultProvenanceGraphIRI() {
 	return provenanceGraphDefaultIRI;
@@ -358,7 +358,7 @@ unsigned ProvenanceGraph::getMaxNumberOfAttributes() const {
 
 void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 	unsigned latestEntity = leafId;
-	cout << "Starting connectSourceAndLeaf" << endl;
+	cout << "Starting connectSourceAndLeaf " << sourceId << ", " << leafId << endl;
 	for (unsigned level = 0; level <= maxLevel; ++level) {
 		cout << "connectSourceAndLeaf " << " level = " << level << endl;
 		// This means the target entity is the source
@@ -375,11 +375,11 @@ void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 }
 
 void ProvenanceGraph::connectEntities(unsigned sourceId, unsigned targetId, unsigned targetLevel) {
-
 	int randomActivity = getRandomActivityInLevel(targetLevel);
 	cout << "connectEntities(" << sourceId << ", " << targetId << ", " << targetLevel << ") uses random activity " << randomActivity << endl;
 	if (randomActivity >= 0) {
 		// Add it to the sparse matrix
+		cout << "Adding edges provWasGeneratedBy (" << sourceId << ", " << randomActivity << ") and provUsed(" << randomActivity << ", " << targetId << ")" << endl;
 		provWasGeneratedBy.addEdge(sourceId, randomActivity);
 		provUsed.addEdge(randomActivity, targetId);
 	}
@@ -406,8 +406,8 @@ int ProvenanceGraph::getRandomActivityInLevel(unsigned level) const {
 }
 
 int ProvenanceGraph::getFirstActivityInLevel(unsigned level) const {
-	if (getNumberOfActivitiesInLevel(level) > 0) {
-		return activityLevels[level];
+	if (level > 0 && level <= maxLevel) {
+		return activityLevels[level - 1] + 1;
 	} else {
 		return -1;
 	}
@@ -424,8 +424,10 @@ int ProvenanceGraph::getRandomEntityInLevel(unsigned level) const {
 }
 
 int ProvenanceGraph::getFirstEntityIdInLevel(unsigned level) const {
-	if (getNumberOfEntitiesInLevel(level) > 0) {
-		return entityLevels[level];
+	if (level == 0) {
+		return 0;
+	} else if (level <= maxLevel) {
+		return entityLevels[level - 1] + 1;
 	} else {
 		return -1;
 	}

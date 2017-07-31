@@ -204,6 +204,16 @@ private:
 		return strm.str();
 	}
 
+	string toDebugString(const int* levelsMap) const {
+		stringstream strm;
+		strm << "[";
+		for (unsigned level = 0; level <= maxLevel; ++level) {
+			strm << level << ": " <<  levelsMap[level] << ", ";
+		}
+		strm << "]";
+		return strm.str();
+	}
+
 public:
 	friend ostream& operator<<(ostream &strm, const ProvenanceGraph& g) {
 		strm << "Provenance graph: { ";
@@ -214,6 +224,8 @@ public:
 		strm << "(" << g.nEntities << ", " << g.nLeafEntities << ", " << g.nIntermediateEntities << ", " << g.nSourceEntities << "), ";
 		strm << "entity levels: " << g.toString(g.entityLevels) << ", ";
 		strm << "activity levels: " << g.toString(g.activityLevels);
+		//strm << ", entity levels (debug): " << g.toDebugString(g.entityLevels) << ", ";
+		//strm << "activity levels (debug): " << g.toDebugString(g.activityLevels);
 		strm << "}";
 		return strm;
 	}

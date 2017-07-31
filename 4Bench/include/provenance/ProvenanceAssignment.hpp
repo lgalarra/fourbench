@@ -9,6 +9,7 @@
 #define PROVENANCE_PROVENANCEASSIGNMENT_HPP_
 
 #include <memory>
+#include <unordered_set>
 
 #include "ProvenanceGraph.hpp"
 
@@ -20,6 +21,7 @@ namespace provenance {
 class ProvenanceAssignment {
 protected:
 	shared_ptr<ProvenanceGraph> graphPtr;
+	unordered_set<unsigned> seenIds;
 	ProvenanceAssignment(shared_ptr<ProvenanceGraph> graphPtr);
 public:
 	virtual ~ProvenanceAssignment();

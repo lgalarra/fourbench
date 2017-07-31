@@ -31,7 +31,6 @@ QuadTSVProvenanceDump::~QuadTSVProvenanceDump() {
 }
 
 void QuadTSVProvenanceDump::dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const {
-	cout << "Printing attr " << attributeName << " for " << obj.getIRI() << endl;
 	this->formatIRI(obj.getIRI());
 	stream << "\t";
 	this->formatIRI(attributeName);
@@ -84,17 +83,16 @@ void QuadTSVProvenanceDump::dump(shared_ptr<fprov::ProvenanceGraph> graph) const
 	}
 
 	// Dump the agents
-	cout << "# agents " << graph->getNumberOfAgents() << endl;
 	for (unsigned agentId = 0; agentId < graph->getNumberOfAgents(); ++agentId) {
 		fprov::Agent agent(agentId, graph->getDomain(), graph->getMaxNumberOfAttributes());
 		this->dump(agent);
 	}
-/**	shared_ptr<vector<unsigned>> usedEntityIds = graph->getUsedEntityIds();
-	cout << "Used entity ids " << usedEntityIds->size() << endl;
+	shared_ptr<vector<unsigned>> usedEntityIds = graph->getUsedEntityIds();
+
 	for (auto it = usedEntityIds->begin(); it != usedEntityIds->end(); ++it) {
 		fprov::Entity entity(*it, graph->getDomain(), graph->getMaxNumberOfAttributes());
 		this->dump(entity);
-	}*/
+	}
 }
 
 } /* namespace output */

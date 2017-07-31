@@ -115,6 +115,7 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	parsing/4Bench-Triple.$(OBJEXT) \
 	parsing/4Bench-TSVFileParser.$(OBJEXT) \
 	parsing/4Bench-ParsingStats.$(OBJEXT) \
+	provenance/4Bench-IRIBuilder.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraph.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraphFactory.$(OBJEXT) \
 	provenance/4Bench-ProvenanceSubgraph.$(OBJEXT) \
@@ -122,7 +123,6 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	provenance/4Bench-ProvenanceAssignment.$(OBJEXT) \
 	provenance/4Bench-ProvenanceAssignmentFactory.$(OBJEXT) \
 	provenance/4Bench-UniformProvenanceAssignment.$(OBJEXT) \
-	provenance/4Bench-IRIBuilder.$(OBJEXT) \
 	provenance/4Bench-ProvenanceObject.$(OBJEXT) \
 	provenance/4Bench-Activity.$(OBJEXT) \
 	provenance/4Bench-Entity.$(OBJEXT) \
@@ -311,9 +311,9 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 4Bench_SOURCES = 4Bench.cpp utils/string.cpp conf/Conf.cpp  utils/integer.cpp utils/float.cpp \
  parsing/FileParser.cpp parsing/FileParserFactory.cpp parsing/Triple.cpp parsing/TSVFileParser.cpp parsing/ParsingStats.cpp \
- provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp \
+ provenance/IRIBuilder.cpp provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp \
  provenance/ProvenanceAssignment.cpp  provenance/ProvenanceAssignmentFactory.cpp provenance/UniformProvenanceAssignment.cpp \
- provenance/IRIBuilder.cpp provenance/ProvenanceObject.cpp provenance/Activity.cpp provenance/Entity.cpp provenance/Agent.cpp \
+ provenance/ProvenanceObject.cpp provenance/Activity.cpp provenance/Entity.cpp provenance/Agent.cpp \
  provenance/PROVO.cpp provenance/RDF.cpp provenance/RDFS.cpp provenance/Vocabulary.cpp provenance/FOAF.cpp provenance/XSD.cpp \
  output/ProvenanceDump.cpp output/ProvenanceDumpFactory.cpp output/QuadTSVProvenanceDump.cpp \
  datatypes/DataType.cpp datatypes/DataValue.cpp datatypes/DataValueBuilder.cpp
@@ -439,6 +439,8 @@ provenance/$(am__dirstamp):
 provenance/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) provenance/$(DEPDIR)
 	@: > provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-IRIBuilder.$(OBJEXT): provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
 provenance/4Bench-ProvenanceGraph.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
@@ -459,8 +461,6 @@ provenance/4Bench-ProvenanceAssignmentFactory.$(OBJEXT):  \
 	provenance/$(DEPDIR)/$(am__dirstamp)
 provenance/4Bench-UniformProvenanceAssignment.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
-	provenance/$(DEPDIR)/$(am__dirstamp)
-provenance/4Bench-IRIBuilder.$(OBJEXT): provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
 provenance/4Bench-ProvenanceObject.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
@@ -715,6 +715,20 @@ parsing/4Bench-ParsingStats.obj: parsing/ParsingStats.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o parsing/4Bench-ParsingStats.obj `if test -f 'parsing/ParsingStats.cpp'; then $(CYGPATH_W) 'parsing/ParsingStats.cpp'; else $(CYGPATH_W) '$(srcdir)/parsing/ParsingStats.cpp'; fi`
 
+provenance/4Bench-IRIBuilder.o: provenance/IRIBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-IRIBuilder.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-IRIBuilder.Tpo -c -o provenance/4Bench-IRIBuilder.o `test -f 'provenance/IRIBuilder.cpp' || echo '$(srcdir)/'`provenance/IRIBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-IRIBuilder.Tpo provenance/$(DEPDIR)/4Bench-IRIBuilder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/IRIBuilder.cpp' object='provenance/4Bench-IRIBuilder.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-IRIBuilder.o `test -f 'provenance/IRIBuilder.cpp' || echo '$(srcdir)/'`provenance/IRIBuilder.cpp
+
+provenance/4Bench-IRIBuilder.obj: provenance/IRIBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-IRIBuilder.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-IRIBuilder.Tpo -c -o provenance/4Bench-IRIBuilder.obj `if test -f 'provenance/IRIBuilder.cpp'; then $(CYGPATH_W) 'provenance/IRIBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/IRIBuilder.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-IRIBuilder.Tpo provenance/$(DEPDIR)/4Bench-IRIBuilder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/IRIBuilder.cpp' object='provenance/4Bench-IRIBuilder.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-IRIBuilder.obj `if test -f 'provenance/IRIBuilder.cpp'; then $(CYGPATH_W) 'provenance/IRIBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/IRIBuilder.cpp'; fi`
+
 provenance/4Bench-ProvenanceGraph.o: provenance/ProvenanceGraph.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-ProvenanceGraph.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Tpo -c -o provenance/4Bench-ProvenanceGraph.o `test -f 'provenance/ProvenanceGraph.cpp' || echo '$(srcdir)/'`provenance/ProvenanceGraph.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Tpo provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Po
@@ -812,20 +826,6 @@ provenance/4Bench-UniformProvenanceAssignment.obj: provenance/UniformProvenanceA
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/UniformProvenanceAssignment.cpp' object='provenance/4Bench-UniformProvenanceAssignment.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-UniformProvenanceAssignment.obj `if test -f 'provenance/UniformProvenanceAssignment.cpp'; then $(CYGPATH_W) 'provenance/UniformProvenanceAssignment.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/UniformProvenanceAssignment.cpp'; fi`
-
-provenance/4Bench-IRIBuilder.o: provenance/IRIBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-IRIBuilder.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-IRIBuilder.Tpo -c -o provenance/4Bench-IRIBuilder.o `test -f 'provenance/IRIBuilder.cpp' || echo '$(srcdir)/'`provenance/IRIBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-IRIBuilder.Tpo provenance/$(DEPDIR)/4Bench-IRIBuilder.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/IRIBuilder.cpp' object='provenance/4Bench-IRIBuilder.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-IRIBuilder.o `test -f 'provenance/IRIBuilder.cpp' || echo '$(srcdir)/'`provenance/IRIBuilder.cpp
-
-provenance/4Bench-IRIBuilder.obj: provenance/IRIBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-IRIBuilder.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-IRIBuilder.Tpo -c -o provenance/4Bench-IRIBuilder.obj `if test -f 'provenance/IRIBuilder.cpp'; then $(CYGPATH_W) 'provenance/IRIBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/IRIBuilder.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-IRIBuilder.Tpo provenance/$(DEPDIR)/4Bench-IRIBuilder.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/IRIBuilder.cpp' object='provenance/4Bench-IRIBuilder.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-IRIBuilder.obj `if test -f 'provenance/IRIBuilder.cpp'; then $(CYGPATH_W) 'provenance/IRIBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/IRIBuilder.cpp'; fi`
 
 provenance/4Bench-ProvenanceObject.o: provenance/ProvenanceObject.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-ProvenanceObject.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-ProvenanceObject.Tpo -c -o provenance/4Bench-ProvenanceObject.o `test -f 'provenance/ProvenanceObject.cpp' || echo '$(srcdir)/'`provenance/ProvenanceObject.cpp

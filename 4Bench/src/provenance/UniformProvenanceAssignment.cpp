@@ -55,6 +55,13 @@ unsigned UniformProvenanceAssignment::nextProvenanceId() {
 		++numberOfAssignmentsLatestLeaf;
 	}
 
+	if (seenIds.find(latestLeaf) == seenIds.end()) {
+		seenIds.insert(latestLeaf);
+	} else {
+		cout << "returning " << latestLeaf  << endl;
+		return latestLeaf;
+	}
+
 	if (graphPtr->getDepth() > 1) {
 		if (!allSourcesConnected) {
 			cout << "Sources per leaf " << sourcesPerLeaf << endl;
@@ -82,7 +89,7 @@ unsigned UniformProvenanceAssignment::nextProvenanceId() {
 		}
 	}
 
-	cout << "done nextProvenanceId, returning " << latestLeaf  << endl;
+	cout << "done, " << latestLeaf << " connected to sources "  << endl;
 
 	return latestLeaf;
 

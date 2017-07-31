@@ -60,22 +60,66 @@ ostream& ProvenanceDump::formatDate(const fd::Date& date) const {
 }
 
 ostream& ProvenanceDump::formatAgentType(fd::AgentTypeEnum type) const {
+	string suffix;
+	switch (type) {
+	case fd::AgentTypeEnum::PERSON :
+		suffix = "AgentType/Person/";
+		break;
+	case fd::AgentTypeEnum::ORGANIZATION :
+		suffix = "AgentType/Organization/";
+		break;
+	case fd::AgentTypeEnum::SOFTWARE_AGENT :
+		suffix = "AgentType/SoftwareAgent/";
+		break;
+	}
 
+	this->formatIRI(f::concat({fprov::IRIBuilder::getDefaultPrefix(), suffix}));
 	return stream;
+
 }
 
 ostream& ProvenanceDump::formatActivityType(fd::ActivityTypeEnum type) const {
+	string suffix;
+	switch (type) {
+	case fd::ActivityTypeEnum::AGGREGATION :
+		suffix = "ActivityType/Aggregation/";
+		break;
+	case fd::ActivityTypeEnum::EXTRACTION :
+		suffix = "ActivityType/Extraction/";
+		break;
+	case fd::ActivityTypeEnum::JOIN :
+		suffix = "ActivityType/Join";
+		break;
+	}
+
+	this->formatIRI(f::concat({fprov::IRIBuilder::getDefaultPrefix(), suffix}));
 	return stream;
 }
 
 ostream& ProvenanceDump::formatEntityType(fd::EntityTypeEnum type) const {
+	string suffix;
+	switch (type) {
+	case fd::EntityTypeEnum::DATABASE :
+		suffix = "EntityType/Database/";
+		break;
+	case fd::EntityTypeEnum::DATA_MAPPING :
+		suffix = "EntityType/DataMapping";
+		break;
+	case fd::EntityTypeEnum::FILE :
+		suffix = "EntityType/File";
+		break;
+	case fd::EntityTypeEnum::WEB_SERVICE :
+		suffix = "EntityType/WebService";
+		break;
+	}
+
+	this->formatIRI(f::concat({fprov::IRIBuilder::getDefaultPrefix(), suffix}));
 	return stream;
 }
 
 ostream& ProvenanceDump::format(shared_ptr<fd::DataValue> value) const {
 	fd::DataType& type = value->getType();
 	string typeName = type.getName();
-	cout << "ProvenanceDump::format " << typeName << endl;
 	if (typeName == "IRI" || typeName == "country") {
 		return formatIRI(value->getAs<string>());
 	} else if (typeName == "integer") {
