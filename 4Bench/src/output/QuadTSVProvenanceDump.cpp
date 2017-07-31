@@ -78,8 +78,9 @@ void QuadTSVProvenanceDump::dump(shared_ptr<fprov::ProvenanceGraph> graph) const
 
 	unsigned firstSource = graph->getFirstSourceId();
 	for (unsigned sourceEntityId = firstSource; sourceEntityId < firstSource + graph->getNumberOfSourceEntities(); ++sourceEntityId) {
-		fprov::Entity entity(sourceEntityId, graph->getDomain());
+		fprov::Entity entity(sourceEntityId, graph->getDomain(), graph->getMaxNumberOfAttributes(), graph->getDepth() > 0 ? fprov::EntityLevel::SOURCE : fprov::EntityLevel::SOURCE_AND_LEAF);
 		this->dump<fprov::Entity, fprov::Agent>(entity, fprov::PROVO::wasAttributedTo, graph->getAgentsForSource(entity));
+		this->dump(entity);
 	}
 
 	// Dump the agents
@@ -87,11 +88,13 @@ void QuadTSVProvenanceDump::dump(shared_ptr<fprov::ProvenanceGraph> graph) const
 		fprov::Agent agent(agentId, graph->getDomain(), graph->getMaxNumberOfAttributes());
 		this->dump(agent);
 	}
-	shared_ptr<vector<unsigned>> usedEntityIds = graph->getUsedEntityIds();
 
-	for (auto it = usedEntityIds->begin(); it != usedEntityIds->end(); ++it) {
-		fprov::Entity entity(*it, graph->getDomain(), graph->getMaxNumberOfAttributes());
-		this->dump(entity);
+	if (graph->getDepth()) {
+		shared_ptr<vector<unsigned>> usedEntityIds = graph->getUsedEntityIds();
+		for (auto it = usedEntityIds->begin(); it != usedEntityIds->end(); ++it) {
+			fprov::Entity entity(*it, graph->getDomain(), graph->getMaxNumberOfAttributes());
+			this->dump(entity);
+		}
 	}
 }
 

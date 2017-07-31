@@ -150,6 +150,9 @@ private:
 	// Sources and leaves density
 	float sources2LeavesDensity;
 
+	// Triples to leaf entities density (alpha value in proposal: http://wiki.qweb.cs.aau.dk/w/index.php/Benchmark_to_evaluate_quad-stores)
+	float triples2EntitiesDensity;
+
 	// Distribution
 	fc::AssignmentDistribution entities2TriplesDistribution;
 
@@ -167,7 +170,7 @@ private:
 	void computeNumberOfSourceEntities(const fc::ConfValues& values,
 			const fp::ParsingStats& stats);
 
-	void computeNumberOfLeafEntities(const fc::ConfValues& values, unsigned N);
+	void computeNumberOfLeafEntities(fc::AssignmentDistribution dist, unsigned N);
 
 	void computeNumberOfIntermediateEntities(const fc::ConfValues& values);
 
@@ -249,6 +252,8 @@ public:
 	unsigned getNumberOfAgents() const;
 
 	float getSources2LeavesDensity() const;
+
+	float getTriples2EntitiesDensity() const;
 
 	fc::AssignmentDistribution getEntitiesToTriplesDistribution() const;
 

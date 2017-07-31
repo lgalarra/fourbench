@@ -22,11 +22,12 @@ namespace provenance {
 
 UniformProvenanceAssignment::UniformProvenanceAssignment(shared_ptr<ProvenanceGraph> graphPtr) :
 		ProvenanceAssignment(graphPtr), numberOfSources(graphPtr->getNumberOfSourceEntities()),
-		numberOfLeaves(graphPtr->getNumberOfLeafEntities()), allSourcesConnected(false),
-		latestLeaf(graphPtr->getFirstLeafId()), numberOfAssignmentsLatestLeaf(0) {
+		numberOfLeaves(graphPtr->getNumberOfLeafEntities()), numberOfAssignmentsLatestLeaf(0) {
 	unsigned maxsl = max(numberOfLeaves, numberOfSources);
 	float numberOfEdges = graphPtr->getSources2LeavesDensity() * (numberOfSources * numberOfLeaves - maxsl) + maxsl;
-	sourcesPerLeaf = (unsigned)max(1.0f, ceil(numberOfEdges / numberOfLeaves));
+	sourcesPerLeaf = (unsigned)ceil((float)numberOfEdges / numberOfLeaves);
+	cout << "#edges " << numberOfEdges << ", #leaves: " << numberOfLeaves << ", #sources:" << numberOfSources << " #sources-per-leaf: " << sourcesPerLeaf << endl;
+
 	// All sources have no leaves connected to them
 	for (unsigned i = 0; i < numberOfSources; ++i) {
 		sourcesPriorityQueue.push(pair<unsigned, unsigned>(i, 0));
@@ -42,12 +43,10 @@ UniformProvenanceAssignment::UniformProvenanceAssignment(shared_ptr<ProvenanceGr
 
 }
 
-UniformProvenanceAssignment::~UniformProvenanceAssignment() {
-	// TODO Auto-generated destructor stub
-}
+UniformProvenanceAssignment::~UniformProvenanceAssignment() {}
 
 unsigned UniformProvenanceAssignment::nextProvenanceId() {
-	cout << "nextProvenanceId" << endl;
+	cout << "nextProvenanceId " << graphPtr->getName() << endl;
 	if (numberOfAssignmentsLatestLeaf >= maxItemsPerLeaf) {
 		++latestLeaf;
 		numberOfAssignmentsLatestLeaf = 1;
@@ -55,39 +54,14 @@ unsigned UniformProvenanceAssignment::nextProvenanceId() {
 		++numberOfAssignmentsLatestLeaf;
 	}
 
-	if (seenIds.find(latestLeaf) == seenIds.end()) {
+	if (seenIds.count(latestLeaf) == 0) {
 		seenIds.insert(latestLeaf);
 	} else {
 		cout << "returning " << latestLeaf  << endl;
 		return latestLeaf;
 	}
 
-	if (graphPtr->getDepth() > 1) {
-		if (!allSourcesConnected) {
-			cout << "Sources per leaf " << sourcesPerLeaf << endl;
-			// Pick the top N unconnected sources
-			for (unsigned i = 0; i < sourcesPerLeaf; ++i) {
-				pair<unsigned, unsigned> top = sourcesPriorityQueue.top();
-				cout << "Top " << top.first << ", " << top.second << " ";
-				if (top.second > 0) {
-					// This means all sources had been used once
-					allSourcesConnected = true;
-				}
-				top.second = top.second + 1;
-				cout << "Using priority queue. ";
-				graphPtr->connectSourceAndLeaf(graphPtr->getSourceAbsoluteId(top.first), latestLeaf);
-				sourcesPriorityQueue.pop();
-				sourcesPriorityQueue.push(top);
-			}
-		} else {
-			// Pick random sources
-			for (unsigned i = 0; i < sourcesPerLeaf; ++i) {
-				unsigned sourceIdx = rand() % numberOfSources;
-				cout << "Using random assignment. ";
-				graphPtr->connectSourceAndLeaf(graphPtr->getSourceAbsoluteId(sourceIdx), latestLeaf);
-			}
-		}
-	}
+	ProvenanceAssignment::connectLeafToSources(latestLeaf, sourcesPerLeaf);
 
 	cout << "done, " << latestLeaf << " connected to sources "  << endl;
 

@@ -185,7 +185,7 @@ string ProvenanceGraph::getDefaultProvenanceGraphIRI() {
 ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::ParsingStats& stats) :
 	name(values.familyName), provUsed(PROVO::used), provWasAttributedTo(PROVO::wasAttributedTo),
 	provWasGeneratedBy(PROVO::wasGeneratedBy), perSubject(values.provenancePerSubject),
-	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents),
+	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents), triples2EntitiesDensity(values.triplesEntitiesDensity),
 	maxNAgentsPerActivity(values.maxNumberOfAgentsPerActivity), maxNAgentsPerSource(values.maxNumberOfAgentsPerSourceEntity),
 	maxLevel(values.metadataDepth), entities2TriplesDistribution(values.distribution),
 	nSubjects(stats.numberOfSubjects), nTriples(stats.numberOfTriples), maxNAttributes(values.maxNumberOfAttributes) {
@@ -198,9 +198,9 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 	}
 
 	if (this->perSubject) {
-		computeNumberOfLeafEntities(values, stats.numberOfSubjects);
+		computeNumberOfLeafEntities(values.distribution, stats.numberOfSubjects);
 	} else {
-		computeNumberOfLeafEntities(values, stats.numberOfTriples);
+		computeNumberOfLeafEntities(values.distribution, stats.numberOfTriples);
 	}
 
 	computeNumberOfActivities(values); // This requires number of source and leaf entities
@@ -238,12 +238,11 @@ void ProvenanceGraph::computeNumberOfSourceEntities(const fc::ConfValues& values
 	}
 }
 
-void ProvenanceGraph::computeNumberOfLeafEntities(const fc::ConfValues& values, unsigned N) {
-	const fc::Conf& conf = fc::Conf::defaultConfig();
-	switch (values.distribution) {
+void ProvenanceGraph::computeNumberOfLeafEntities(fc::AssignmentDistribution dist, unsigned N) {
+	switch (dist) {
 	case fc::AssignmentDistribution::UNIFORM :
 	{
-		nLeafEntities = (unsigned)round(N - values.triplesEntitiesDensity * (N - 1));
+		nLeafEntities = (unsigned)round(N - triples2EntitiesDensity * (N - 1));
 		break;
 	}
 	/**
@@ -350,6 +349,10 @@ fc::AssignmentDistribution ProvenanceGraph::getEntitiesToTriplesDistribution() c
 
 float ProvenanceGraph::getSources2LeavesDensity() const {
 	return sources2LeavesDensity;
+}
+
+float ProvenanceGraph::getTriples2EntitiesDensity() const {
+	return triples2EntitiesDensity;
 }
 
 unsigned ProvenanceGraph::getMaxNumberOfAttributes() const {

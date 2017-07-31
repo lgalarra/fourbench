@@ -16,6 +16,7 @@
 #include "../include/datatypes/DataValue.hpp"
 #include "../include/provenance/ProvenanceObject.hpp"
 #include "../include/provenance/IRIBuilder.hpp"
+#include "../include/provenance/Vocabulary.hpp"
 
 
 using namespace std;
@@ -63,7 +64,7 @@ void ProvenanceObject::initialize() {
 	}
 
 	fd::DataValueBuilder& dtbuilder = fd::DataValueBuilder::getInstance();
-	attributes[f::concat({IRIBuilder::getDefaultPrefix(), "id"})] = dtbuilder.get<fd::IntegerValue>(id);
+	attributes[Vocabulary::id] = dtbuilder.get<fd::IntegerValue>(id);
 	if (attributesLeft > 0) {
 		for (unsigned i = 0; i < attributesLeft; ++i) {
 			map<string, fd::DataType*>::const_iterator it = attributeTypes.begin();

@@ -52,7 +52,7 @@ void Entity::initialize() {
 			|| level == EntityLevel::LEAF) {
 		ProvenanceObject::initialize();
 	} else {
-		attributes[f::concat({IRIBuilder::getDefaultPrefix(), "id"})] = dataBuilder.get<fd::IntegerValue>(id);
+		attributes[Vocabulary::id] = dataBuilder.get<fd::IntegerValue>(id);
 	}
 
 	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(PROVO::Entity);

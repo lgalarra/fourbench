@@ -17,9 +17,10 @@ namespace f = fourbench;
 namespace fourbench {
 namespace provenance {
 
-const string Vocabulary::sourceType = f::concat({IRIBuilder::getDefaultPrefix(), "sourceType/"});
-const string Vocabulary::agentType = f::concat({IRIBuilder::getDefaultPrefix(), "agentType/"});
-const string Vocabulary::SoftwareAgent = f::concat({IRIBuilder::getDefaultPrefix(), "SoftwareAgent/"});
+const string Vocabulary::sourceType = f::concat({IRIBuilder::getDefaultPrefix(), "property/sourceType/"});
+const string Vocabulary::agentType = f::concat({IRIBuilder::getDefaultPrefix(), "property/agentType/"});
+const string Vocabulary::SoftwareAgent = f::concat({IRIBuilder::getDefaultPrefix(), "type/SoftwareAgent/"});
+const string Vocabulary::id = f::concat({IRIBuilder::getDefaultPrefix(), "property/id/"});
 
 Vocabulary::Vocabulary() {
 	// TODO Auto-generated constructor stub

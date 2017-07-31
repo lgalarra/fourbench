@@ -21,6 +21,7 @@ private:
 public:
 	static const string sourceType;
 	static const string agentType;
+	static const string id;
 	static const string SoftwareAgent;
 	virtual ~Vocabulary();
 };
