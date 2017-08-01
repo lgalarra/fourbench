@@ -24,6 +24,7 @@ public:
 	static const string decimal;
 	static const string str;
 	static const string date;
+	static const string boolean;
 	virtual ~XSD();
 };
 

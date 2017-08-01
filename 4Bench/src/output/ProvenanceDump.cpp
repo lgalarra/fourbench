@@ -8,6 +8,7 @@
 #include <ostream>
 
 #include "../include/datatypes/DataValue.hpp"
+#include "../include/provenance/Vocabulary.hpp"
 #include "../include/provenance/XSD.hpp"
 #include "../include/provenance/ProvenanceObject.hpp"
 #include "../include/output/ProvenanceDump.hpp"
@@ -41,6 +42,13 @@ ostream& ProvenanceDump::formatInteger(int integer) const {
 	return stream;
 }
 
+ostream& ProvenanceDump::formatBoolean(bool b) const {
+	stream << "\"" << b << "\"^^";
+	formatIRI(fprov::XSD::boolean);
+	return stream;
+}
+
+
 ostream& ProvenanceDump::formatFloat(float decimal) const {
 	stream << "\"" << decimal << "\"^^";
 	formatIRI(fprov::XSD::decimal);
@@ -53,8 +61,22 @@ ostream& ProvenanceDump::formatString(const string& str) const {
 	return stream;
 }
 
+ostream& ProvenanceDump::formatCountry(const string& str) const {
+	cout << "IRIfying " << f::concat({fprov::Vocabulary::Country, f::wikify(str)}) << endl;
+	formatIRI(f::concat({fprov::Vocabulary::Country, f::wikify(str)}));
+	return stream;
+}
+
+string formatDayOrMonth(int dayOrMonth) {
+	if (dayOrMonth < 10) {
+		return f::concat({"0", to_string(dayOrMonth)});
+	} else {
+		return to_string(dayOrMonth);
+	}
+}
+
 ostream& ProvenanceDump::formatDate(const fd::Date& date) const {
-	stream << "\"" << date.day << "-" << (date.month < 10 ? f::concat({"0", to_string(date.month)}) : to_string(date.month)) << "-" << date.year << "\"^^";
+	stream << "\"" << formatDayOrMonth(date.day) << "-" << formatDayOrMonth(date.month) << "-" << date.year << "\"^^";
 	formatIRI(fprov::XSD::date);
 	return stream;
 }
@@ -120,7 +142,7 @@ ostream& ProvenanceDump::formatEntityType(fd::EntityTypeEnum type) const {
 ostream& ProvenanceDump::format(shared_ptr<fd::DataValue> value) const {
 	fd::DataType& type = value->getType();
 	string typeName = type.getName();
-	if (typeName == "IRI" || typeName == "country") {
+	if (typeName == "IRI") {
 		return formatIRI(value->getAs<string>());
 	} else if (typeName == "integer") {
 		return formatInteger(value->getAs<int>());
@@ -136,6 +158,10 @@ ostream& ProvenanceDump::format(shared_ptr<fd::DataValue> value) const {
 		return formatEntityType(value->getAs<fd::EntityTypeEnum>());
 	} else if (typeName == "activityType") {
 		return formatActivityType(value->getAs<fd::ActivityTypeEnum>());
+	} else if (typeName == "country") {
+		return formatCountry(value->getAs<string>());
+	} else if (typeName == "boolean") {
+		return formatBoolean(value->getAs<bool>());
 	}
 
 	return stream;

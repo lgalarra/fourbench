@@ -19,10 +19,12 @@ class Vocabulary {
 private:
 	Vocabulary();
 public:
+	static const string property;
 	static const string sourceType;
 	static const string agentType;
 	static const string id;
 	static const string SoftwareAgent;
+	static const string Country;
 	virtual ~Vocabulary();
 };
 

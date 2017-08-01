@@ -6,6 +6,7 @@
  */
 
 #include <math.h>
+#include <iostream>
 
 #include "../include/provenance/ProvenanceAssignment.hpp"
 #include "../include/provenance/GeometricProvenanceAssignment.hpp"
@@ -27,9 +28,10 @@ unsigned GeometricProvenanceAssignment::geometric(unsigned index, float alpha) c
 
 unsigned GeometricProvenanceAssignment::nextProvenanceId() {
 	// First calculate the function
-	unsigned geometric = geometric(latestLeaf, graphPtr->getTriples2EntitiesDensity());
+	unsigned geo = this->geometric(latestLeaf, graphPtr->getTriples2EntitiesDensity());
+	cout << "Leaf with id " << latestLeaf << " should be assigned to " << geo << " triples" << endl;
 	unsigned count = seenIds.count(latestLeaf);
-	if (count >= geometric) {
+	if (count >= geo) {
 		++latestLeaf;
 	}
 

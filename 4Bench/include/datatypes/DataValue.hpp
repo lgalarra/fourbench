@@ -97,6 +97,7 @@ class IRIValue : public DataValue {
 protected:
 	string iriValue;
 	void* get() const;
+	IRIValue(const string& s, DataType* type);
 public:
 	IRIValue(const string& s);
 	virtual ~IRIValue();

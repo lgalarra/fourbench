@@ -33,7 +33,9 @@ protected:
 	virtual ostream& formatIRI(const string& iri) const;
 	virtual ostream& format(shared_ptr<fd::DataValue> value) const;
 	virtual ostream& formatInteger(int integer) const;
+	virtual ostream& formatBoolean(bool b) const;
 	virtual ostream& formatFloat(float decimal) const;
+	virtual ostream& formatCountry(const string& str) const;
 	virtual ostream& formatString(const string& str) const;
 	virtual ostream& formatDate(const fd::Date& date) const;
 	virtual void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const = 0;

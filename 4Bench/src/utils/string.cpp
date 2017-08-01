@@ -76,4 +76,17 @@ string concat(const list<string>& strings) {
 	return sstrm.str();
 }
 
+string wikify(const string& s) {
+	stringstream sstrm;
+	static vector<char> specialChars = {' ', '{', '}', '(', ')', '&'};
+
+	for (auto it = s.cbegin(); it != s.cend(); ++it) {
+		if (find(specialChars.cbegin(), specialChars.cend(), *it) == specialChars.cend()) {
+			sstrm << *it;
+		}
+	}
+
+	return sstrm.str();
+}
+
 }

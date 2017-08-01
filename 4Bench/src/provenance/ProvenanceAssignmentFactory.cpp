@@ -11,7 +11,9 @@
 #include "../include/provenance/ProvenanceGraph.hpp"
 #include "../include/provenance/ProvenanceAssignmentFactory.hpp"
 #include "../include/provenance/ProvenanceAssignment.hpp"
+#include "../include/provenance/GeometricProvenanceAssignment.hpp"
 #include "../include/provenance/UniformProvenanceAssignment.hpp"
+#include "../include/provenance/PowerLawProvenanceAssignment.hpp"
 
 
 using namespace std;
@@ -36,9 +38,9 @@ shared_ptr<ProvenanceAssignment> ProvenanceAssignmentFactory::getProvenanceAssig
 	case fc::AssignmentDistribution::UNIFORM:
 		return make_shared<UniformProvenanceAssignment>(graphPtr);
 	case fc::AssignmentDistribution::GEOMETRIC:
-		return make_shared<UniformProvenanceAssignment>(graphPtr);
+		return make_shared<GeometricProvenanceAssignment>(graphPtr);
 	case fc::AssignmentDistribution::POWER_LAW:
-		return make_shared<UniformProvenanceAssignment>(graphPtr);
+		return make_shared<PowerLawProvenanceAssignment>(graphPtr);
 	}
 
 	return make_shared<UniformProvenanceAssignment>(graphPtr);

@@ -38,12 +38,14 @@ unsigned PowerLawProvenanceAssignment::powerLaw(unsigned index, float alpha) con
 unsigned PowerLawProvenanceAssignment::nextProvenanceId() {
 	// First calculate the function
 	unsigned powerlaw = powerLaw(latestLeaf, graphPtr->getTriples2EntitiesDensity());
+	cout << "Leaf with id " << latestLeaf << " should be assigned to " << powerlaw << " triples" << endl;
 	unsigned count = seenIds.count(latestLeaf);
 	if (count >= powerlaw) {
 		++latestLeaf;
 	}
 
 	seenIds.insert(latestLeaf);
+	cout << "Calling ProvenanceAssignment::connectLeafToSources(" << latestLeaf << ", " << sourcesPerLeaf << ")" << endl;
 	ProvenanceAssignment::connectLeafToSources(latestLeaf, sourcesPerLeaf);
 
 

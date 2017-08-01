@@ -28,11 +28,6 @@ UniformProvenanceAssignment::UniformProvenanceAssignment(shared_ptr<ProvenanceGr
 	sourcesPerLeaf = (unsigned)ceil((float)numberOfEdges / numberOfLeaves);
 	cout << "#edges " << numberOfEdges << ", #leaves: " << numberOfLeaves << ", #sources:" << numberOfSources << " #sources-per-leaf: " << sourcesPerLeaf << endl;
 
-	// All sources have no leaves connected to them
-	for (unsigned i = 0; i < numberOfSources; ++i) {
-		sourcesPriorityQueue.push(pair<unsigned, unsigned>(i, 0));
-	}
-
 	if (graphPtr->isAssignmentPerSubject()) {
 		maxItemsPerLeaf = (unsigned)ceil(graphPtr->getNumberOfSubjects()
 				/ (float)graphPtr->getNumberOfLeafEntities());

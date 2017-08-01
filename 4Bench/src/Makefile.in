@@ -116,6 +116,15 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	parsing/4Bench-TSVFileParser.$(OBJEXT) \
 	parsing/4Bench-ParsingStats.$(OBJEXT) \
 	provenance/4Bench-IRIBuilder.$(OBJEXT) \
+	provenance/4Bench-PROVO.$(OBJEXT) \
+	provenance/4Bench-RDF.$(OBJEXT) \
+	provenance/4Bench-RDFS.$(OBJEXT) \
+	provenance/4Bench-Vocabulary.$(OBJEXT) \
+	provenance/4Bench-FOAF.$(OBJEXT) \
+	provenance/4Bench-XSD.$(OBJEXT) \
+	datatypes/4Bench-DataType.$(OBJEXT) \
+	datatypes/4Bench-DataValue.$(OBJEXT) \
+	datatypes/4Bench-DataValueBuilder.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraph.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraphFactory.$(OBJEXT) \
 	provenance/4Bench-ProvenanceSubgraph.$(OBJEXT) \
@@ -124,22 +133,14 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	provenance/4Bench-ProvenanceAssignmentFactory.$(OBJEXT) \
 	provenance/4Bench-UniformProvenanceAssignment.$(OBJEXT) \
 	provenance/4Bench-PowerLawProvenanceAssignment.$(OBJEXT) \
+	provenance/4Bench-GeometricProvenanceAssignment.$(OBJEXT) \
 	provenance/4Bench-ProvenanceObject.$(OBJEXT) \
 	provenance/4Bench-Activity.$(OBJEXT) \
 	provenance/4Bench-Entity.$(OBJEXT) \
 	provenance/4Bench-Agent.$(OBJEXT) \
-	provenance/4Bench-PROVO.$(OBJEXT) \
-	provenance/4Bench-RDF.$(OBJEXT) \
-	provenance/4Bench-RDFS.$(OBJEXT) \
-	provenance/4Bench-Vocabulary.$(OBJEXT) \
-	provenance/4Bench-FOAF.$(OBJEXT) \
-	provenance/4Bench-XSD.$(OBJEXT) \
 	output/4Bench-ProvenanceDump.$(OBJEXT) \
 	output/4Bench-ProvenanceDumpFactory.$(OBJEXT) \
-	output/4Bench-QuadTSVProvenanceDump.$(OBJEXT) \
-	datatypes/4Bench-DataType.$(OBJEXT) \
-	datatypes/4Bench-DataValue.$(OBJEXT) \
-	datatypes/4Bench-DataValueBuilder.$(OBJEXT)
+	output/4Bench-QuadTSVProvenanceDump.$(OBJEXT)
 4Bench_OBJECTS = $(am_4Bench_OBJECTS)
 am__DEPENDENCIES_1 =
 4Bench_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -312,12 +313,12 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 4Bench_SOURCES = 4Bench.cpp utils/string.cpp conf/Conf.cpp  utils/integer.cpp utils/float.cpp \
  parsing/FileParser.cpp parsing/FileParserFactory.cpp parsing/Triple.cpp parsing/TSVFileParser.cpp parsing/ParsingStats.cpp \
- provenance/IRIBuilder.cpp provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp \
+ provenance/IRIBuilder.cpp provenance/PROVO.cpp provenance/RDF.cpp provenance/RDFS.cpp provenance/Vocabulary.cpp provenance/FOAF.cpp provenance/XSD.cpp \
+ datatypes/DataType.cpp datatypes/DataValue.cpp datatypes/DataValueBuilder.cpp \
+ provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp \
  provenance/ProvenanceAssignment.cpp  provenance/ProvenanceAssignmentFactory.cpp provenance/UniformProvenanceAssignment.cpp provenance/PowerLawProvenanceAssignment.cpp \
- provenance/ProvenanceObject.cpp provenance/Activity.cpp provenance/Entity.cpp provenance/Agent.cpp \
- provenance/PROVO.cpp provenance/RDF.cpp provenance/RDFS.cpp provenance/Vocabulary.cpp provenance/FOAF.cpp provenance/XSD.cpp \
- output/ProvenanceDump.cpp output/ProvenanceDumpFactory.cpp output/QuadTSVProvenanceDump.cpp \
- datatypes/DataType.cpp datatypes/DataValue.cpp datatypes/DataValueBuilder.cpp
+ provenance/GeometricProvenanceAssignment.cpp provenance/ProvenanceObject.cpp provenance/Activity.cpp provenance/Entity.cpp provenance/Agent.cpp \
+ output/ProvenanceDump.cpp output/ProvenanceDumpFactory.cpp output/QuadTSVProvenanceDump.cpp
 
 4Bench_CPPFLAGS = -I$(top_srcdir)/include
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
@@ -442,6 +443,30 @@ provenance/$(DEPDIR)/$(am__dirstamp):
 	@: > provenance/$(DEPDIR)/$(am__dirstamp)
 provenance/4Bench-IRIBuilder.$(OBJEXT): provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-PROVO.$(OBJEXT): provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-RDF.$(OBJEXT): provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-RDFS.$(OBJEXT): provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-Vocabulary.$(OBJEXT): provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-FOAF.$(OBJEXT): provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-XSD.$(OBJEXT): provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
+datatypes/$(am__dirstamp):
+	@$(MKDIR_P) datatypes
+	@: > datatypes/$(am__dirstamp)
+datatypes/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) datatypes/$(DEPDIR)
+	@: > datatypes/$(DEPDIR)/$(am__dirstamp)
+datatypes/4Bench-DataType.$(OBJEXT): datatypes/$(am__dirstamp) \
+	datatypes/$(DEPDIR)/$(am__dirstamp)
+datatypes/4Bench-DataValue.$(OBJEXT): datatypes/$(am__dirstamp) \
+	datatypes/$(DEPDIR)/$(am__dirstamp)
+datatypes/4Bench-DataValueBuilder.$(OBJEXT):  \
+	datatypes/$(am__dirstamp) datatypes/$(DEPDIR)/$(am__dirstamp)
 provenance/4Bench-ProvenanceGraph.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
@@ -466,6 +491,9 @@ provenance/4Bench-UniformProvenanceAssignment.$(OBJEXT):  \
 provenance/4Bench-PowerLawProvenanceAssignment.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-GeometricProvenanceAssignment.$(OBJEXT):  \
+	provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
 provenance/4Bench-ProvenanceObject.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
@@ -474,18 +502,6 @@ provenance/4Bench-Activity.$(OBJEXT): provenance/$(am__dirstamp) \
 provenance/4Bench-Entity.$(OBJEXT): provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
 provenance/4Bench-Agent.$(OBJEXT): provenance/$(am__dirstamp) \
-	provenance/$(DEPDIR)/$(am__dirstamp)
-provenance/4Bench-PROVO.$(OBJEXT): provenance/$(am__dirstamp) \
-	provenance/$(DEPDIR)/$(am__dirstamp)
-provenance/4Bench-RDF.$(OBJEXT): provenance/$(am__dirstamp) \
-	provenance/$(DEPDIR)/$(am__dirstamp)
-provenance/4Bench-RDFS.$(OBJEXT): provenance/$(am__dirstamp) \
-	provenance/$(DEPDIR)/$(am__dirstamp)
-provenance/4Bench-Vocabulary.$(OBJEXT): provenance/$(am__dirstamp) \
-	provenance/$(DEPDIR)/$(am__dirstamp)
-provenance/4Bench-FOAF.$(OBJEXT): provenance/$(am__dirstamp) \
-	provenance/$(DEPDIR)/$(am__dirstamp)
-provenance/4Bench-XSD.$(OBJEXT): provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
 output/$(am__dirstamp):
 	@$(MKDIR_P) output
@@ -499,18 +515,6 @@ output/4Bench-ProvenanceDumpFactory.$(OBJEXT): output/$(am__dirstamp) \
 	output/$(DEPDIR)/$(am__dirstamp)
 output/4Bench-QuadTSVProvenanceDump.$(OBJEXT): output/$(am__dirstamp) \
 	output/$(DEPDIR)/$(am__dirstamp)
-datatypes/$(am__dirstamp):
-	@$(MKDIR_P) datatypes
-	@: > datatypes/$(am__dirstamp)
-datatypes/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) datatypes/$(DEPDIR)
-	@: > datatypes/$(DEPDIR)/$(am__dirstamp)
-datatypes/4Bench-DataType.$(OBJEXT): datatypes/$(am__dirstamp) \
-	datatypes/$(DEPDIR)/$(am__dirstamp)
-datatypes/4Bench-DataValue.$(OBJEXT): datatypes/$(am__dirstamp) \
-	datatypes/$(DEPDIR)/$(am__dirstamp)
-datatypes/4Bench-DataValueBuilder.$(OBJEXT):  \
-	datatypes/$(am__dirstamp) datatypes/$(DEPDIR)/$(am__dirstamp)
 
 4Bench$(EXEEXT): $(4Bench_OBJECTS) $(4Bench_DEPENDENCIES) $(EXTRA_4Bench_DEPENDENCIES) 
 	@rm -f 4Bench$(EXEEXT)
@@ -545,6 +549,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-Agent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-Entity.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-FOAF.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-GeometricProvenanceAssignment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-IRIBuilder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-PROVO.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-PowerLawProvenanceAssignment.Po@am__quote@
@@ -734,6 +739,132 @@ provenance/4Bench-IRIBuilder.obj: provenance/IRIBuilder.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-IRIBuilder.obj `if test -f 'provenance/IRIBuilder.cpp'; then $(CYGPATH_W) 'provenance/IRIBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/IRIBuilder.cpp'; fi`
 
+provenance/4Bench-PROVO.o: provenance/PROVO.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-PROVO.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-PROVO.Tpo -c -o provenance/4Bench-PROVO.o `test -f 'provenance/PROVO.cpp' || echo '$(srcdir)/'`provenance/PROVO.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-PROVO.Tpo provenance/$(DEPDIR)/4Bench-PROVO.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/PROVO.cpp' object='provenance/4Bench-PROVO.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-PROVO.o `test -f 'provenance/PROVO.cpp' || echo '$(srcdir)/'`provenance/PROVO.cpp
+
+provenance/4Bench-PROVO.obj: provenance/PROVO.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-PROVO.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-PROVO.Tpo -c -o provenance/4Bench-PROVO.obj `if test -f 'provenance/PROVO.cpp'; then $(CYGPATH_W) 'provenance/PROVO.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/PROVO.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-PROVO.Tpo provenance/$(DEPDIR)/4Bench-PROVO.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/PROVO.cpp' object='provenance/4Bench-PROVO.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-PROVO.obj `if test -f 'provenance/PROVO.cpp'; then $(CYGPATH_W) 'provenance/PROVO.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/PROVO.cpp'; fi`
+
+provenance/4Bench-RDF.o: provenance/RDF.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-RDF.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-RDF.Tpo -c -o provenance/4Bench-RDF.o `test -f 'provenance/RDF.cpp' || echo '$(srcdir)/'`provenance/RDF.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-RDF.Tpo provenance/$(DEPDIR)/4Bench-RDF.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/RDF.cpp' object='provenance/4Bench-RDF.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-RDF.o `test -f 'provenance/RDF.cpp' || echo '$(srcdir)/'`provenance/RDF.cpp
+
+provenance/4Bench-RDF.obj: provenance/RDF.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-RDF.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-RDF.Tpo -c -o provenance/4Bench-RDF.obj `if test -f 'provenance/RDF.cpp'; then $(CYGPATH_W) 'provenance/RDF.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/RDF.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-RDF.Tpo provenance/$(DEPDIR)/4Bench-RDF.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/RDF.cpp' object='provenance/4Bench-RDF.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-RDF.obj `if test -f 'provenance/RDF.cpp'; then $(CYGPATH_W) 'provenance/RDF.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/RDF.cpp'; fi`
+
+provenance/4Bench-RDFS.o: provenance/RDFS.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-RDFS.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-RDFS.Tpo -c -o provenance/4Bench-RDFS.o `test -f 'provenance/RDFS.cpp' || echo '$(srcdir)/'`provenance/RDFS.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-RDFS.Tpo provenance/$(DEPDIR)/4Bench-RDFS.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/RDFS.cpp' object='provenance/4Bench-RDFS.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-RDFS.o `test -f 'provenance/RDFS.cpp' || echo '$(srcdir)/'`provenance/RDFS.cpp
+
+provenance/4Bench-RDFS.obj: provenance/RDFS.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-RDFS.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-RDFS.Tpo -c -o provenance/4Bench-RDFS.obj `if test -f 'provenance/RDFS.cpp'; then $(CYGPATH_W) 'provenance/RDFS.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/RDFS.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-RDFS.Tpo provenance/$(DEPDIR)/4Bench-RDFS.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/RDFS.cpp' object='provenance/4Bench-RDFS.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-RDFS.obj `if test -f 'provenance/RDFS.cpp'; then $(CYGPATH_W) 'provenance/RDFS.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/RDFS.cpp'; fi`
+
+provenance/4Bench-Vocabulary.o: provenance/Vocabulary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-Vocabulary.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-Vocabulary.Tpo -c -o provenance/4Bench-Vocabulary.o `test -f 'provenance/Vocabulary.cpp' || echo '$(srcdir)/'`provenance/Vocabulary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-Vocabulary.Tpo provenance/$(DEPDIR)/4Bench-Vocabulary.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/Vocabulary.cpp' object='provenance/4Bench-Vocabulary.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-Vocabulary.o `test -f 'provenance/Vocabulary.cpp' || echo '$(srcdir)/'`provenance/Vocabulary.cpp
+
+provenance/4Bench-Vocabulary.obj: provenance/Vocabulary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-Vocabulary.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-Vocabulary.Tpo -c -o provenance/4Bench-Vocabulary.obj `if test -f 'provenance/Vocabulary.cpp'; then $(CYGPATH_W) 'provenance/Vocabulary.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/Vocabulary.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-Vocabulary.Tpo provenance/$(DEPDIR)/4Bench-Vocabulary.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/Vocabulary.cpp' object='provenance/4Bench-Vocabulary.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-Vocabulary.obj `if test -f 'provenance/Vocabulary.cpp'; then $(CYGPATH_W) 'provenance/Vocabulary.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/Vocabulary.cpp'; fi`
+
+provenance/4Bench-FOAF.o: provenance/FOAF.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-FOAF.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-FOAF.Tpo -c -o provenance/4Bench-FOAF.o `test -f 'provenance/FOAF.cpp' || echo '$(srcdir)/'`provenance/FOAF.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-FOAF.Tpo provenance/$(DEPDIR)/4Bench-FOAF.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/FOAF.cpp' object='provenance/4Bench-FOAF.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-FOAF.o `test -f 'provenance/FOAF.cpp' || echo '$(srcdir)/'`provenance/FOAF.cpp
+
+provenance/4Bench-FOAF.obj: provenance/FOAF.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-FOAF.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-FOAF.Tpo -c -o provenance/4Bench-FOAF.obj `if test -f 'provenance/FOAF.cpp'; then $(CYGPATH_W) 'provenance/FOAF.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/FOAF.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-FOAF.Tpo provenance/$(DEPDIR)/4Bench-FOAF.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/FOAF.cpp' object='provenance/4Bench-FOAF.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-FOAF.obj `if test -f 'provenance/FOAF.cpp'; then $(CYGPATH_W) 'provenance/FOAF.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/FOAF.cpp'; fi`
+
+provenance/4Bench-XSD.o: provenance/XSD.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-XSD.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-XSD.Tpo -c -o provenance/4Bench-XSD.o `test -f 'provenance/XSD.cpp' || echo '$(srcdir)/'`provenance/XSD.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-XSD.Tpo provenance/$(DEPDIR)/4Bench-XSD.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/XSD.cpp' object='provenance/4Bench-XSD.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-XSD.o `test -f 'provenance/XSD.cpp' || echo '$(srcdir)/'`provenance/XSD.cpp
+
+provenance/4Bench-XSD.obj: provenance/XSD.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-XSD.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-XSD.Tpo -c -o provenance/4Bench-XSD.obj `if test -f 'provenance/XSD.cpp'; then $(CYGPATH_W) 'provenance/XSD.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/XSD.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-XSD.Tpo provenance/$(DEPDIR)/4Bench-XSD.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/XSD.cpp' object='provenance/4Bench-XSD.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-XSD.obj `if test -f 'provenance/XSD.cpp'; then $(CYGPATH_W) 'provenance/XSD.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/XSD.cpp'; fi`
+
+datatypes/4Bench-DataType.o: datatypes/DataType.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataType.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataType.Tpo -c -o datatypes/4Bench-DataType.o `test -f 'datatypes/DataType.cpp' || echo '$(srcdir)/'`datatypes/DataType.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataType.Tpo datatypes/$(DEPDIR)/4Bench-DataType.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataType.cpp' object='datatypes/4Bench-DataType.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataType.o `test -f 'datatypes/DataType.cpp' || echo '$(srcdir)/'`datatypes/DataType.cpp
+
+datatypes/4Bench-DataType.obj: datatypes/DataType.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataType.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataType.Tpo -c -o datatypes/4Bench-DataType.obj `if test -f 'datatypes/DataType.cpp'; then $(CYGPATH_W) 'datatypes/DataType.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataType.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataType.Tpo datatypes/$(DEPDIR)/4Bench-DataType.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataType.cpp' object='datatypes/4Bench-DataType.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataType.obj `if test -f 'datatypes/DataType.cpp'; then $(CYGPATH_W) 'datatypes/DataType.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataType.cpp'; fi`
+
+datatypes/4Bench-DataValue.o: datatypes/DataValue.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValue.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValue.Tpo -c -o datatypes/4Bench-DataValue.o `test -f 'datatypes/DataValue.cpp' || echo '$(srcdir)/'`datatypes/DataValue.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValue.Tpo datatypes/$(DEPDIR)/4Bench-DataValue.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValue.cpp' object='datatypes/4Bench-DataValue.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValue.o `test -f 'datatypes/DataValue.cpp' || echo '$(srcdir)/'`datatypes/DataValue.cpp
+
+datatypes/4Bench-DataValue.obj: datatypes/DataValue.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValue.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValue.Tpo -c -o datatypes/4Bench-DataValue.obj `if test -f 'datatypes/DataValue.cpp'; then $(CYGPATH_W) 'datatypes/DataValue.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValue.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValue.Tpo datatypes/$(DEPDIR)/4Bench-DataValue.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValue.cpp' object='datatypes/4Bench-DataValue.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValue.obj `if test -f 'datatypes/DataValue.cpp'; then $(CYGPATH_W) 'datatypes/DataValue.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValue.cpp'; fi`
+
+datatypes/4Bench-DataValueBuilder.o: datatypes/DataValueBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValueBuilder.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo -c -o datatypes/4Bench-DataValueBuilder.o `test -f 'datatypes/DataValueBuilder.cpp' || echo '$(srcdir)/'`datatypes/DataValueBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValueBuilder.cpp' object='datatypes/4Bench-DataValueBuilder.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValueBuilder.o `test -f 'datatypes/DataValueBuilder.cpp' || echo '$(srcdir)/'`datatypes/DataValueBuilder.cpp
+
+datatypes/4Bench-DataValueBuilder.obj: datatypes/DataValueBuilder.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValueBuilder.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo -c -o datatypes/4Bench-DataValueBuilder.obj `if test -f 'datatypes/DataValueBuilder.cpp'; then $(CYGPATH_W) 'datatypes/DataValueBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValueBuilder.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValueBuilder.cpp' object='datatypes/4Bench-DataValueBuilder.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValueBuilder.obj `if test -f 'datatypes/DataValueBuilder.cpp'; then $(CYGPATH_W) 'datatypes/DataValueBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValueBuilder.cpp'; fi`
+
 provenance/4Bench-ProvenanceGraph.o: provenance/ProvenanceGraph.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-ProvenanceGraph.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Tpo -c -o provenance/4Bench-ProvenanceGraph.o `test -f 'provenance/ProvenanceGraph.cpp' || echo '$(srcdir)/'`provenance/ProvenanceGraph.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Tpo provenance/$(DEPDIR)/4Bench-ProvenanceGraph.Po
@@ -846,6 +977,20 @@ provenance/4Bench-PowerLawProvenanceAssignment.obj: provenance/PowerLawProvenanc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-PowerLawProvenanceAssignment.obj `if test -f 'provenance/PowerLawProvenanceAssignment.cpp'; then $(CYGPATH_W) 'provenance/PowerLawProvenanceAssignment.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/PowerLawProvenanceAssignment.cpp'; fi`
 
+provenance/4Bench-GeometricProvenanceAssignment.o: provenance/GeometricProvenanceAssignment.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-GeometricProvenanceAssignment.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-GeometricProvenanceAssignment.Tpo -c -o provenance/4Bench-GeometricProvenanceAssignment.o `test -f 'provenance/GeometricProvenanceAssignment.cpp' || echo '$(srcdir)/'`provenance/GeometricProvenanceAssignment.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-GeometricProvenanceAssignment.Tpo provenance/$(DEPDIR)/4Bench-GeometricProvenanceAssignment.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/GeometricProvenanceAssignment.cpp' object='provenance/4Bench-GeometricProvenanceAssignment.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-GeometricProvenanceAssignment.o `test -f 'provenance/GeometricProvenanceAssignment.cpp' || echo '$(srcdir)/'`provenance/GeometricProvenanceAssignment.cpp
+
+provenance/4Bench-GeometricProvenanceAssignment.obj: provenance/GeometricProvenanceAssignment.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-GeometricProvenanceAssignment.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-GeometricProvenanceAssignment.Tpo -c -o provenance/4Bench-GeometricProvenanceAssignment.obj `if test -f 'provenance/GeometricProvenanceAssignment.cpp'; then $(CYGPATH_W) 'provenance/GeometricProvenanceAssignment.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/GeometricProvenanceAssignment.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-GeometricProvenanceAssignment.Tpo provenance/$(DEPDIR)/4Bench-GeometricProvenanceAssignment.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/GeometricProvenanceAssignment.cpp' object='provenance/4Bench-GeometricProvenanceAssignment.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-GeometricProvenanceAssignment.obj `if test -f 'provenance/GeometricProvenanceAssignment.cpp'; then $(CYGPATH_W) 'provenance/GeometricProvenanceAssignment.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/GeometricProvenanceAssignment.cpp'; fi`
+
 provenance/4Bench-ProvenanceObject.o: provenance/ProvenanceObject.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-ProvenanceObject.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-ProvenanceObject.Tpo -c -o provenance/4Bench-ProvenanceObject.o `test -f 'provenance/ProvenanceObject.cpp' || echo '$(srcdir)/'`provenance/ProvenanceObject.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-ProvenanceObject.Tpo provenance/$(DEPDIR)/4Bench-ProvenanceObject.Po
@@ -902,90 +1047,6 @@ provenance/4Bench-Agent.obj: provenance/Agent.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-Agent.obj `if test -f 'provenance/Agent.cpp'; then $(CYGPATH_W) 'provenance/Agent.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/Agent.cpp'; fi`
 
-provenance/4Bench-PROVO.o: provenance/PROVO.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-PROVO.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-PROVO.Tpo -c -o provenance/4Bench-PROVO.o `test -f 'provenance/PROVO.cpp' || echo '$(srcdir)/'`provenance/PROVO.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-PROVO.Tpo provenance/$(DEPDIR)/4Bench-PROVO.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/PROVO.cpp' object='provenance/4Bench-PROVO.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-PROVO.o `test -f 'provenance/PROVO.cpp' || echo '$(srcdir)/'`provenance/PROVO.cpp
-
-provenance/4Bench-PROVO.obj: provenance/PROVO.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-PROVO.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-PROVO.Tpo -c -o provenance/4Bench-PROVO.obj `if test -f 'provenance/PROVO.cpp'; then $(CYGPATH_W) 'provenance/PROVO.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/PROVO.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-PROVO.Tpo provenance/$(DEPDIR)/4Bench-PROVO.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/PROVO.cpp' object='provenance/4Bench-PROVO.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-PROVO.obj `if test -f 'provenance/PROVO.cpp'; then $(CYGPATH_W) 'provenance/PROVO.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/PROVO.cpp'; fi`
-
-provenance/4Bench-RDF.o: provenance/RDF.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-RDF.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-RDF.Tpo -c -o provenance/4Bench-RDF.o `test -f 'provenance/RDF.cpp' || echo '$(srcdir)/'`provenance/RDF.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-RDF.Tpo provenance/$(DEPDIR)/4Bench-RDF.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/RDF.cpp' object='provenance/4Bench-RDF.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-RDF.o `test -f 'provenance/RDF.cpp' || echo '$(srcdir)/'`provenance/RDF.cpp
-
-provenance/4Bench-RDF.obj: provenance/RDF.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-RDF.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-RDF.Tpo -c -o provenance/4Bench-RDF.obj `if test -f 'provenance/RDF.cpp'; then $(CYGPATH_W) 'provenance/RDF.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/RDF.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-RDF.Tpo provenance/$(DEPDIR)/4Bench-RDF.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/RDF.cpp' object='provenance/4Bench-RDF.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-RDF.obj `if test -f 'provenance/RDF.cpp'; then $(CYGPATH_W) 'provenance/RDF.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/RDF.cpp'; fi`
-
-provenance/4Bench-RDFS.o: provenance/RDFS.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-RDFS.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-RDFS.Tpo -c -o provenance/4Bench-RDFS.o `test -f 'provenance/RDFS.cpp' || echo '$(srcdir)/'`provenance/RDFS.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-RDFS.Tpo provenance/$(DEPDIR)/4Bench-RDFS.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/RDFS.cpp' object='provenance/4Bench-RDFS.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-RDFS.o `test -f 'provenance/RDFS.cpp' || echo '$(srcdir)/'`provenance/RDFS.cpp
-
-provenance/4Bench-RDFS.obj: provenance/RDFS.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-RDFS.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-RDFS.Tpo -c -o provenance/4Bench-RDFS.obj `if test -f 'provenance/RDFS.cpp'; then $(CYGPATH_W) 'provenance/RDFS.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/RDFS.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-RDFS.Tpo provenance/$(DEPDIR)/4Bench-RDFS.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/RDFS.cpp' object='provenance/4Bench-RDFS.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-RDFS.obj `if test -f 'provenance/RDFS.cpp'; then $(CYGPATH_W) 'provenance/RDFS.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/RDFS.cpp'; fi`
-
-provenance/4Bench-Vocabulary.o: provenance/Vocabulary.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-Vocabulary.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-Vocabulary.Tpo -c -o provenance/4Bench-Vocabulary.o `test -f 'provenance/Vocabulary.cpp' || echo '$(srcdir)/'`provenance/Vocabulary.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-Vocabulary.Tpo provenance/$(DEPDIR)/4Bench-Vocabulary.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/Vocabulary.cpp' object='provenance/4Bench-Vocabulary.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-Vocabulary.o `test -f 'provenance/Vocabulary.cpp' || echo '$(srcdir)/'`provenance/Vocabulary.cpp
-
-provenance/4Bench-Vocabulary.obj: provenance/Vocabulary.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-Vocabulary.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-Vocabulary.Tpo -c -o provenance/4Bench-Vocabulary.obj `if test -f 'provenance/Vocabulary.cpp'; then $(CYGPATH_W) 'provenance/Vocabulary.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/Vocabulary.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-Vocabulary.Tpo provenance/$(DEPDIR)/4Bench-Vocabulary.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/Vocabulary.cpp' object='provenance/4Bench-Vocabulary.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-Vocabulary.obj `if test -f 'provenance/Vocabulary.cpp'; then $(CYGPATH_W) 'provenance/Vocabulary.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/Vocabulary.cpp'; fi`
-
-provenance/4Bench-FOAF.o: provenance/FOAF.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-FOAF.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-FOAF.Tpo -c -o provenance/4Bench-FOAF.o `test -f 'provenance/FOAF.cpp' || echo '$(srcdir)/'`provenance/FOAF.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-FOAF.Tpo provenance/$(DEPDIR)/4Bench-FOAF.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/FOAF.cpp' object='provenance/4Bench-FOAF.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-FOAF.o `test -f 'provenance/FOAF.cpp' || echo '$(srcdir)/'`provenance/FOAF.cpp
-
-provenance/4Bench-FOAF.obj: provenance/FOAF.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-FOAF.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-FOAF.Tpo -c -o provenance/4Bench-FOAF.obj `if test -f 'provenance/FOAF.cpp'; then $(CYGPATH_W) 'provenance/FOAF.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/FOAF.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-FOAF.Tpo provenance/$(DEPDIR)/4Bench-FOAF.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/FOAF.cpp' object='provenance/4Bench-FOAF.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-FOAF.obj `if test -f 'provenance/FOAF.cpp'; then $(CYGPATH_W) 'provenance/FOAF.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/FOAF.cpp'; fi`
-
-provenance/4Bench-XSD.o: provenance/XSD.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-XSD.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-XSD.Tpo -c -o provenance/4Bench-XSD.o `test -f 'provenance/XSD.cpp' || echo '$(srcdir)/'`provenance/XSD.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-XSD.Tpo provenance/$(DEPDIR)/4Bench-XSD.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/XSD.cpp' object='provenance/4Bench-XSD.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-XSD.o `test -f 'provenance/XSD.cpp' || echo '$(srcdir)/'`provenance/XSD.cpp
-
-provenance/4Bench-XSD.obj: provenance/XSD.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-XSD.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-XSD.Tpo -c -o provenance/4Bench-XSD.obj `if test -f 'provenance/XSD.cpp'; then $(CYGPATH_W) 'provenance/XSD.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/XSD.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-XSD.Tpo provenance/$(DEPDIR)/4Bench-XSD.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/XSD.cpp' object='provenance/4Bench-XSD.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-XSD.obj `if test -f 'provenance/XSD.cpp'; then $(CYGPATH_W) 'provenance/XSD.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/XSD.cpp'; fi`
-
 output/4Bench-ProvenanceDump.o: output/ProvenanceDump.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT output/4Bench-ProvenanceDump.o -MD -MP -MF output/$(DEPDIR)/4Bench-ProvenanceDump.Tpo -c -o output/4Bench-ProvenanceDump.o `test -f 'output/ProvenanceDump.cpp' || echo '$(srcdir)/'`output/ProvenanceDump.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) output/$(DEPDIR)/4Bench-ProvenanceDump.Tpo output/$(DEPDIR)/4Bench-ProvenanceDump.Po
@@ -1027,48 +1088,6 @@ output/4Bench-QuadTSVProvenanceDump.obj: output/QuadTSVProvenanceDump.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output/QuadTSVProvenanceDump.cpp' object='output/4Bench-QuadTSVProvenanceDump.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o output/4Bench-QuadTSVProvenanceDump.obj `if test -f 'output/QuadTSVProvenanceDump.cpp'; then $(CYGPATH_W) 'output/QuadTSVProvenanceDump.cpp'; else $(CYGPATH_W) '$(srcdir)/output/QuadTSVProvenanceDump.cpp'; fi`
-
-datatypes/4Bench-DataType.o: datatypes/DataType.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataType.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataType.Tpo -c -o datatypes/4Bench-DataType.o `test -f 'datatypes/DataType.cpp' || echo '$(srcdir)/'`datatypes/DataType.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataType.Tpo datatypes/$(DEPDIR)/4Bench-DataType.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataType.cpp' object='datatypes/4Bench-DataType.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataType.o `test -f 'datatypes/DataType.cpp' || echo '$(srcdir)/'`datatypes/DataType.cpp
-
-datatypes/4Bench-DataType.obj: datatypes/DataType.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataType.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataType.Tpo -c -o datatypes/4Bench-DataType.obj `if test -f 'datatypes/DataType.cpp'; then $(CYGPATH_W) 'datatypes/DataType.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataType.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataType.Tpo datatypes/$(DEPDIR)/4Bench-DataType.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataType.cpp' object='datatypes/4Bench-DataType.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataType.obj `if test -f 'datatypes/DataType.cpp'; then $(CYGPATH_W) 'datatypes/DataType.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataType.cpp'; fi`
-
-datatypes/4Bench-DataValue.o: datatypes/DataValue.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValue.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValue.Tpo -c -o datatypes/4Bench-DataValue.o `test -f 'datatypes/DataValue.cpp' || echo '$(srcdir)/'`datatypes/DataValue.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValue.Tpo datatypes/$(DEPDIR)/4Bench-DataValue.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValue.cpp' object='datatypes/4Bench-DataValue.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValue.o `test -f 'datatypes/DataValue.cpp' || echo '$(srcdir)/'`datatypes/DataValue.cpp
-
-datatypes/4Bench-DataValue.obj: datatypes/DataValue.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValue.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValue.Tpo -c -o datatypes/4Bench-DataValue.obj `if test -f 'datatypes/DataValue.cpp'; then $(CYGPATH_W) 'datatypes/DataValue.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValue.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValue.Tpo datatypes/$(DEPDIR)/4Bench-DataValue.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValue.cpp' object='datatypes/4Bench-DataValue.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValue.obj `if test -f 'datatypes/DataValue.cpp'; then $(CYGPATH_W) 'datatypes/DataValue.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValue.cpp'; fi`
-
-datatypes/4Bench-DataValueBuilder.o: datatypes/DataValueBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValueBuilder.o -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo -c -o datatypes/4Bench-DataValueBuilder.o `test -f 'datatypes/DataValueBuilder.cpp' || echo '$(srcdir)/'`datatypes/DataValueBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValueBuilder.cpp' object='datatypes/4Bench-DataValueBuilder.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValueBuilder.o `test -f 'datatypes/DataValueBuilder.cpp' || echo '$(srcdir)/'`datatypes/DataValueBuilder.cpp
-
-datatypes/4Bench-DataValueBuilder.obj: datatypes/DataValueBuilder.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT datatypes/4Bench-DataValueBuilder.obj -MD -MP -MF datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo -c -o datatypes/4Bench-DataValueBuilder.obj `if test -f 'datatypes/DataValueBuilder.cpp'; then $(CYGPATH_W) 'datatypes/DataValueBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValueBuilder.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Tpo datatypes/$(DEPDIR)/4Bench-DataValueBuilder.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='datatypes/DataValueBuilder.cpp' object='datatypes/4Bench-DataValueBuilder.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o datatypes/4Bench-DataValueBuilder.obj `if test -f 'datatypes/DataValueBuilder.cpp'; then $(CYGPATH_W) 'datatypes/DataValueBuilder.cpp'; else $(CYGPATH_W) '$(srcdir)/datatypes/DataValueBuilder.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique

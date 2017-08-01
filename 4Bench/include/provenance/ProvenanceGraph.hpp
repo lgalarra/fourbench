@@ -223,6 +223,8 @@ public:
 		strm << "name: " << g.name << ", ";
 		strm << "# agents: " << g.nAgents << ", ";
 		strm << "# activities: " << g.nActivities << ", ";
+		strm << "# triples: " << g.nTriples << ", ";
+		strm << "# subjects: " << g.nSubjects << ", ";
 		strm << "# (total entities, leaf entities, intermediate entities, sources): ";
 		strm << "(" << g.nEntities << ", " << g.nLeafEntities << ", " << g.nIntermediateEntities << ", " << g.nSourceEntities << "), ";
 		strm << "entity levels: " << g.toString(g.entityLevels) << ", ";

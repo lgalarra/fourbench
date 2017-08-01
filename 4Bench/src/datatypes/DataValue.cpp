@@ -51,6 +51,7 @@ template<> Date DataValue::getAs<Date>() const {
 template AgentTypeEnum DataValue::getAs<AgentTypeEnum>() const;
 template string DataValue::getAs<string>() const;
 template int DataValue::getAs<int>() const;
+template bool DataValue::getAs<bool>() const;
 template float DataValue::getAs<float>() const;
 template ActivityTypeEnum DataValue::getAs<ActivityTypeEnum>() const;
 template EntityTypeEnum DataValue::getAs<EntityTypeEnum>() const;
@@ -116,6 +117,10 @@ void* StringValue::get() const {
 }
 
 
+IRIValue::IRIValue(const string& s, DataType* type) : DataValue(type), iriValue(s) {
+
+}
+
 IRIValue::IRIValue(const string& s) : DataValue(&IRIType::getInstance()), iriValue(s) {
 
 }
@@ -128,7 +133,7 @@ IRIValue::~IRIValue() {
 
 }
 
-CountryValue::CountryValue(const string& d) : IRIValue(d) {
+CountryValue::CountryValue(const string& d) : IRIValue(d, &CountryType::getInstance()) {
 
 }
 

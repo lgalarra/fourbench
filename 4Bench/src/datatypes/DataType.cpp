@@ -136,7 +136,7 @@ EnumeratedDomain::~EnumeratedDomain() {}
 
 StringType StringType::instance;
 
-StringType::StringType() : DataType("string"), EnumeratedDomain("input/domain/strings") {
+StringType::StringType() : DataType("string"), EnumeratedDomain("input/domains/strings") {
 
 }
 
@@ -196,7 +196,7 @@ CountryType& CountryType::getInstance() {
 }
 
 
-CountryType::CountryType() : IRIType("country"), EnumeratedDomain("input/domain/countries") {
+CountryType::CountryType() : IRIType("country"), EnumeratedDomain("input/domains/countries") {
 
 }
 

@@ -22,10 +22,14 @@ namespace fc = fourbench::conf;
 ProvenanceAssignment::ProvenanceAssignment(shared_ptr<ProvenanceGraph> graphPtr) :
 		graphPtr(graphPtr), allSourcesConnected(false),
 		latestLeaf(graphPtr->getFirstLeafId()), sourcesPerLeaf(1) {
+	// All sources have no leaves connected to them
+	for (unsigned i = 0; i < graphPtr->getNumberOfSourceEntities(); ++i) {
+		sourcesPriorityQueue.push(pair<unsigned, unsigned>(i, 0));
+	}
+
 }
 
 ProvenanceAssignment::~ProvenanceAssignment() {
-	// TODO Auto-generated destructor stub
 }
 
 shared_ptr<ProvenanceGraph> ProvenanceAssignment::getGraph() const {
