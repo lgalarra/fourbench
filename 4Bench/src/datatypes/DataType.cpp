@@ -91,6 +91,24 @@ RatioType::~RatioType() {
 
 }
 
+DateTimeType DateTimeType::instance;
+
+DateTimeType::DateTimeType(const string& name) : DataType(name) {}
+
+DateTimeType::DateTimeType() : DataType("dateTime") {}
+
+shared_ptr<DataValue> DateTimeType::getRandomValue() const {
+	long rtimestamp = random();
+	time_t rDate = time(&rtimestamp);
+	return make_shared<DateTimeValue>(rDate);
+}
+
+DateTimeType::~DateTimeType() {}
+
+DateTimeType& DateTimeType::getInstance() {
+	return instance;
+}
+
 DateType DateType::instance;
 
 DateType& DateType::getInstance() {
@@ -98,7 +116,7 @@ DateType& DateType::getInstance() {
 }
 
 
-DateType::DateType() : DataType("date") {
+DateType::DateType() : DateTimeType("date") {
 
 }
 

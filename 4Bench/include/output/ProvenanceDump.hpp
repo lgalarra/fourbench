@@ -38,6 +38,7 @@ protected:
 	virtual ostream& formatCountry(const string& str) const;
 	virtual ostream& formatString(const string& str) const;
 	virtual ostream& formatDate(const fd::Date& date) const;
+	virtual ostream& formatDateTime(time_t tstamp) const;
 	virtual void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const = 0;
 	virtual void dump(const fprov::ProvenanceObject& obj) const;
 	virtual ostream& formatActivityType(fd::ActivityTypeEnum type) const;

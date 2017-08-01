@@ -48,8 +48,8 @@ void Activity::initialize() {
 	fd::DataValueBuilder& dataBuilder = fd::DataValueBuilder::getInstance();
 	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(getIRI());
 	attributes[RDFS::label] = dataBuilder.get<fd::StringValue>(f::concat({"Activity ", to_string(id)}));
-	attributes[PROVO::startedAtTime] = dataBuilder.get<fd::DateValue>(before);
-	attributes[PROVO::endedAtTime] = dataBuilder.get<fd::DateValue>(now);
+	attributes[PROVO::startedAtTime] = dataBuilder.get<fd::DateTimeValue>(before);
+	attributes[PROVO::endedAtTime] = dataBuilder.get<fd::DateTimeValue>(now);
 }
 
 Activity::~Activity() {

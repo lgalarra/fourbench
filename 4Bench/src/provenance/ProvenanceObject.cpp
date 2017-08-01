@@ -32,6 +32,7 @@ const map<string, fd::DataType*> ProvenanceObject::attributeTypes = {
 		{fd::BooleanType::getInstance().getName(), &fd::BooleanType::getInstance()},
 		{fd::RatioType::getInstance().getName(), &fd::RatioType::getInstance()},
 		{fd::DateType::getInstance().getName(), &fd::DateType::getInstance()},
+		{fd::DateTimeType::getInstance().getName(), &fd::DateTimeType::getInstance()},
 		{fd::StringType::getInstance().getName(), &fd::StringType::getInstance()},
 		{fd::IRIType::getInstance().getName(), &fd::IRIType::getInstance()},
 		{fd::CountryType::getInstance().getName(), &fd::CountryType::getInstance()},
@@ -45,6 +46,7 @@ static const map<string, fd::DataType*> attributeTypesForRandomSelection = {
 		{fd::BooleanType::getInstance().getName(), &fd::BooleanType::getInstance()},
 		{fd::RatioType::getInstance().getName(), &fd::RatioType::getInstance()},
 		{fd::DateType::getInstance().getName(), &fd::DateType::getInstance()},
+		{fd::DateTimeType::getInstance().getName(), &fd::DateTimeType::getInstance()},
 		{fd::StringType::getInstance().getName(), &fd::StringType::getInstance()},
 		{fd::IRIType::getInstance().getName(), &fd::IRIType::getInstance()},
 		{fd::CountryType::getInstance().getName(), &fd::CountryType::getInstance()}

@@ -6,6 +6,7 @@
  */
 
 #include <ostream>
+#include <time.h>
 
 #include "../include/datatypes/DataValue.hpp"
 #include "../include/provenance/Vocabulary.hpp"
@@ -81,6 +82,16 @@ ostream& ProvenanceDump::formatDate(const fd::Date& date) const {
 	return stream;
 }
 
+ostream& ProvenanceDump::formatDateTime(time_t tstamp) const {
+	struct tm * tstruct = localtime(&tstamp);
+	char buf[80];
+	strftime(buf, sizeof(buf), "%Y-%m-%dT%XZ", tstruct);
+	stream << "\"" << buf << "\"^^";
+	formatIRI(fprov::XSD::dateTime);
+	return stream;
+}
+
+
 ostream& ProvenanceDump::formatAgentType(fd::AgentTypeEnum type) const {
 	string suffix;
 	switch (type) {
@@ -139,6 +150,7 @@ ostream& ProvenanceDump::formatEntityType(fd::EntityTypeEnum type) const {
 	return stream;
 }
 
+
 ostream& ProvenanceDump::format(shared_ptr<fd::DataValue> value) const {
 	fd::DataType& type = value->getType();
 	string typeName = type.getName();
@@ -162,6 +174,8 @@ ostream& ProvenanceDump::format(shared_ptr<fd::DataValue> value) const {
 		return formatCountry(value->getAs<string>());
 	} else if (typeName == "boolean") {
 		return formatBoolean(value->getAs<bool>());
+	} else if (typeName == "dateTime") {
+		return formatDateTime(value->getAs<time_t>());
 	}
 
 	return stream;

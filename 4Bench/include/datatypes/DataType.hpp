@@ -60,8 +60,19 @@ public:
 	virtual ~RatioType();
 };
 
+class DateTimeType : public DataType {
+private:
+	static DateTimeType instance;
+public:
+	static DateTimeType& getInstance();
+	DateTimeType(const string& s);
+	DateTimeType();
+	virtual shared_ptr<DataValue> getRandomValue() const;
+	virtual ~DateTimeType();
 
-class DateType : public DataType {
+};
+
+class DateType : public DateTimeType {
 private:
 	static DateType instance;
 public:

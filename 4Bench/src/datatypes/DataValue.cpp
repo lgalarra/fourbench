@@ -52,6 +52,7 @@ template AgentTypeEnum DataValue::getAs<AgentTypeEnum>() const;
 template string DataValue::getAs<string>() const;
 template int DataValue::getAs<int>() const;
 template bool DataValue::getAs<bool>() const;
+template time_t DataValue::getAs<time_t>() const;
 template float DataValue::getAs<float>() const;
 template ActivityTypeEnum DataValue::getAs<ActivityTypeEnum>() const;
 template EntityTypeEnum DataValue::getAs<EntityTypeEnum>() const;
@@ -92,17 +93,20 @@ void* RatioValue::get() const {
 	return (void*)&floatValue;
 }
 
-DateValue::DateValue(time_t d) : DataValue(&DateType::getInstance()), dateValue(d) {
+DateTimeValue::DateTimeValue(time_t arg, DataType* type) : DataValue(type), timestamp(arg) {}
 
+DateTimeValue::DateTimeValue(time_t arg) : DataValue(&DateTimeType::getInstance()), timestamp(arg) {}
+
+DateTimeValue::~DateTimeValue() {}
+
+void* DateTimeValue::get() const {
+	return (void*)&timestamp;
 }
 
-DateValue::~DateValue() {
+DateValue::DateValue(time_t d) : DateTimeValue(d, &DateType::getInstance()) {}
 
-}
+DateValue::~DateValue() {}
 
-void* DateValue::get() const {
-	return (void*)&dateValue;
-}
 
 StringValue::StringValue(const string& d) : DataValue(&StringType::getInstance()), stringValue(d) {
 

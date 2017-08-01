@@ -72,12 +72,18 @@ public:
 	virtual ~RatioValue();
 };
 
-
-class DateValue : public DataValue {
-private:
-	time_t dateValue;
+class DateTimeValue : public DataValue {
 protected:
+	time_t timestamp;
 	void* get() const;
+	DateTimeValue(time_t arg, DataType* type);
+public:
+	DateTimeValue(time_t arg);
+	virtual ~DateTimeValue();
+
+};
+
+class DateValue : public DateTimeValue {
 public:
 	DateValue(time_t arg);
 	virtual ~DateValue();
