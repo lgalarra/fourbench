@@ -15,13 +15,14 @@
 #include <vector>
 #include <algorithm>
 
+#include "../include/4bench.hpp"
 #include "../include/conf/Conf.hpp"
 #include "../include/parsing/FileParser.hpp"
 #include "../include/parsing/FileParserFactory.hpp"
 #include "../include/parsing/TSVFileParser.hpp"
 #include "../include/output/ProvenanceDump.hpp"
 #include "../include/output/ProvenanceDumpFactory.hpp"
-#include "../include/output/QuadTSVProvenanceDump.hpp"
+#include "../include/output/NQuadsProvenanceDump.hpp"
 #include "../include/provenance/ProvenanceGraphFactory.hpp"
 #include "../include/provenance/ProvenanceGraphPopulator.hpp"
 
@@ -69,10 +70,9 @@ shared_ptr<fpar::FileParser> buildParser(const string& inputFormat, const vector
 
 shared_ptr<fo::ProvenanceDump> getDump(const string& outputFormat, ostream& stream) {
 	fo::ProvenanceDumpFactory& dumpFactory = fo::ProvenanceDumpFactory::getInstance();
-	if (outputFormat == "tsv") {
-		return dumpFactory.buildDump<fo::QuadTSVProvenanceDump>(stream);
+	if (outputFormat == "nquads" || outputFormat == "n4") {
+		return dumpFactory.buildDump<fo::NQuadsProvenanceDump>(stream);
 	} else {
-		cerr << "Format " << outputFormat << " is still not implemented";
 		return nullptr;
 	}
 }
@@ -86,12 +86,12 @@ int main(int argc, char** argv) {
 
 	if(vm.count("help")) {
 	    cout << *description;
-		exit(0);
+		return 0;
 	}
 
 	if (vm.count("version")) {
-		cout << "0.1";
-		exit(0);
+		cout << FOURBENCH_VERSION;
+		return 0;
 	}
 
 	if (vm.count("config")) {
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
 			conf.parseFromFile(vm["config"].as<string>());
 		} catch (exception &e) {
 			cout << e.what() << endl;
-			exit(1);
+			return 1;
 		}
 	} else {
 		// Parse the other arguments
@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
 
 	if (vm.count("input-files") == 0) {
 		cerr << "No input files provided." << endl;
-		exit(3);
+		return 3;
 	} else {
 		ifiles = vm["input-files"].as<vector<string>>();
 	}
@@ -121,7 +121,7 @@ int main(int argc, char** argv) {
 		auto search = find(supportedInputFormats.begin(), supportedInputFormats.end(), iformat);
 		if (search == end(supportedInputFormats)) {
 			cerr << "Unsupported format " << iformat << ". This program only supports tsv, ttl, n3 or n4" << endl;
-			exit(2);
+			return 2;
 		}
 	} else {
 		iformat = "tsv";

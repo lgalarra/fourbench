@@ -1,12 +1,12 @@
 /*
- * QuadTSVProvenanceDump.hpp
+ * NQuadsProvenanceDump.hpp
  *
  *  Created on: Jul 19, 2017
  *      Author: galarraga
  */
 
-#ifndef OUTPUT_QUADTSVPROVENANCEDUMP_HPP_
-#define OUTPUT_QUADTSVPROVENANCEDUMP_HPP_
+#ifndef OUTPUT_NQUADSPROVENANCEDUMP_HPP_
+#define OUTPUT_NQUADSPROVENANCEDUMP_HPP_
 
 #include <vector>
 
@@ -21,17 +21,18 @@ using namespace std;
 namespace fourbench {
 namespace output {
 
-class QuadTSVProvenanceDump: public ProvenanceDump {
+class NQuadsProvenanceDump: public ProvenanceDump {
 private:
 
 	template<class Domain, class Range> inline void dump(const tuple<shared_ptr<Domain>, string, shared_ptr<Range>>& tuple) const {
 		this->formatIRI(get<0>(tuple)->getIRI());
-		stream << "\t";
+		stream << " ";
 		this->formatIRI(get<1>(tuple));
-		stream << "\t";
+		stream << " ";
 		this->formatIRI(get<2>(tuple)->getIRI());
-		stream << "\t";
+		stream << " ";
 		this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
+		stream << " .";
 		stream << endl;
 	}
 
@@ -44,22 +45,23 @@ private:
 			this->formatIRI((*itr)->getIRI());
 			stream << "\t";
 			this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
+			stream << " .";
 			stream << endl;
 		}
 	}
 
 protected:
-	void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const;
-	void dump(const fprov::ProvenanceObject& obj) const;
+	virtual void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const;
+	virtual void dump(const fprov::ProvenanceObject& obj) const;
 
 public:
-	QuadTSVProvenanceDump(ostream& strm);
-	void dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const;
-	void dump(shared_ptr<fprov::ProvenanceGraph> graph) const;
-	virtual ~QuadTSVProvenanceDump();
+	NQuadsProvenanceDump(ostream& strm);
+	virtual void dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const;
+	virtual void dump(shared_ptr<fprov::ProvenanceGraph> graph) const;
+	virtual ~NQuadsProvenanceDump();
 };
 
 } /* namespace output */
 } /* namespace fourbench */
 
-#endif /* QUADTSVPROVENANCEDUMP_HPP_ */
+#endif /* NQuadsProvenanceDump_HPP_ */
