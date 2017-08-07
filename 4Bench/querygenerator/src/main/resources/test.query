@@ -1,0 +1,4 @@
+SELECT * WHERE { 
+{?x <http://example.com/capitalOf> ?y . { ?x <http://example.com/type> <http://example.com/City> } } 
+UNION { ?x <http://example.com/capitalOf> ?y . ?x <http://example.com/type> <http://example.com/Country> . }
+}

@@ -1,0 +1,164 @@
+<http://example.com/Quito> <http://example.com/capitalOf> <http://example.com/Ecuador> <http://fourbench.org/provenance/default/entity/0> .
+<http://example.com/Aalborg> <http://example.com/locatedIn> <http://example.com/Denmark> <http://fourbench.org/provenance/default/entity/0> .
+<http://example.com/Rennes> <http://example.com/locatedIn> <http://example.com/France> <http://fourbench.org/provenance/default/entity/1> .
+<http://example.com/France> <http://example.com/type> <http://example.com/Country> <http://fourbench.org/provenance/default/entity/1> .
+<http://example.com/Denmark> <http://example.com/type> <http://example.com/Country> <http://fourbench.org/provenance/familyOne/entity/0> .
+<http://example.com/Aalborg> <http://example.com/type> <http://example.com/City> <http://fourbench.org/provenance/familyOne/entity/0> .
+<http://example.com/Rennes> <http://example.com/type> <http://example.com/City> <http://fourbench.org/provenance/familyOne/entity/1> .
+<http://fourbench.org/provenance/default/activity/0> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/default/entity/5> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/1> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/default/entity/5> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/2> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/default/entity/7> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/3> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/default/entity/6> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/0> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/default/activity/0> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/1> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/default/activity/1> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/5> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/default/activity/3> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/5> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/default/activity/2> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/0>	<http://www.w3.org/ns/prov#wasAssociatedWith>	<http://fourbench.org/provenance/default/agent/1>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/0> <http://fourbench.org/property/id/> "0"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/provenance/default/activity/0> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/0> <http://www.w3.org/2000/01/rdf-schema#label> "Activity 0"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/0> <http://www.w3.org/ns/prov#endedAtTime> "2017-08-04T17:09:34Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/0> <http://www.w3.org/ns/prov#startedAtTime> "2017-08-04T07:43:18Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/1>	<http://www.w3.org/ns/prov#wasAssociatedWith>	<http://fourbench.org/provenance/default/agent/1>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/1> <http://fourbench.org/property/id/> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/provenance/default/activity/1> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/1> <http://www.w3.org/2000/01/rdf-schema#label> "Activity 1"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/1> <http://www.w3.org/ns/prov#endedAtTime> "2017-08-04T17:09:34Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/1> <http://www.w3.org/ns/prov#startedAtTime> "2017-08-04T13:34:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/2>	<http://www.w3.org/ns/prov#wasAssociatedWith>	<http://fourbench.org/provenance/default/agent/0>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/2> <http://fourbench.org/property/id/> "2"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/provenance/default/activity/2> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/2> <http://www.w3.org/2000/01/rdf-schema#label> "Activity 2"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/2> <http://www.w3.org/ns/prov#endedAtTime> "2017-08-04T17:09:34Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/2> <http://www.w3.org/ns/prov#startedAtTime> "2017-08-04T13:34:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/3>	<http://www.w3.org/ns/prov#wasAssociatedWith>	<http://fourbench.org/provenance/default/agent/0>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/3> <http://fourbench.org/property/id/> "3"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/provenance/default/activity/3> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/3> <http://www.w3.org/2000/01/rdf-schema#label> "Activity 3"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/3> <http://www.w3.org/ns/prov#endedAtTime> "2017-08-04T17:09:34Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/activity/3> <http://www.w3.org/ns/prov#startedAtTime> "2017-08-03T16:18:02Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/6>	<http://www.w3.org/ns/prov#wasAttributedTo>	<http://fourbench.org/provenance/default/agent/0>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/6> <http://fourbench.org/property/id/> "6"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/6> <http://fourbench.org/property/sourceType/> <http://fourbench.org/EntityType/File> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/6> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 6"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/7>	<http://www.w3.org/ns/prov#wasAttributedTo>	<http://fourbench.org/provenance/default/agent/0>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/7> <http://fourbench.org/property/id/> "7"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/7> <http://fourbench.org/property/sourceType/> <http://fourbench.org/EntityType/File> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/7> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 7"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/8>	<http://www.w3.org/ns/prov#wasAttributedTo>	<http://fourbench.org/provenance/default/agent/1>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/8> <http://fourbench.org/property/id/> "8"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/8> <http://fourbench.org/property/sourceType/> <http://fourbench.org/EntityType/WebService> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/8> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 8"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/0> <http://fourbench.org/property/agentType/> <http://fourbench.org/AgentType/Person/> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/0> <http://fourbench.org/property/id/> "0"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/0> <http://www.w3.org/2000/01/rdf-schema#label> "Agent 0"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/1> <http://fourbench.org/property/agentType/> <http://fourbench.org/AgentType/SoftwareAgent/> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/1> <http://fourbench.org/property/id/> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/type/SoftwareAgent/> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/1> <http://www.w3.org/2000/01/rdf-schema#label> "Agent 1"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/2> <http://fourbench.org/property/agentType/> <http://fourbench.org/AgentType/Person/> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/2> <http://fourbench.org/property/id/> "2"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/agent/2> <http://www.w3.org/2000/01/rdf-schema#label> "Agent 2"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/0> <http://fourbench.org/property/id/> "0"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/0> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 0"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/1> <http://fourbench.org/property/id/> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/1> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 1"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/5> <http://fourbench.org/property/id/> "5"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/default/entity/5> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 5"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/0> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/familyOne/entity/2> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/0> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/familyOne/entity/3> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/1> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/familyOne/entity/3> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/1> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/familyOne/entity/2> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/familyOne/entity/7> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/familyOne/entity/6> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/familyOne/entity/8> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/3> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/familyOne/entity/6> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/0> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/familyOne/activity/1> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/0> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/familyOne/activity/0> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/1> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/familyOne/activity/0> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/1> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/familyOne/activity/1> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/2> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/familyOne/activity/2> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/2> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/familyOne/activity/3> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/3> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/familyOne/activity/3> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/3> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://fourbench.org/provenance/familyOne/activity/2> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/0>	<http://www.w3.org/ns/prov#wasAssociatedWith>	<http://fourbench.org/provenance/familyOne/agent/1>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/0> <http://fourbench.org/property/id/> "0"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/provenance/familyOne/activity/0> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/0> <http://www.w3.org/2000/01/rdf-schema#label> "Activity 0"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/0> <http://www.w3.org/ns/prov#endedAtTime> "2017-08-04T17:09:34Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/0> <http://www.w3.org/ns/prov#startedAtTime> "2017-08-02T20:41:55Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/1>	<http://www.w3.org/ns/prov#wasAssociatedWith>	<http://fourbench.org/provenance/familyOne/agent/1>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/1> <http://fourbench.org/property/id/> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/provenance/familyOne/activity/1> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/1> <http://www.w3.org/2000/01/rdf-schema#label> "Activity 1"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/1> <http://www.w3.org/ns/prov#endedAtTime> "2017-08-04T17:09:34Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/1> <http://www.w3.org/ns/prov#startedAtTime> "2017-08-04T13:34:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2>	<http://www.w3.org/ns/prov#wasAssociatedWith>	<http://fourbench.org/provenance/familyOne/agent/0>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2> <http://fourbench.org/property/id/> "2"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/provenance/familyOne/activity/2> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2> <http://www.w3.org/2000/01/rdf-schema#label> "Activity 2"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2> <http://www.w3.org/ns/prov#endedAtTime> "2017-08-04T17:09:34Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/2> <http://www.w3.org/ns/prov#startedAtTime> "2017-08-04T13:34:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/3>	<http://www.w3.org/ns/prov#wasAssociatedWith>	<http://fourbench.org/provenance/familyOne/agent/0>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/3> <http://fourbench.org/property/id/> "3"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/provenance/familyOne/activity/3> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/3> <http://www.w3.org/2000/01/rdf-schema#label> "Activity 3"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/3> <http://www.w3.org/ns/prov#endedAtTime> "2017-08-04T17:09:34Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/activity/3> <http://www.w3.org/ns/prov#startedAtTime> "2017-08-03T16:18:02Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/4>	<http://www.w3.org/ns/prov#wasAttributedTo>	<http://fourbench.org/provenance/familyOne/agent/1>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/4> <http://fourbench.org/property/id/> "4"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/4> <http://fourbench.org/property/sourceType/> <http://fourbench.org/EntityType/File> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/4> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 4"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/5>	<http://www.w3.org/ns/prov#wasAttributedTo>	<http://fourbench.org/provenance/familyOne/agent/1>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/5> <http://fourbench.org/property/id/> "5"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/5> <http://fourbench.org/property/sourceType/> <http://fourbench.org/EntityType/DataMapping> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/5> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 5"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/6>	<http://www.w3.org/ns/prov#wasAttributedTo>	<http://fourbench.org/provenance/familyOne/agent/0>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/6> <http://fourbench.org/property/id/> "6"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/6> <http://fourbench.org/property/sourceType/> <http://fourbench.org/EntityType/DataMapping> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/6> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 6"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/7>	<http://www.w3.org/ns/prov#wasAttributedTo>	<http://fourbench.org/provenance/familyOne/agent/0>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/7> <http://fourbench.org/property/id/> "7"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/7> <http://fourbench.org/property/sourceType/> <http://fourbench.org/EntityType/File> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/7> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 7"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/8>	<http://www.w3.org/ns/prov#wasAttributedTo>	<http://fourbench.org/provenance/familyOne/agent/1>	<http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/8> <http://fourbench.org/property/id/> "8"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/8> <http://fourbench.org/property/sourceType/> <http://fourbench.org/EntityType/WebService> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/8> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 8"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/0> <http://fourbench.org/property/agentType/> <http://fourbench.org/AgentType/Person/> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/0> <http://fourbench.org/property/id/> "0"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/0> <http://www.w3.org/2000/01/rdf-schema#label> "Agent 0"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/1> <http://fourbench.org/property/agentType/> <http://fourbench.org/AgentType/SoftwareAgent/> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/1> <http://fourbench.org/property/id/> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://fourbench.org/type/SoftwareAgent/> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/1> <http://www.w3.org/2000/01/rdf-schema#label> "Agent 1"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/2> <http://fourbench.org/property/agentType/> <http://fourbench.org/AgentType/Person/> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/2> <http://fourbench.org/property/id/> "2"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/agent/2> <http://www.w3.org/2000/01/rdf-schema#label> "Agent 2"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/0> <http://fourbench.org/property/id/> "0"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/0> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 0"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/1> <http://fourbench.org/property/id/> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/1> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 1"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/2> <http://fourbench.org/property/id/> "2"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/2> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 2"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/3> <http://fourbench.org/property/id/> "3"^^<http://www.w3.org/2001/XMLSchema#integer> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> <http://fourbench.org/provenance/graph/> .
+<http://fourbench.org/provenance/familyOne/entity/3> <http://www.w3.org/2000/01/rdf-schema#label> "Entity 3"^^<http://www.w3.org/2001/XMLSchema#string> <http://fourbench.org/provenance/graph/> .
