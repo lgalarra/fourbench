@@ -146,7 +146,7 @@ main(int argc, char *argv[])
 
 
 	world = librdf_new_world();
-	storage = librdf_new_storage(world, sengine.c_str(), "storage", NULL);
+	storage = librdf_new_storage(world, sengine.c_str(), "storage", "hash-type='memory',dir='.',contexts='no'");
 	if (storage == NULL) {
 		cerr << "Failed to create new storage of type " << sengine << endl;
 	    return 1;
@@ -163,30 +163,38 @@ main(int argc, char *argv[])
 		return 2;
 	}
 
+	cout << librdf_model_size(model) << " statements loaded " << endl;
+
+
 	vector<string> queries = loadQueries(iqueries);
 
 	for (auto qit = queries.begin(); qit != queries.end(); ++qit) {
-		// Do something with the query
+		librdf_statement* partial_statement = librdf_new_statement(world);
+		librdf_node* subject=librdf_new_node_from_uri_string(world, (const unsigned char*)"http://example.com/Quito");
+		librdf_node* predicate=librdf_new_node_from_uri_string(world, (const unsigned char*)"http://example.com/capitalOf");
+		librdf_statement_set_subject(partial_statement, subject);
+		librdf_statement_set_predicate(partial_statement, predicate);
+		librdf_stream* stream = librdf_model_find_statements(model, partial_statement);
+		while(!librdf_stream_end(stream)) {
+		      librdf_statement *statement=librdf_stream_get_object(stream);
+		      if(!statement) {
+		        cerr << "Error" << endl;
+		        break;
+		      }
+
+		      fputs("  Matched statement: ", stdout);
+		      librdf_statement_print(statement, stdout);
+		      fputc('\n', stdout);
+
+		      librdf_stream_next(stream);
+		      //count++;
+		}
+		librdf_free_stream(stream);
+		librdf_free_node(subject);
+		librdf_free_node(predicate);
+		librdf_free_statement(partial_statement);
 	}
 
-/**	rasqal_query_results *results;
-	rasqal_query *rq=rasqal_new_query(world,"sparql",NULL);
-	const unsigned char query_string[] = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-			"PREFIX foaf: <http://xmlns.com/foaf/0.1/> SELECT DISTINCT ?name WHERE { { ?x rdf:type foaf:Person . ?x foaf:name ?name . } UNION { ?x foaf:nickname ?name } } "
-			"ORDER BY ?name";
-	FILE* f =  fopen("q", "w");
-	rasqal_query_prepare(rq,query_string, NULL);
-	rasqal_graph_pattern *gp = rasqal_query_get_query_graph_pattern(rq);
-	rasqal_graph_pattern_print(gp, f);
-	rasqal_graph_pattern* sgp  = rasqal_graph_pattern_get_sub_graph_pattern(gp, 0);
-	rasqal_triple *t =  rasqal_graph_pattern_get_triple(sgp, 0);
-	rasqal_triple_print(t, f);
-	cout << rasqal_literal_as_string(t->object) << endl;
-	fclose(f);**/
-
-/**	rasqal_free_query(rq);
-	rasqal_free_world(world);
-	raptor_free_world(w);**/
 	librdf_free_world(world);
 	librdf_free_model(model);
 	librdf_free_storage(storage);
