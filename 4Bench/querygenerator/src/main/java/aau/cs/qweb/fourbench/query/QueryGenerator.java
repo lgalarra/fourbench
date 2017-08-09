@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -19,20 +21,28 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Dataset;
-import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.Syntax;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.system.StreamRDFBase;
 import org.apache.jena.sparql.algebra.Algebra;
 import org.apache.jena.sparql.algebra.Op;
+import org.apache.jena.sparql.core.Quad;
 import org.apache.jena.tdb.TDBFactory;
-import org.apache.jena.tdb.sys.TDBMaker;
+import org.mapdb.BTreeMap;
+import org.mapdb.DB;
+import org.mapdb.DBMaker;
+import org.mapdb.Serializer;
+
+import aau.cs.qweb.fourbench.utils.StringUtils;
 
 
-public class QueryGenerator {
+public class QueryGenerator extends StreamRDFBase {
 	Dataset dataset;
 	Config config;
+	DB triples2ProvenanceDB;
+	BTreeMap<String, String> triples2ProvenanceIdx;
 	
 	/**
 	 * @param model
@@ -41,6 +51,20 @@ public class QueryGenerator {
 	public QueryGenerator(Dataset model, Config config) {
 		this.dataset = model;
 		this.config = config;
+		String dbFileName = StringUtils.getPath(this.config.storagePath, "index.mdb");
+		File dbFile = new File(dbFileName);
+		if (dbFile.exists()) {
+			if (!dbFile.delete()) {
+				System.err.println("File " + dbFileName + " already exists and could not be deleted.");
+			}
+		}
+		
+		triples2ProvenanceDB = DBMaker.fileDB(StringUtils.getPath(
+				this.config.storagePath, "index.mdb")).make();
+		triples2ProvenanceIdx = triples2ProvenanceDB.treeMap("map")
+		        .keySerializer(Serializer.STRING)
+		        .valueSerializer(Serializer.STRING)
+		        .createOrOpen();
 	}
 
 	private static void printHelp(ParseException exp, Options options) {
@@ -58,7 +82,7 @@ public class QueryGenerator {
 	 * @param conf
 	 * @return
 	 */
-	public static Dataset loadDataset(Config conf) {
+	public static QueryGenerator getQueryGenerator(Config conf) {
 		String location = conf.outputDir + 
         		(conf.outputDir.charAt(conf.outputDir.length() - 1) == '/' ? "" : "/") 
         		+ "dataset";
@@ -77,14 +101,21 @@ public class QueryGenerator {
         } 
 		
 		Dataset rdfModel = TDBFactory.createDataset(location);
+		QueryGenerator qGenerator = new QueryGenerator(rdfModel, conf);
 		
 		for (String iFile : conf.inputDataFiles) {
 			System.out.println("Reading file " + iFile);
-			RDFDataMgr.read(rdfModel, iFile, conf.inputLanguage);
+			RDFDataMgr.parse(qGenerator, iFile, conf.inputLanguage);
 		}
 		
-		return rdfModel;
+		return qGenerator;
 	}
+	
+	@Override
+    public void quad(Quad quad) {
+		triples2ProvenanceIdx.put(quad.asTriple().toString(), quad.getGraph().toString());
+		dataset.asDatasetGraph().add(quad);
+    }
 
 	
 	/**
@@ -94,7 +125,7 @@ public class QueryGenerator {
 	public static void main(String[] args) {
 		CommandLineParser parser = new DefaultParser();
 		Config config = Config.getInstance();
-		QueryGenerator qGenerator = null;
+		
 		
 		// create the Options
 		Options options = new Options();
@@ -122,8 +153,7 @@ public class QueryGenerator {
 			printHelp(exp, options);
 		} 
 		
-		Dataset model = loadDataset(config);
-		qGenerator = new QueryGenerator(model, config);
+		QueryGenerator qGenerator = getQueryGenerator(config);
 		for (String iQueryFile : config.inputQueryFiles) {
 			String iQuery;
 			try {
@@ -161,9 +191,10 @@ public class QueryGenerator {
 		List<List<Triple>> bgps = ImprovedOpWalker.walk(op);
 		System.out.print(op);
 		System.out.println(bgps);
+		ProvenancePathsGenerator pathsGenerator = new ProvenancePathsGenerator(dataset, triples2ProvenanceIdx);
 		// Get the provenance identifier paths
-		List<List<String>> provenancePaths = ProvenancePathsGenerator.generate(bgps, dataset);
-	
+		Collection<List<String>> provenancePaths = pathsGenerator.generate(bgps);
+		System.out.println(provenancePaths);
 		return iQuery;
 	}
 
