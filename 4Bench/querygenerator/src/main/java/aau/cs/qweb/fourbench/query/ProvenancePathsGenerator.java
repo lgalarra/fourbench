@@ -49,8 +49,8 @@ public class ProvenancePathsGenerator {
 	 * @param dataset
 	 * @return
 	 */
-	public List<Collection<List<String>>> generate(List<Set<Triple>> bgps) {
-		List<Collection<List<String>>> result = new ArrayList<>();
+	public List<List<List<String>>> generate(List<Set<Triple>> bgps) {
+		List<List<List<String>>> result = new ArrayList<>();
 		
 		for (Set<Triple> tripleList : bgps) {
 			List<Binding> computedBindings = new ArrayList<>();
@@ -64,7 +64,7 @@ public class ProvenancePathsGenerator {
 				}
 				firstTriplePattern = false;
 			}
-			result.add(provenancePaths.values());
+			result.add(new ArrayList<>(provenancePaths.values()));
 		}
 		
 		return result;

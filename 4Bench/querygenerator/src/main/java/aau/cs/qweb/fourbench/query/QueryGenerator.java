@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +30,7 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.system.StreamRDFBase;
 import org.apache.jena.sparql.algebra.Algebra;
 import org.apache.jena.sparql.algebra.Op;
+import org.apache.jena.sparql.algebra.op.OpBGP;
 import org.apache.jena.sparql.core.Quad;
 import org.apache.jena.tdb.TDBFactory;
 import org.mapdb.BTreeMap;
@@ -193,9 +196,73 @@ public class QueryGenerator extends StreamRDFBase {
 		System.out.println(bgps);
 		ProvenancePathsGenerator pathsGenerator = new ProvenancePathsGenerator(dataset, triples2ProvenanceIdx);
 		// Get the provenance identifier paths
-		List<Collection<List<String>>> provenancePaths = pathsGenerator.generate(bgps);
+		List<List<List<String>>> provenancePaths = pathsGenerator.generate(bgps);
+		for (Float coverageValue : config.coverageValues) {
+			List<List<List<String>>> provenanceIds = filterPaths(coverageValue.floatValue(), provenancePaths);
+			Op provenanceQuery = computeProvenanceQuery(provenanceIds);
+		}
+		
 		System.out.println(provenancePaths);
+		// 
 		return iQuery;
+	}
+
+	/**
+	 * @param provenanceIds
+	 * @return
+	 */
+	private Op computeProvenanceQuery(List<List<List<String>>> provenanceIds) {
+		ProvenanceQueryGenerator generator = new ProvenanceQueryGenerator(dataset);
+		List<OpBGP> resultBGPs = new ArrayList<>();
+		for (List<List<String>> cluster : provenanceIds) {
+			Set<String> flattenedSet = flatten(cluster);
+			OpBGP bgp = generator.computeBGP(flattenedSet);
+			resultBGPs.add(bgp);
+		}
+		
+		return unionBGPs(resultBGPs);
+	}
+
+	/**
+	 * @param resultBGPs
+	 * @return
+	 */
+	private Op unionBGPs(List<OpBGP> resultBGPs) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @param cluster
+	 * @return
+	 */
+	private Set<String> flatten(List<List<String>> cluster) {
+		Set<String> result = new LinkedHashSet<>();
+		
+		for (List<String> path : cluster) {
+			result.addAll(path);
+		}
+		
+		return result;
+	}
+
+	/**
+	 * @param floatValue
+	 * @return
+	 */
+	private List<List<List<String>>> filterPaths(float ratio, List<List<List<String>>> provenancePaths) {
+		List<List<List<String>>> subclusters = new ArrayList<>(); 
+		for (List<List<String>> cluster : provenancePaths) {
+			Collections.shuffle(cluster);
+			int size = (int) Math.ceil((double)cluster.size() * ratio);
+			List<List<String>> subcluster = new ArrayList<>();
+			for (int i = 0; i < size; ++i) {
+				subcluster.add(cluster.get(i));
+			}
+			
+		}
+		
+		return subclusters;
 	}
 
 	/**

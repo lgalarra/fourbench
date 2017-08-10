@@ -9,7 +9,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
@@ -25,6 +27,8 @@ public class Config {
 	
 	public List<String> inputDataFiles;
 	
+	public Set<Float> coverageValues;
+	
 	public String storagePath;
 	
 	public String outputDir;
@@ -36,6 +40,8 @@ public class Config {
 	private Config() {
 		inputDataFiles = new ArrayList<>();
 		inputQueryFiles = new ArrayList<>();
+		coverageValues = new LinkedHashSet<>();
+		coverageValues.add(new Float(0.25));
 		storagePath = null;
 		outputDir = Paths.get("").toAbsolutePath().toString();
 		numberOfModifiedQueries = 1;
@@ -72,6 +78,8 @@ public class Config {
 					numberOfModifiedQueries = Integer.parseInt(fileLine.split(" ")[1].trim());
 				} else if (fileLine.startsWith("inputLanguage")) {
 					parseLanguage(fileLine.split("=")[1].trim());
+				} else if (fileLine.startsWith("coverageValue")) {
+					coverageValues.add(Float.parseFloat(fileLine.split("=")[1].trim()));
 				}
 			}
 		}
