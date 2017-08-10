@@ -6,15 +6,15 @@ package aau.cs.qweb.fourbench.query;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
-import org.apache.jena.graph.Node_URI;
-import org.apache.jena.graph.Node_Variable;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
@@ -36,11 +36,14 @@ public class ProvenanceQueryGenerator {
 	
 	Dataset dataset;
 	
+	Model provenanceGraph;
+	
 	/**
 	 * @param dataset
 	 */
 	public ProvenanceQueryGenerator(Dataset dataset) {
 		this.dataset = dataset;
+		this.provenanceGraph = dataset.getNamedModel(provenanceGraphURI);
 	}
 
 	/**
@@ -50,27 +53,90 @@ public class ProvenanceQueryGenerator {
 	public OpBGP computeBGP(Set<String> flattenedSet) {	
 		Var varP = Var.alloc("p");
 		Var varO = Var.alloc("o");
-		Model provenanceGraph = dataset.getNamedModel(provenanceGraphURI);
-		Set<Pair<Node, Node>> predicateObjects = new LinkedHashSet<>();
-		Set<Node> predicates = new LinkedHashSet<>();
 		boolean firstTime = true;
+		BasicPattern basicPattern = new BasicPattern();
+		int level = 0;
+		Queue<Set<String>> bindingSets = new LinkedList<>();
+		Queue<Triple> triplesQueue = new LinkedList<>();
+		Triple currentTriple = null;
+		bindingSets.add(flattenedSet);
 		
-		for (String provId : flattenedSet) {
-			Triple selectivePattern = new Triple(NodeFactory.createURI(provId), varP, varO);
-			BasicPattern bp = new BasicPattern();
-			Op op = new OpBGP(bp);
-			bp.add(selectivePattern);
-			QueryIterator qIter = Algebra.exec(op, provenanceGraph) ;
-			if (firstTime) {
-				firstTime = false;
-				addBindings(varP, varO, qIter, predicateObjects, predicates);
-				qIter.close();
+		while (true) {
+			Set<String> currentSet = null;
+			if (currentTriple == null) {
+				currentSet = flattenedSet;
 			} else {
-				retainBindings(varP, varO, qIter, predicateObjects, predicates);
+				currentSet = getBindingsSet(currentTriple);
 			}
+			
+			Set<Pair<Node, Node>> predicateObjects = new LinkedHashSet<>();
+			Set<Node> predicates = new LinkedHashSet<>();
+			
+			for (String provId : currentSet) {
+				Triple selectivePattern = new Triple(NodeFactory.createURI(provId), varP, varO);
+				BasicPattern bp = new BasicPattern();
+				Op op = new OpBGP(bp);
+				bp.add(selectivePattern);
+				QueryIterator qIter = Algebra.exec(op, provenanceGraph) ;
+				if (firstTime) {
+					firstTime = false;
+					addBindings(varP, varO, qIter, predicateObjects, predicates);
+				} else {
+					retainBindings(varP, varO, qIter, predicateObjects, predicates);
+				}
+				qIter.close();
+				
+				// No reason to continue
+				if (predicates.isEmpty() && predicateObjects.isEmpty()) {
+					break;
+				}
+			}
+			
+			if (currentTriple != null) {
+				basicPattern.add(currentTriple);
+			}
+			
+			Var subjectVar = Var.alloc("i" + level);
+			for (Pair<Node, Node> cond : predicateObjects) {
+				// Check that we do it only for predicates with URI ranges
+				basicPattern.add(Triple.create(subjectVar, cond.getLeft(), cond.getRight()));
+			}
+						
+			int count = 0;
+			for (Node predicate : predicates) {
+				Triple newTriple = Triple.create(subjectVar, predicate, 
+						Var.alloc("o" + level + "" + count));
+				triplesQueue.add(newTriple);
+				++count;
+			}
+			
+			if (triplesQueue.isEmpty())
+				break;
+			
+			currentTriple = triplesQueue.poll();
+			++level;
 		}
 		
-		return null;
+		return new OpBGP(basicPattern);
+	}
+
+	/**
+	 * @param currentTriple
+	 * @return
+	 */
+	private Set<String> getBindingsSet(Triple currentTriple) {
+		Set<String> result = new LinkedHashSet<>();		
+		BasicPattern bp = new BasicPattern();
+		Op op = new OpBGP(bp);
+		bp.add(currentTriple);
+		QueryIterator qIter = Algebra.exec(op, provenanceGraph) ;
+		
+		while (qIter.hasNext()) {
+			Binding b = qIter.next();
+			result.add(b.get(Var.alloc(currentTriple.getObject())).toString());
+		}
+		
+		return result;
 	}
 
 	/**

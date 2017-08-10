@@ -10,8 +10,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.cli.CommandLine;
@@ -46,6 +48,9 @@ public class QueryGenerator extends StreamRDFBase {
 	Config config;
 	DB triples2ProvenanceDB;
 	BTreeMap<String, String> triples2ProvenanceIdx;
+	Map<String, String> buffer;
+	
+	private static final int bufferSize = 100000;
 	
 	/**
 	 * @param model
@@ -68,6 +73,7 @@ public class QueryGenerator extends StreamRDFBase {
 		        .keySerializer(Serializer.STRING)
 		        .valueSerializer(Serializer.STRING)
 		        .createOrOpen();
+		buffer = new LinkedHashMap<>();
 	}
 
 	private static void printHelp(ParseException exp, Options options) {
@@ -111,12 +117,27 @@ public class QueryGenerator extends StreamRDFBase {
 			RDFDataMgr.parse(qGenerator, iFile, conf.inputLanguage);
 		}
 		
+		qGenerator.flush();
+		
 		return qGenerator;
 	}
 	
+	/**
+	 * 
+	 */
+	private void flush() {
+		triples2ProvenanceIdx.putAll(buffer);
+		buffer.clear();
+	}
+
 	@Override
     public void quad(Quad quad) {
-		triples2ProvenanceIdx.put(quad.asTriple().toString(), quad.getGraph().toString());
+		buffer.put(quad.asTriple().toString(), quad.getGraph().toString());
+		
+		if (buffer.size() >= bufferSize) {
+			flush();
+		}
+		
 		dataset.asDatasetGraph().add(quad);
     }
 
@@ -200,6 +221,7 @@ public class QueryGenerator extends StreamRDFBase {
 		for (Float coverageValue : config.coverageValues) {
 			List<List<List<String>>> provenanceIds = filterPaths(coverageValue.floatValue(), provenancePaths);
 			Op provenanceQuery = computeProvenanceQuery(provenanceIds);
+			System.out.println(provenanceQuery);
 		}
 		
 		System.out.println(provenancePaths);
