@@ -18,14 +18,11 @@ import java.util.Set;
 
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Node_Variable;
-import org.apache.jena.graph.Node_Variable.VariableName;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.sparql.algebra.Algebra;
 import org.apache.jena.sparql.algebra.op.OpBGP;
 import org.apache.jena.sparql.core.Var;
-import org.apache.jena.sparql.core.VarAlloc;
-import org.apache.jena.sparql.core.Vars;
 import org.apache.jena.sparql.engine.QueryIterator;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.binding.BindingFactory;
@@ -52,31 +49,42 @@ public class ProvenancePathsGenerator {
 	 * @param dataset
 	 * @return
 	 */
-	public Collection<List<String>> generate(List<List<Triple>> bgps) {
-		List<Binding> computedBindings = new ArrayList<>();
-		Map<String, List<String>> provenancePaths = new LinkedHashMap<>();
+	public List<Collection<List<String>>> generate(List<Set<Triple>> bgps) {
+		List<Collection<List<String>>> result = new ArrayList<>();
 		
-		for (List<Triple> tripleList : bgps) {
+		for (Set<Triple> tripleList : bgps) {
+			List<Binding> computedBindings = new ArrayList<>();
+			Map<String, List<String>> provenancePaths = new LinkedHashMap<>();
+			boolean firstTriplePattern = true;
 			for (Triple t : tripleList) {
-				computedBindings = updatePaths(t, computedBindings, provenancePaths);
+				computedBindings = updatePaths(t, firstTriplePattern, computedBindings, provenancePaths);
+				// If there are no results, quit
+				if (computedBindings.isEmpty()) {
+					break;
+				}
+				firstTriplePattern = false;
 			}
+			result.add(provenancePaths.values());
 		}
 		
-		return provenancePaths.values();
+		return result;
 	}
 	
 	/**
 	 * 
 	 */
-	private List<Binding> updatePaths(Triple triple, List<Binding> computedBindings, 
+	private List<Binding> updatePaths(Triple triple, boolean isFirstTriplePattern, 
+			List<Binding> computedBindings, 
 			Map<String, List<String>> provenancePaths) {
-		if (computedBindings.isEmpty()) {
+		if (computedBindings.isEmpty() && isFirstTriplePattern) {
 			getInitialBindings(triple, computedBindings, provenancePaths);
-			System.out.println(computedBindings);
-			System.out.println(provenancePaths);
 			return computedBindings;
 		} else {
 			// Build an index on the common variables to run a hashjoin
+			if (computedBindings.isEmpty()) {
+				return Collections.emptyList();
+			}
+			
 			Binding binding = computedBindings.get(0);
 			Set<Var> commonVariables = getCommonVariables(binding, triple);
 			Set<Var> allVariables = getVariables(binding);
@@ -106,21 +114,20 @@ public class ProvenancePathsGenerator {
 	 * @param tmpIdx
 	 * @param provenancePaths
 	 */
-	private List<Binding> getJoinedBindings(Triple triple, Set<Var> commonVariables, Map<String, List<Binding>> tmpIdx,
-			Map<String, List<String>> provenancePaths) {
+	private List<Binding> getJoinedBindings(Triple triple, Set<Var> commonVariables, Map<String, List<Binding>> tmpIdx, Map<String, List<String>> provenancePaths) {
 		List<Binding> result = new ArrayList<>();
 		OpBGP singletonBGP = new OpBGP();
 		singletonBGP.getPattern().add(triple);
 		QueryIterator qIter = Algebra.execRef(singletonBGP, 
 				dataset.getNamedModel(UnionGraph));
 		Set<Var> resultVars = getJoinResultVariables(commonVariables, triple);
+		Map<String, List<String>> newProvenancePaths = new LinkedHashMap<>();
 		for ( ; qIter.hasNext() ; )
         {
             Binding b = qIter.nextBinding() ;
             String key = getIndexKey(commonVariables, b);
             List<Binding> values = tmpIdx.get(key);
             List<String> provenancePath = provenancePaths.get(key);
-            provenancePaths.remove(key);
             
             if (values != null) {
             	for (Binding value : values) {
@@ -130,11 +137,14 @@ public class ProvenancePathsGenerator {
             		String provenanceId = binding2ProvenanceId(b, triple);
             		List<String> extendedPath = new ArrayList<>(provenancePath);
             		extendedPath.add(provenanceId);
-            		provenancePaths.put(getIndexKey(resultVars, join), extendedPath);
+            		newProvenancePaths.put(getIndexKey(resultVars, join), extendedPath);
             	}
             }
-            
         }
+		
+		provenancePaths.clear();
+		provenancePaths.putAll(newProvenancePaths);
+        
 		return result;
 		
 	}
@@ -145,8 +155,24 @@ public class ProvenancePathsGenerator {
 	 * @return
 	 */
 	private Set<Var> getJoinResultVariables(Set<Var> commonVariables, Triple triple) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Var> result = new LinkedHashSet<>(commonVariables);
+		
+		Node subject = triple.getSubject();
+		if (subject.isVariable()) {
+			result.add(Var.alloc(subject));
+		}
+		
+		Node predicate = triple.getPredicate();
+		if (predicate.isVariable()) {
+			result.add(Var.alloc(predicate));
+		}
+		
+		Node object = triple.getObject();
+		if (predicate.isVariable()) {
+			result.add(Var.alloc(object));
+		}
+		
+		return result;
 	}
 
 	/**
@@ -169,8 +195,13 @@ public class ProvenancePathsGenerator {
 
 	private String getIndexKey(Collection<Var> vars, Binding b) {
 		StringBuilder builder = new StringBuilder();
+		List<String> parts = new ArrayList<>();
 		for (Var v : vars) {
-			builder.append(v + "=" + b.get(v));
+			parts.add(v + "=" + b.get(v));
+		}
+		Collections.sort(parts);
+		for (String part : parts) {
+			builder.append(part);
 		}
 		return builder.toString();
 	}

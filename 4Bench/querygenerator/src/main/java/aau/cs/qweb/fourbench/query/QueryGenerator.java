@@ -188,12 +188,12 @@ public class QueryGenerator extends StreamRDFBase {
 		// 1. Convert the query into an algebra expression
 		Query query = QueryFactory.create(iQuery, Syntax.syntaxSPARQL);
 		Op op = Algebra.compile(query);
-		List<List<Triple>> bgps = ImprovedOpWalker.walk(op);
+		List<Set<Triple>> bgps = ImprovedOpWalker.walk(op);
 		System.out.print(op);
 		System.out.println(bgps);
 		ProvenancePathsGenerator pathsGenerator = new ProvenancePathsGenerator(dataset, triples2ProvenanceIdx);
 		// Get the provenance identifier paths
-		Collection<List<String>> provenancePaths = pathsGenerator.generate(bgps);
+		List<Collection<List<String>>> provenancePaths = pathsGenerator.generate(bgps);
 		System.out.println(provenancePaths);
 		return iQuery;
 	}
