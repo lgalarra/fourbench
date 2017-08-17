@@ -37,6 +37,7 @@ shared_ptr<map<string, shared_ptr<ProvenanceGraph>>> ProvenanceGraphFactory::bui
 
 	for (auto itr = conf.confs.begin(); itr != conf.confs.end(); ++itr) {
 		fp::ParsingStats& stat = stats.get()->at(itr->first);
+		cout << "Family: " << itr->first << ", " << stat << endl;
 		resultPtr.get()->insert(pair<string, shared_ptr<ProvenanceGraph>>(itr->first, buildProvenanceGraph(*itr->second, stat)));
 	}
 

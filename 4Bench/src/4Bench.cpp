@@ -20,6 +20,7 @@
 #include "../include/parsing/FileParser.hpp"
 #include "../include/parsing/FileParserFactory.hpp"
 #include "../include/parsing/TSVFileParser.hpp"
+#include "../include/parsing/N3FileParser.hpp"
 #include "../include/output/ProvenanceDump.hpp"
 #include "../include/output/ProvenanceDumpFactory.hpp"
 #include "../include/output/NQuadsProvenanceDump.hpp"
@@ -62,6 +63,8 @@ shared_ptr<fpar::FileParser> buildParser(const string& inputFormat, const vector
 	fpar::FileParserFactory& parserFactory = fpar::FileParserFactory::getInstance();
 	if (inputFormat == "tsv") {
 		return parserFactory.buildParser<fpar::TSVFileParser>(inputFiles);
+	} else if (inputFormat == "n3" || inputFormat == "ntriples") {
+		return parserFactory.buildParser<fpar::N3FileParser>(inputFiles);
 	} else {
 		cerr << "Format " << inputFormat << " is still not implemented";
 		return nullptr;
@@ -147,10 +150,12 @@ int main(int argc, char** argv) {
 	}
 
 	ofstream outstream(vm["output"].as<string>());
-	shared_ptr<fo::ProvenanceDump> dump = getDump(vm["output-format"].as<string>(), outstream);
 
+	shared_ptr<fo::ProvenanceDump> dump = getDump(vm["output-format"].as<string>(), outstream);
 	fprov::ProvenanceGraphPopulator populator(dump);
 	populator.populate(parser, provenanceGraphs);
+
+	outstream.close();
 
 	return 0;
 }

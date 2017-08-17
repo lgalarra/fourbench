@@ -14,6 +14,7 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <memory>
 
 
 #include "ParsingStats.hpp"

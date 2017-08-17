@@ -20,7 +20,11 @@ namespace fourbench {
 
 vector<string> split(const string& s, const string& delim);
 
+vector<string> splitOnce(const string& s, const string& delim);
+
 string trim(const string& s);
+
+string trimIRI(const string& s);
 
 string toLower(const string& s);
 

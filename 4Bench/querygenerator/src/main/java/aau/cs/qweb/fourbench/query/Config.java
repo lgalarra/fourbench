@@ -124,6 +124,8 @@ public class Config {
 		builder.append(", ");
 		builder.append("Number of provenance queries: " );
 		builder.append(numberOfModifiedQueries);
+		builder.append("Coverage values: ");
+		builder.append(coverageValues);
 		builder.append("}");
 	
 		return builder.toString();

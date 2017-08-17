@@ -39,11 +39,43 @@ vector<string> split(const string& s, const string& delim) {
 	return output;
 }
 
+vector<string> splitOnce(const string& s, const string& delim) {
+	vector<string> output;
+	string data = s;
+	size_t pos = data.find(delim);
+	string part = data.substr(0, pos);
+	output.push_back(part);
+	if (string::npos != pos) {
+		data = data.substr(pos + delim.size());
+		if (!data.empty())
+			output.push_back(data);
+	}
+
+	return output;
+}
+
 
 string trim(const string &s) {
-   auto wsfront = find_if_not(s.begin(),s.end(),[](int c){ return std::isspace(c);});
-   auto wsback = find_if_not(s.rbegin(),s.rend(), [](int c){return std::isspace(c);}).base();
+   auto wsfront = find_if_not(s.begin(),s.end(),[](int c){ return std::isblank(c) || c == '\n';});
+   auto wsback = find_if_not(s.rbegin(),s.rend(), [](int c){return std::isblank(c) || c == '\n';}).base();
    return (wsback <= wsfront ? std::string() : std::string(wsfront,wsback) );
+}
+
+string trimIRI(const string& s) {
+	auto start = 0;
+	auto end = 0;
+
+	if (s.size() < 2)
+		return s;
+
+	if (*(s.begin()) == '<')
+		start = start + 1;
+
+	if (*(s.end()) == '>')
+		end = end - 1;
+
+	return std::string(start, end);
+
 }
 
 string toLower(const string& s) {

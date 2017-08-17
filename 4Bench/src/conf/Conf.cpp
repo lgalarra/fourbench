@@ -50,7 +50,7 @@ namespace conf {
 
 	ConfValues::ConfValues() : familyName("default"), numberOfSources(Conf::DefaultNumberOfSources),
 			metadataDepth(Conf::DefaultDepth), distribution(UNIFORM),
-			sourcesDefinition(MANUAL), numberOfAgents(Conf::DefaultNumberOfAgents),
+			sourcesDefinition(MANUAL), numberOfAgents(Conf::DefaultNumberOfAgents), sources2LeavesDensity(Conf::DefaultSources2LeavesDensity),
 			activitiesDensity(Conf::DefaultActivitiesDensity), triplesEntitiesDensity(Conf::DefaultTriplesEntitiesDensity),
 			activitiesEntitiesDensity(Conf::DefaultActivitiesEntitiesDensity), maxNumberOfAgentsPerSourceEntity(Conf::DefaultMaxNumberOfAgentsPerSourceEntity),
 			provenancePerSubject(false), maxNumberOfAgentsPerActivity(Conf::DefaultMaxNumberOfAgentsPerActivity),
@@ -86,6 +86,8 @@ namespace conf {
 			activitiesDensity = stof(value);
 		} else if (fieldName == "activitiesEntitiesDensity") {
 			activitiesEntitiesDensity = stof(value);
+		} else if (fieldName == "sources2LeavesDensity") {
+			sources2LeavesDensity = stof(value);
 		} else if (fieldName == "maxNumberOfAgentsPerSourceEntity") {
 			maxNumberOfAgentsPerSourceEntity = stoul(value);
 		} else if (fieldName == "maxNumberOfAgentsPerActivity") {

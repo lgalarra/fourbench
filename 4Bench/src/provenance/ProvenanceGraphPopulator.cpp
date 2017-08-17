@@ -45,6 +45,8 @@ void ProvenanceGraphPopulator::populate(shared_ptr<fpa::FileParser> parser,
 	}
 
 	fpa::Triple *triple = parser->next();
+	if (triple == nullptr)
+		cerr << "First triple is null" << endl;
 	while (triple != nullptr) {
 		string family = conf.getFamily(triple->getPredicate());
 		auto assignItr = assignments.find(family);

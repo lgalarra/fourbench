@@ -33,6 +33,7 @@ import org.apache.jena.riot.system.StreamRDFBase;
 import org.apache.jena.sparql.algebra.Algebra;
 import org.apache.jena.sparql.algebra.Op;
 import org.apache.jena.sparql.algebra.op.OpBGP;
+import org.apache.jena.sparql.algebra.op.OpUnion;
 import org.apache.jena.sparql.core.Quad;
 import org.apache.jena.tdb.TDBFactory;
 import org.mapdb.BTreeMap;
@@ -50,7 +51,7 @@ public class QueryGenerator extends StreamRDFBase {
 	BTreeMap<String, String> triples2ProvenanceIdx;
 	Map<String, String> buffer;
 	
-	private static final int bufferSize = 100000;
+	private static final int bufferSize = 10000;
 	
 	/**
 	 * @param model
@@ -71,6 +72,7 @@ public class QueryGenerator extends StreamRDFBase {
 				this.config.storagePath, "index.mdb")).make();
 		triples2ProvenanceIdx = triples2ProvenanceDB.treeMap("map")
 		        .keySerializer(Serializer.STRING)
+		        .counterEnable()
 		        .valueSerializer(Serializer.STRING)
 		        .createOrOpen();
 		buffer = new LinkedHashMap<>();
@@ -118,14 +120,24 @@ public class QueryGenerator extends StreamRDFBase {
 		}
 		
 		qGenerator.flush();
+		System.out.println("Index triple->provenance-id contains " + qGenerator.getIndexSize() + " triples");
 		
 		return qGenerator;
 	}
 	
 	/**
+	 * @return
+	 */
+	private long getIndexSize() {
+		// TODO Auto-generated method stub
+		return triples2ProvenanceIdx.sizeLong();
+	}
+
+	/**
 	 * 
 	 */
 	private void flush() {
+		System.out.println("Flushing the triples-to-provenance-ids buffer");
 		triples2ProvenanceIdx.putAll(buffer);
 		buffer.clear();
 	}
@@ -182,6 +194,8 @@ public class QueryGenerator extends StreamRDFBase {
 			String iQuery;
 			try {
 				iQuery = readFileContents(iQueryFile);
+				System.out.println("Processing query");
+				System.out.println(iQuery);
 				String oQuery = qGenerator.extendQuery(iQuery);
 				writeExtendedQuery(oQuery, getExtendedQueryOutputPath(iQueryFile, config));
 			} catch (IOException e) {
@@ -213,15 +227,16 @@ public class QueryGenerator extends StreamRDFBase {
 		Query query = QueryFactory.create(iQuery, Syntax.syntaxSPARQL);
 		Op op = Algebra.compile(query);
 		List<Set<Triple>> bgps = ImprovedOpWalker.walk(op);
+		System.out.println("Algebra representation");
 		System.out.print(op);
-		System.out.println(bgps);
-		ProvenancePathsGenerator pathsGenerator = new ProvenancePathsGenerator(dataset, triples2ProvenanceIdx);
+		ProvenancePathsGenerator pathsGenerator = 
+				new ProvenancePathsGenerator(dataset, triples2ProvenanceIdx);
 		// Get the provenance identifier paths
 		List<List<List<String>>> provenancePaths = pathsGenerator.generate(bgps);
 		for (Float coverageValue : config.coverageValues) {
 			List<List<List<String>>> provenanceIds = filterPaths(coverageValue.floatValue(), provenancePaths);
 			Op provenanceQuery = computeProvenanceQuery(provenanceIds);
-			System.out.println(provenanceQuery);
+			System.out.println("coverage = " + coverageValue + "  " + provenanceQuery);
 		}
 		
 		System.out.println(provenancePaths);
@@ -239,7 +254,10 @@ public class QueryGenerator extends StreamRDFBase {
 		for (List<List<String>> cluster : provenanceIds) {
 			Set<String> flattenedSet = flatten(cluster);
 			OpBGP bgp = generator.computeBGP(flattenedSet);
-			resultBGPs.add(bgp);
+			System.out.println("Cluster " + flattenedSet);
+			System.out.println("Computed bgp " + bgp);
+			if (!bgp.getPattern().isEmpty())
+				resultBGPs.add(bgp);
 		}
 		
 		return unionBGPs(resultBGPs);
@@ -250,8 +268,19 @@ public class QueryGenerator extends StreamRDFBase {
 	 * @return
 	 */
 	private Op unionBGPs(List<OpBGP> resultBGPs) {
-		// TODO Auto-generated method stub
+		if (resultBGPs.size() == 1) {
+			return resultBGPs.get(0);
+		} else if (resultBGPs.size() >= 2) {
+			Op lastUnion = new OpUnion(resultBGPs.get(0), resultBGPs.get(1));
+			for (int i = 2; i < resultBGPs.size(); ++i) {
+				Op currentUnion = new OpUnion(lastUnion, resultBGPs.get(i));
+				lastUnion = currentUnion;
+			}
+			return lastUnion;
+		}
+		
 		return null;
+		
 	}
 
 	/**
@@ -281,6 +310,7 @@ public class QueryGenerator extends StreamRDFBase {
 			for (int i = 0; i < size; ++i) {
 				subcluster.add(cluster.get(i));
 			}
+			subclusters.add(subcluster);
 			
 		}
 		

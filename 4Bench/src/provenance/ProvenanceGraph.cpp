@@ -187,7 +187,7 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 	provWasGeneratedBy(PROVO::wasGeneratedBy), perSubject(values.provenancePerSubject),
 	nSourceEntities(values.numberOfSources), nAgents(values.numberOfAgents), triples2EntitiesDensity(values.triplesEntitiesDensity),
 	maxNAgentsPerActivity(values.maxNumberOfAgentsPerActivity), maxNAgentsPerSource(values.maxNumberOfAgentsPerSourceEntity),
-	maxLevel(values.metadataDepth), entities2TriplesDistribution(values.distribution),
+	maxLevel(values.metadataDepth), entities2TriplesDistribution(values.distribution), sources2LeavesDensity(values.sources2LeavesDensity),
 	nSubjects(stats.numberOfSubjects), nTriples(stats.numberOfTriples), maxNAttributes(values.maxNumberOfAttributes) {
 
 	entityLevels = new int[maxLevel + 1];

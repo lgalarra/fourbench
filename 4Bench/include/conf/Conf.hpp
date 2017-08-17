@@ -35,6 +35,7 @@ struct ConfValues {
 	AssignmentDistribution distribution;
 	SourcesDefinition sourcesDefinition;
 	unsigned numberOfAgents;
+	float sources2LeavesDensity;
 	float triplesEntitiesDensity;
 	float activitiesDensity;
 	float activitiesEntitiesDensity;
@@ -74,6 +75,7 @@ public:
 	static const unsigned DefaultDepth = 2;
 	static const unsigned DefaultNumberOfAgents = 3;
 	static constexpr float DefaultTriplesEntitiesDensity = 0.5f;
+	static constexpr float DefaultSources2LeavesDensity = 0.5f;
 	static constexpr float DefaultActivitiesDensity = 0.5f;
 	static constexpr float DefaultActivitiesEntitiesDensity = 0.5f;
 	static const unsigned DefaultMaxNumberOfAgentsPerSourceEntity = 1;

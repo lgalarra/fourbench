@@ -8,6 +8,10 @@
 #ifndef PARSING_PARSINGSTATS_HPP_
 #define PARSING_PARSINGSTATS_HPP_
 
+#include <iostream>
+
+using namespace std;
+
 namespace fourbench {
 namespace parsing {
 
@@ -22,6 +26,8 @@ public:
 	ParsingStats();
 	virtual ~ParsingStats();
 };
+
+ostream& operator<<(ostream&, const ParsingStats&);
 
 } /* namespace provenance */
 } /* namespace fourbench */
