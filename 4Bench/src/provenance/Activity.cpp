@@ -46,7 +46,7 @@ void Activity::initialize() {
 	time_t now = time(nullptr);
 	time_t before = now - (time_t) f::urand(1, 3600 * 48); // random timestamp between now and 48 hours ago
 	fd::DataValueBuilder& dataBuilder = fd::DataValueBuilder::getInstance();
-	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(getIRI());
+	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(PROVO::Activity);
 	attributes[RDFS::label] = dataBuilder.get<fd::StringValue>(f::concat({"Activity ", to_string(id)}));
 	attributes[PROVO::startedAtTime] = dataBuilder.get<fd::DateTimeValue>(before);
 	attributes[PROVO::endedAtTime] = dataBuilder.get<fd::DateTimeValue>(now);
