@@ -21,6 +21,9 @@ Triple::Triple(const string& subject, const string& predicate, const string& obj
 		subject(subject), predicate(predicate), object(object),
 		filename(filename), lineNumber(lineNumber) {}
 
+Triple::Triple(const string& subject, const string& predicate, const string& object) :
+		subject(subject), predicate(predicate), object(object), filename(""), lineNumber(-1) {}
+
 Triple::~Triple() {}
 
 string Triple::getSubject() const {

@@ -39,11 +39,11 @@ private:
 	template<class Domain, class Range> void dump(const Domain& domain, const string& property, vector<shared_ptr<Range>> ranges) const {
 		for (auto itr = ranges.begin(); itr != ranges.end(); ++itr) {
 			this->formatIRI(domain.getIRI());
-			stream << "\t";
+			stream << " ";
 			this->formatIRI(property);
-			stream << "\t";
+			stream << " ";
 			this->formatIRI((*itr)->getIRI());
-			stream << "\t";
+			stream << " ";
 			this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
 			stream << " .";
 			stream << endl;

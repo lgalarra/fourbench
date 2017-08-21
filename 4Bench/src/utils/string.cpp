@@ -62,17 +62,18 @@ string trim(const string &s) {
 }
 
 string trimIRI(const string& s) {
-	auto start = 0;
-	auto end = 0;
+	auto start = s.begin();
+	auto end = s.end();
 
 	if (s.size() < 2)
 		return s;
 
-	if (*(s.begin()) == '<')
-		start = start + 1;
+	if (*(start) == '<')
+		++start;
 
-	if (*(s.end()) == '>')
+	if (*(end - 1) == '>') {
 		end = end - 1;
+	}
 
 	return std::string(start, end);
 

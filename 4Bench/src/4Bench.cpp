@@ -15,6 +15,7 @@
 #include <vector>
 #include <algorithm>
 
+#include "../include/utils/time.hpp"
 #include "../include/4bench.hpp"
 #include "../include/conf/Conf.hpp"
 #include "../include/parsing/FileParser.hpp"
@@ -37,6 +38,7 @@ namespace po = boost::program_options;
 namespace fpar = fourbench::parsing;
 namespace fprov = fourbench::provenance;
 namespace fo = fourbench::output;
+namespace f = fourbench;
 
 const vector<string> supportedInputFormats = {"tsv", "ttl", "n3", "n4"};
 
@@ -112,6 +114,10 @@ int main(int argc, char** argv) {
 		cout << "Parsing of individual arguments is not yet implemented" << endl;
 	}
 
+	cout << "-- Configuration --" << endl;
+	cout << conf << endl;
+	cout << "-- End of Configuration --" << endl;
+
 	if (vm.count("input-files") == 0) {
 		cerr << "No input files provided." << endl;
 		return 3;
@@ -131,23 +137,24 @@ int main(int argc, char** argv) {
 		cout << "Assuming tsv format for input files." << endl;
 	}
 
-
+	cout << "Initialization (first pass on the data) started." << endl;
+	long tstart = f::timeMicroSeconds();
 	shared_ptr<fpar::FileParser> parser = buildParser(iformat, ifiles);
 	if (parser.get() == nullptr) {
 		exit(4);
 	}
-
-	cout << "-- Configuration --" << endl;
-	cout << conf << endl;
-	cout << "-- End of Configuration --" << endl;
+	long tend = f::timeMicroSeconds();
+	cout << "Initialization took " << (tend - tstart) / 1000000.0 << " s" << endl;
 
 	fprov::ProvenanceGraphFactory& builder = fprov::ProvenanceGraphFactory::getInstance();
 	shared_ptr<map<string, shared_ptr<fprov::ProvenanceGraph>>> provenanceGraphs =
 			builder.buildProvenanceGraphs(conf, parser->getAllParsingStats());
 
+#ifdef DEBUG
 	for (auto itr = provenanceGraphs->begin(); itr != provenanceGraphs->end(); ++itr) {
 		cout << *(itr->second) << endl;
 	}
+#endif
 
 	ofstream outstream(vm["output"].as<string>());
 

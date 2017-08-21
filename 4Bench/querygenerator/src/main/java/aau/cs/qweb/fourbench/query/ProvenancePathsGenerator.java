@@ -144,7 +144,6 @@ public class ProvenancePathsGenerator {
 		
 		provenancePaths.clear();
 		provenancePaths.putAll(newProvenancePaths);
-        
 		return result;
 		
 	}
@@ -168,7 +167,7 @@ public class ProvenancePathsGenerator {
 		}
 		
 		Node object = triple.getObject();
-		if (predicate.isVariable()) {
+		if (object.isVariable()) {
 			result.add(Var.alloc(object));
 		}
 		

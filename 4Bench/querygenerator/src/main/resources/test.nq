@@ -3,7 +3,7 @@
 <http://example.com/Rennes> <http://example.com/locatedIn> <http://example.com/France> <http://fourbench.org/provenance/default/entity/1> .
 <http://example.com/France> <http://example.com/type> <http://example.com/Country> <http://fourbench.org/provenance/default/entity/1> .
 <http://example.com/Denmark> <http://example.com/type> <http://example.com/Country> <http://fourbench.org/provenance/familyOne/entity/0> .
-<http://example.com/Aalborg> <http://example.com/type> <http://example.com/City> <http://fourbench.org/provenance/familyOne/entity/0> .
+<http://example.com/Quito> <http://example.com/type> <http://example.com/City> <http://fourbench.org/provenance/familyOne/entity/0> .
 <http://example.com/Rennes> <http://example.com/type> <http://example.com/City> <http://fourbench.org/provenance/familyOne/entity/1> .
 <http://fourbench.org/provenance/default/activity/0> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/default/entity/5> <http://fourbench.org/provenance/graph/> .
 <http://fourbench.org/provenance/default/activity/1> <http://www.w3.org/ns/prov#used> <http://fourbench.org/provenance/default/entity/5> <http://fourbench.org/provenance/graph/> .

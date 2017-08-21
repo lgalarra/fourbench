@@ -33,8 +33,6 @@ import org.apache.jena.sparql.engine.binding.Binding;
  *
  */
 public class ProvenanceQueryGenerator {
-
-	public static final String provenanceGraphURI = "http://fourbench.org/provenance/graph/";
 	
 	Dataset dataset;
 	
@@ -45,7 +43,7 @@ public class ProvenanceQueryGenerator {
 	 */
 	public ProvenanceQueryGenerator(Dataset dataset) {
 		this.dataset = dataset;
-		this.provenanceGraph = dataset.getNamedModel(provenanceGraphURI);
+		this.provenanceGraph = dataset.getNamedModel(Config.provenanceGraphURI);
 	}
 
 	/**
@@ -106,33 +104,33 @@ public class ProvenanceQueryGenerator {
 			
 			// If we cannot add specialized versions of this triple 
 			// pattern add it and clear the queue
-			if (currentTriple != null &&
-					predicates.isEmpty() && predicateValues.isEmpty()) {
-				basicPattern.add(currentTriple);
+			if (predicates.isEmpty() && predicateValues.isEmpty()) {
 				triplesQueue.clear();
-			}
-			
-			// Otherwise go for the specialized versions
-			Var subjectVar = Var.alloc("i" + level);
-			Set<Node> excludedProperties = new LinkedHashSet<>();
-			for (Pair<Node, Node> cond : predicateValues) {
-				// Check that we do it only for predicates with URI ranges
-				basicPattern.add(Triple.create(subjectVar, cond.getLeft(), cond.getRight()));
-				excludedProperties.add(cond.getLeft());
-			}
-			
-			
-			// And try to specialize the remaining properties
-			int count = 0;			
-			predicates.removeAll(excludedProperties);
-			for (Node predicate : predicates) {
-				Triple newTriple1 = Triple.create(subjectVar, predicate, 
-						Var.alloc("o" + level + "" + count));
-				triplesQueue.add(newTriple1);
-				++count;
-				Triple newTriple2 = Triple.create(Var.alloc("o" + level + "" + count), 
-						predicate, subjectVar);
-				triplesQueue.add(newTriple2);				
+			} else {
+				if (currentTriple != null)
+					basicPattern.add(currentTriple);
+				// Otherwise go for the specialized versions
+				Var subjectVar = currentTriple == null ? Var.alloc("i" + level) : getDanglingVariable(currentTriple);
+				Set<Node> excludedProperties = new LinkedHashSet<>();
+				for (Pair<Node, Node> cond : predicateValues) {
+					// Check that we do it only for predicates with URI ranges
+					basicPattern.add(Triple.create(subjectVar, cond.getLeft(), cond.getRight()));
+					excludedProperties.add(cond.getLeft());
+				}
+				
+				
+				// And try to specialize the remaining properties
+				int count = 0;			
+				predicates.removeAll(excludedProperties);
+				for (Node predicate : predicates) {
+					Triple newTriple1 = Triple.create(subjectVar, predicate, 
+							Var.alloc("o" + level + "" + count));
+					triplesQueue.add(newTriple1);
+					++count;
+					Triple newTriple2 = Triple.create(Var.alloc("o" + level + "" + count), 
+							predicate, subjectVar);
+					triplesQueue.add(newTriple2);				
+				}
 			}
 			
 			if (triplesQueue.isEmpty())
@@ -143,6 +141,18 @@ public class ProvenanceQueryGenerator {
 		}
 		
 		return new OpBGP(basicPattern);
+	}
+
+	/**
+	 * @param currentTriple
+	 * @return
+	 */
+	private Var getDanglingVariable(Triple currentTriple) {
+		String subject = currentTriple.getSubject().toString();
+		if (currentTriple.getSubject().isVariable() && subject.startsWith("?o"))
+			return Var.alloc(currentTriple.getSubject());
+		else
+			return Var.alloc(currentTriple.getObject());
 	}
 
 	/**

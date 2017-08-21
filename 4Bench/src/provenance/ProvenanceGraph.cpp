@@ -214,8 +214,8 @@ ProvenanceGraph::ProvenanceGraph(const fc::ConfValues& values, const fp::Parsing
 }
 
 ProvenanceGraph::~ProvenanceGraph() {
-	delete entityLevels;
-	delete activityLevels;
+	delete[] entityLevels;
+	delete[] activityLevels;
 }
 
 void ProvenanceGraph::computeTotalNumberOfEntities() {
@@ -361,23 +361,21 @@ unsigned ProvenanceGraph::getMaxNumberOfAttributes() const {
 
 void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 	unsigned latestEntity = leafId;
-	cout << "Starting connectSourceAndLeaf " << sourceId << ", " << leafId << endl;
 	for (unsigned level = 0; level < maxLevel; ++level) {
-		cout << "connectSourceAndLeaf " << " level = " << level << endl;
 		// We have to look for intermediate entities in level + 1
 		unsigned entityNextLevel = getRandomEntityInLevel(level + 1);
 		connectEntities(latestEntity, entityNextLevel, level + 1);
 		latestEntity = entityNextLevel;
 	}
+#ifdef DEBUG
 	cout << "Done with connectSourceAndLeaf(" << sourceId << ", " << leafId << ")" << endl;
+#endif
 }
 
 void ProvenanceGraph::connectEntities(unsigned sourceId, unsigned targetId, unsigned targetLevel) {
 	int randomActivity = getRandomActivityInLevel(targetLevel);
-	cout << "connectEntities(" << sourceId << ", " << targetId << ", " << targetLevel << ") uses random activity " << randomActivity << endl;
 	if (randomActivity >= 0) {
 		// Add it to the sparse matrix
-		cout << "Adding edges provWasGeneratedBy (" << sourceId << ", " << randomActivity << ") and provUsed(" << randomActivity << ", " << targetId << ")" << endl;
 		provWasGeneratedBy.addEdge(sourceId, randomActivity);
 		provUsed.addEdge(randomActivity, targetId);
 	}

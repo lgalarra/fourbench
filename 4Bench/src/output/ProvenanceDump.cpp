@@ -30,8 +30,6 @@ ProvenanceDump::~ProvenanceDump() {
 }
 
 void ProvenanceDump::flush() {
-	if (stream.good())
-		cerr << "Stream is good " << endl;
 	stream.flush();
 }
 

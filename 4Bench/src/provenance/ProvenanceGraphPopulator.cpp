@@ -38,15 +38,11 @@ void ProvenanceGraphPopulator::populate(shared_ptr<fpa::FileParser> parser,
 			ProvenanceAssignmentFactory::getInstance();
 	fc::Conf& conf = fc::Conf::defaultConfig();
 
-	cout << "Initializing the assignments" << endl;
 	for (auto itr = graphs->begin(); itr != graphs->end(); ++itr) {
-		cout << "Assignment for " << itr->first << endl;
 		assignments[itr->first] = assignFactory.getProvenanceAssignment(itr->second);
 	}
 
 	fpa::Triple *triple = parser->next();
-	if (triple == nullptr)
-		cerr << "First triple is null" << endl;
 	while (triple != nullptr) {
 		string family = conf.getFamily(triple->getPredicate());
 		auto assignItr = assignments.find(family);
@@ -54,13 +50,12 @@ void ProvenanceGraphPopulator::populate(shared_ptr<fpa::FileParser> parser,
 			cerr << "No family for triple " << *triple << endl;
 		} else {
 			// Generate a provenance identifier
-			cout << "======================" << endl;
 			shared_ptr<ProvenanceGraph> graphPtr = assignItr->second->getGraph();
 			Entity provenanceEntity(assignItr->second->nextProvenanceId(), graphPtr->getDomain());
-			cout << "Object created" << endl;
 			output->dump(*triple, provenanceEntity);
-			cout << *triple << ", " << provenanceEntity.getIRI() << endl;
-			cout << "======================" << endl;
+#ifdef DEBUG
+			cout << *triple << " assigned provenance " << provenanceEntity.getIRI() << endl;
+#endif
 		}
 		delete triple;
 		triple = parser->next();

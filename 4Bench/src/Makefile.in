@@ -89,7 +89,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = 4Bench$(EXEEXT) 4BenchQueryGen$(EXEEXT)
+bin_PROGRAMS = 4Bench$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/m4_ax_boost_base.m4 \
@@ -110,6 +110,7 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	utils/4Bench-string.$(OBJEXT) conf/4Bench-Conf.$(OBJEXT) \
 	utils/4Bench-integer.$(OBJEXT) utils/4Bench-float.$(OBJEXT) \
+	utils/4Bench-time.$(OBJEXT) \
 	parsing/4Bench-FileParser.$(OBJEXT) \
 	parsing/4Bench-FileParserFactory.$(OBJEXT) \
 	parsing/4Bench-Triple.$(OBJEXT) \
@@ -145,10 +146,6 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 4Bench_OBJECTS = $(am_4Bench_OBJECTS)
 am__DEPENDENCIES_1 =
 4Bench_DEPENDENCIES = $(am__DEPENDENCIES_1)
-am_4BenchQueryGen_OBJECTS = 4BenchQueryGen-4BenchQueryGen.$(OBJEXT) \
-	utils/4BenchQueryGen-string.$(OBJEXT)
-4BenchQueryGen_OBJECTS = $(am_4BenchQueryGen_OBJECTS)
-4BenchQueryGen_DEPENDENCIES = $(am__DEPENDENCIES_1)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -182,8 +179,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(4Bench_SOURCES) $(4BenchQueryGen_SOURCES)
-DIST_SOURCES = $(4Bench_SOURCES) $(4BenchQueryGen_SOURCES)
+SOURCES = $(4Bench_SOURCES)
+DIST_SOURCES = $(4Bench_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -316,7 +313,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-4Bench_SOURCES = 4Bench.cpp utils/string.cpp conf/Conf.cpp  utils/integer.cpp utils/float.cpp \
+4Bench_SOURCES = 4Bench.cpp utils/string.cpp conf/Conf.cpp  utils/integer.cpp utils/float.cpp utils/time.cpp \
  parsing/FileParser.cpp parsing/FileParserFactory.cpp parsing/Triple.cpp parsing/TSVFileParser.cpp parsing/N3FileParser.cpp parsing/ParsingStats.cpp \
  provenance/IRIBuilder.cpp provenance/PROVO.cpp provenance/RDF.cpp provenance/RDFS.cpp provenance/Vocabulary.cpp provenance/FOAF.cpp provenance/XSD.cpp \
  datatypes/DataType.cpp datatypes/DataValue.cpp datatypes/DataValueBuilder.cpp \
@@ -325,11 +322,8 @@ top_srcdir = @top_srcdir@
  provenance/GeometricProvenanceAssignment.cpp provenance/ProvenanceObject.cpp provenance/Activity.cpp provenance/Entity.cpp provenance/Agent.cpp \
  output/ProvenanceDump.cpp output/ProvenanceDumpFactory.cpp output/NQuadsProvenanceDump.cpp
 
-4Bench_CPPFLAGS = -I$(top_srcdir)/include -I/usr/include/raptor2 -I/usr/include/rasqal
-4Bench_LDADD = -lrdf -lraptor2 -lrasqal $(BOOST_PROGRAM_OPTIONS_LIB)
-4BenchQueryGen_SOURCES = 4BenchQueryGen.cpp utils/string.cpp
-4BenchQueryGen_CPPFLAGS = -I/usr/include/raptor2 -I/usr/include/rasqal
-4BenchQueryGen_LDADD = -lrdf -lraptor2 -lrasqal $(BOOST_PROGRAM_OPTIONS_LIB)
+4Bench_CPPFLAGS = -I$(top_srcdir)/include
+4Bench_LDADD = $(BOOST_PROGRAM_OPTIONS_LIB)
 AM_CPPFLAGS = $(BOOST_CPPFLAGS)
 AM_LDFLAGS = $(BOOST_LDFLAGS)
 all: all-am
@@ -426,6 +420,8 @@ conf/4Bench-Conf.$(OBJEXT): conf/$(am__dirstamp) \
 utils/4Bench-integer.$(OBJEXT): utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
 utils/4Bench-float.$(OBJEXT): utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
+utils/4Bench-time.$(OBJEXT): utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
 parsing/$(am__dirstamp):
 	@$(MKDIR_P) parsing
@@ -529,12 +525,6 @@ output/4Bench-NQuadsProvenanceDump.$(OBJEXT): output/$(am__dirstamp) \
 4Bench$(EXEEXT): $(4Bench_OBJECTS) $(4Bench_DEPENDENCIES) $(EXTRA_4Bench_DEPENDENCIES) 
 	@rm -f 4Bench$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(4Bench_OBJECTS) $(4Bench_LDADD) $(LIBS)
-utils/4BenchQueryGen-string.$(OBJEXT): utils/$(am__dirstamp) \
-	utils/$(DEPDIR)/$(am__dirstamp)
-
-4BenchQueryGen$(EXEEXT): $(4BenchQueryGen_OBJECTS) $(4BenchQueryGen_DEPENDENCIES) $(EXTRA_4BenchQueryGen_DEPENDENCIES) 
-	@rm -f 4BenchQueryGen$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(4BenchQueryGen_OBJECTS) $(4BenchQueryGen_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -549,7 +539,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/4Bench-4Bench.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/4BenchQueryGen-4BenchQueryGen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@conf/$(DEPDIR)/4Bench-Conf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@datatypes/$(DEPDIR)/4Bench-DataType.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@datatypes/$(DEPDIR)/4Bench-DataValue.Po@am__quote@
@@ -586,7 +575,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-float.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-integer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-string.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4BenchQueryGen-string.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/4Bench-time.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -673,6 +662,20 @@ utils/4Bench-float.obj: utils/float.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/float.cpp' object='utils/4Bench-float.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-float.obj `if test -f 'utils/float.cpp'; then $(CYGPATH_W) 'utils/float.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/float.cpp'; fi`
+
+utils/4Bench-time.o: utils/time.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utils/4Bench-time.o -MD -MP -MF utils/$(DEPDIR)/4Bench-time.Tpo -c -o utils/4Bench-time.o `test -f 'utils/time.cpp' || echo '$(srcdir)/'`utils/time.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/4Bench-time.Tpo utils/$(DEPDIR)/4Bench-time.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/time.cpp' object='utils/4Bench-time.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-time.o `test -f 'utils/time.cpp' || echo '$(srcdir)/'`utils/time.cpp
+
+utils/4Bench-time.obj: utils/time.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utils/4Bench-time.obj -MD -MP -MF utils/$(DEPDIR)/4Bench-time.Tpo -c -o utils/4Bench-time.obj `if test -f 'utils/time.cpp'; then $(CYGPATH_W) 'utils/time.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/time.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/4Bench-time.Tpo utils/$(DEPDIR)/4Bench-time.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/time.cpp' object='utils/4Bench-time.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4Bench-time.obj `if test -f 'utils/time.cpp'; then $(CYGPATH_W) 'utils/time.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/time.cpp'; fi`
 
 parsing/4Bench-FileParser.o: parsing/FileParser.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT parsing/4Bench-FileParser.o -MD -MP -MF parsing/$(DEPDIR)/4Bench-FileParser.Tpo -c -o parsing/4Bench-FileParser.o `test -f 'parsing/FileParser.cpp' || echo '$(srcdir)/'`parsing/FileParser.cpp
@@ -1121,34 +1124,6 @@ output/4Bench-NQuadsProvenanceDump.obj: output/NQuadsProvenanceDump.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='output/NQuadsProvenanceDump.cpp' object='output/4Bench-NQuadsProvenanceDump.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o output/4Bench-NQuadsProvenanceDump.obj `if test -f 'output/NQuadsProvenanceDump.cpp'; then $(CYGPATH_W) 'output/NQuadsProvenanceDump.cpp'; else $(CYGPATH_W) '$(srcdir)/output/NQuadsProvenanceDump.cpp'; fi`
-
-4BenchQueryGen-4BenchQueryGen.o: 4BenchQueryGen.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4BenchQueryGen_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT 4BenchQueryGen-4BenchQueryGen.o -MD -MP -MF $(DEPDIR)/4BenchQueryGen-4BenchQueryGen.Tpo -c -o 4BenchQueryGen-4BenchQueryGen.o `test -f '4BenchQueryGen.cpp' || echo '$(srcdir)/'`4BenchQueryGen.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/4BenchQueryGen-4BenchQueryGen.Tpo $(DEPDIR)/4BenchQueryGen-4BenchQueryGen.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='4BenchQueryGen.cpp' object='4BenchQueryGen-4BenchQueryGen.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4BenchQueryGen_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o 4BenchQueryGen-4BenchQueryGen.o `test -f '4BenchQueryGen.cpp' || echo '$(srcdir)/'`4BenchQueryGen.cpp
-
-4BenchQueryGen-4BenchQueryGen.obj: 4BenchQueryGen.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4BenchQueryGen_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT 4BenchQueryGen-4BenchQueryGen.obj -MD -MP -MF $(DEPDIR)/4BenchQueryGen-4BenchQueryGen.Tpo -c -o 4BenchQueryGen-4BenchQueryGen.obj `if test -f '4BenchQueryGen.cpp'; then $(CYGPATH_W) '4BenchQueryGen.cpp'; else $(CYGPATH_W) '$(srcdir)/4BenchQueryGen.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/4BenchQueryGen-4BenchQueryGen.Tpo $(DEPDIR)/4BenchQueryGen-4BenchQueryGen.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='4BenchQueryGen.cpp' object='4BenchQueryGen-4BenchQueryGen.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4BenchQueryGen_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o 4BenchQueryGen-4BenchQueryGen.obj `if test -f '4BenchQueryGen.cpp'; then $(CYGPATH_W) '4BenchQueryGen.cpp'; else $(CYGPATH_W) '$(srcdir)/4BenchQueryGen.cpp'; fi`
-
-utils/4BenchQueryGen-string.o: utils/string.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4BenchQueryGen_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utils/4BenchQueryGen-string.o -MD -MP -MF utils/$(DEPDIR)/4BenchQueryGen-string.Tpo -c -o utils/4BenchQueryGen-string.o `test -f 'utils/string.cpp' || echo '$(srcdir)/'`utils/string.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/4BenchQueryGen-string.Tpo utils/$(DEPDIR)/4BenchQueryGen-string.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/string.cpp' object='utils/4BenchQueryGen-string.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4BenchQueryGen_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4BenchQueryGen-string.o `test -f 'utils/string.cpp' || echo '$(srcdir)/'`utils/string.cpp
-
-utils/4BenchQueryGen-string.obj: utils/string.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4BenchQueryGen_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT utils/4BenchQueryGen-string.obj -MD -MP -MF utils/$(DEPDIR)/4BenchQueryGen-string.Tpo -c -o utils/4BenchQueryGen-string.obj `if test -f 'utils/string.cpp'; then $(CYGPATH_W) 'utils/string.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/string.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/4BenchQueryGen-string.Tpo utils/$(DEPDIR)/4BenchQueryGen-string.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/string.cpp' object='utils/4BenchQueryGen-string.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4BenchQueryGen_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o utils/4BenchQueryGen-string.obj `if test -f 'utils/string.cpp'; then $(CYGPATH_W) 'utils/string.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/string.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique

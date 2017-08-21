@@ -21,6 +21,8 @@ import org.apache.jena.riot.RDFLanguages;
  *
  */
 public class Config {
+	public static final String provenanceGraphURI = "http://fourbench.org/provenance/graph/";
+	
 	private static Config instance;
 	
 	public List<String> inputQueryFiles;
@@ -124,6 +126,7 @@ public class Config {
 		builder.append(", ");
 		builder.append("Number of provenance queries: " );
 		builder.append(numberOfModifiedQueries);
+		builder.append(", ");
 		builder.append("Coverage values: ");
 		builder.append(coverageValues);
 		builder.append("}");

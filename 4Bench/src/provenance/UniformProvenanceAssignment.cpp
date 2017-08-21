@@ -41,7 +41,6 @@ UniformProvenanceAssignment::UniformProvenanceAssignment(shared_ptr<ProvenanceGr
 UniformProvenanceAssignment::~UniformProvenanceAssignment() {}
 
 unsigned UniformProvenanceAssignment::nextProvenanceId() {
-	cout << "nextProvenanceId " << graphPtr->getName() << endl;
 	if (numberOfAssignmentsLatestLeaf >= maxItemsPerLeaf) {
 		++latestLeaf;
 		numberOfAssignmentsLatestLeaf = 1;
@@ -52,13 +51,10 @@ unsigned UniformProvenanceAssignment::nextProvenanceId() {
 	if (seenIds.count(latestLeaf) == 0) {
 		seenIds.insert(latestLeaf);
 	} else {
-		cout << "returning " << latestLeaf  << endl;
 		return latestLeaf;
 	}
 
 	ProvenanceAssignment::connectLeafToSources(latestLeaf, sourcesPerLeaf);
-
-	cout << "done, " << latestLeaf << " connected to sources "  << endl;
 
 	return latestLeaf;
 

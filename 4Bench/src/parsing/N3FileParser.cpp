@@ -9,7 +9,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <raptor2.h>
 
 #include "../include/conf/Conf.hpp"
 #include "../include/utils/string.hpp"
@@ -32,49 +31,71 @@ Triple* N3FileParser::parse(const string& chunk) {
 	vector<string> parts = f::splitOnce(chunk, " <");
 	string subject, predicate, object;
 	if (parts.size() >= 2) {
-		subject = f::trimIRI(parts[0]);
+		subject = parts[0];
 		string tail = parts[1];
-		vector<string> tailParts = splitOnce(tail, "> <");
-		bool objectIsIRI = true;
-		if (tailParts.size() < 2) {
-			tailParts = splitOnce(tail, "> \"");
-			objectIsIRI = false;
-		}
+		vector<string> tailParts = splitOnce(tail, "> ");
 
-		if (tailParts.size() >= 2) {
-			predicate = tailParts[1];
-			if (objectIsIRI) {
-				object = concat({"<", tailParts[2]});
-			} else {
-				object = concat({"\"", tailParts[2]});
-			}
-			auto pos = object.find(" .\n");
-			object.replace(pos, 3, "");
-			return new Triple(subject, predicate, object, filenames[currentFileIdx], lineNumber);
-		} else {
+		if (tailParts.size() < 2) {
 			return nullptr;
 		}
+
+		predicate = concat({"<", tailParts[0], ">"});
+		object = tailParts[1];
+
+		auto pos = object.find(" .\n");
+		auto posQuad = object.find(" <");
+		if (posQuad != string::npos) {
+			pos = posQuad;
+		} else {
+			if (pos == string::npos) {
+				cerr << subject << ", " <<  predicate << ", " << object <<  ": Problem at parsing line " << lineNumber << endl;
+				return nullptr;
+			}
+		}
+		object = f::trim(string(object.begin(), object.begin() + pos));
+		if (currentFileIdx >= 0) {
+			return new Triple(subject, predicate, object, filenames[currentFileIdx], lineNumber);
+		} else {
+			return new Triple(subject, predicate, object);
+		}
+
 	} else {
 		return nullptr;
 	}
 }
 
 bool N3FileParser::getChunk(ifstream& strm, string& output) {
-	stringstream sstrm;
+	stringstream outStrm;
 	char previous = 0;
+	bool commentState = false;
 	while (!strm.eof()) {
 		char c;
 		strm.get(c);
-		sstrm << c;
-		if (c == '\n' && previous == '.') {
-			output = f::trim(sstrm.str());
-			return true;
+
+		if (c == '\n') {
+			++lineNumber;
 		}
+
+		if (!commentState && c == '\n' && previous == '.') {
+			output = f::trim(outStrm.str());
+			return true;
+		} else if (!commentState && std::isspace(c) && previous == '#') {
+			outStrm.seekp(-1, ios_base::end);
+			commentState = true;
+		} else if (commentState && c == '\n') {
+			commentState = false;
+			previous = 0;
+		}
+
+		if (!commentState) {
+			outStrm << c;
+		}
+
 		previous = c;
 	}
 
-	if (previous == '.') {
-		output = f::trim(sstrm.str());
+	if (!commentState && previous == '.') {
+		output = f::trim(outStrm.str());
 		return true;
 	}
 
@@ -92,24 +113,21 @@ void N3FileParser::init() {
 		while (getChunk(stream, line)) {
 			++numberOfLines;
 
-			// TODO: Implement the right spliting
-			vector<string> parts = splitOnce(line, " <");
-			if (parts.size() >= 2) {
-				string tail = parts[1];
-				vector<string> tailParts = splitOnce(tail, "> <");
-				if (tailParts.size() < 2) {
-					tailParts = splitOnce(tail, "> \"");
-				}
-
-				string family = conf.getFamily(tailParts[0]);
+			Triple* t = parse(line);
+			if (t != nullptr) {
+				string family = conf.getFamily(t->getPredicate());
 				auto itr = numberOfTriplesPerFamily.find(family);
 				if (itr == numberOfTriplesPerFamily.end()) {
 					numberOfTriplesPerFamily[family] = 1;
 				} else{
 					itr->second = itr->second + 1;
 				}
-				family2Subjects[family].insert(f::trim(parts[0]));
+				family2Subjects[family].insert(t->getSubject());
+				delete t;
+			} else {
+				cerr << "[Initializing] Problem at parsing: " << line << endl;
 			}
+
 		}
 
 		for (auto itr = family2Subjects.begin(); itr != family2Subjects.end(); ++itr) {
@@ -151,6 +169,7 @@ Triple* N3FileParser::next() {
 			return nullptr;
 		} else {
 			currentStream = streams[currentFileIdx];
+			lineNumber = 0; // Reset line number
 		}
 	}
 

@@ -144,13 +144,19 @@ public class QueryGenerator extends StreamRDFBase {
 
 	@Override
     public void quad(Quad quad) {
-		buffer.put(quad.asTriple().toString(), quad.getGraph().toString());
+		dataset.asDatasetGraph().add(quad);
+		
+		String graph = quad.getGraph().toString();
+		// Do not index the provenance graph
+		if (graph.equals(Config.provenanceGraphURI)) {
+			return;
+		}
+		
+		buffer.put(quad.asTriple().toString(), graph);
 		
 		if (buffer.size() >= bufferSize) {
 			flush();
 		}
-		
-		dataset.asDatasetGraph().add(quad);
     }
 
 	

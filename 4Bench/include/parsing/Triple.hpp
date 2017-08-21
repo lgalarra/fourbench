@@ -29,6 +29,8 @@ private:
 
 public:
 	Triple(const string& subject, const string& predicate,
+			const string& object);
+	Triple(const string& subject, const string& predicate,
 			const string& object, const string& filename, unsigned lineNumber);
 	virtual ~Triple();
 
