@@ -6,6 +6,7 @@
  */
 
 #include <memory>
+#include <algorithm>
 #include <iostream>
 
 
@@ -34,6 +35,15 @@ ProvenanceAssignment::~ProvenanceAssignment() {
 
 shared_ptr<ProvenanceGraph> ProvenanceAssignment::getGraph() const {
 	return graphPtr;
+}
+
+unsigned ProvenanceAssignment::getNumberOfAssignedProvenanceIds() const {
+	unsigned count = 0;
+	for (auto it = seenIds.begin(); it != seenIds.end(); it = seenIds.equal_range(*it).second) {
+		++count;
+	}
+
+	return count;
 }
 
 void ProvenanceAssignment::connectLeafToSources(unsigned leafId, unsigned sourcesPerLeaf) {

@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <map>
+#include <utility>
 
 #include "../include/utils/string.hpp"
 #include "../include/conf/Conf.hpp"
@@ -17,6 +18,7 @@
 #include "../include/provenance/ProvenanceGraph.hpp"
 #include "../include/provenance/ProvenanceGraphPopulator.hpp"
 #include "../include/provenance/Entity.hpp"
+#include "../include/provenance/PopulateStats.hpp"
 
 namespace fpa = fourbench::parsing;
 namespace fc = fourbench::conf;
@@ -29,9 +31,11 @@ namespace provenance {
 
 ProvenanceGraphPopulator::ProvenanceGraphPopulator(shared_ptr<fo::ProvenanceDump> out) : output(out) {}
 
-void ProvenanceGraphPopulator::populate(shared_ptr<fpa::FileParser> parser,
+shared_ptr<map<string, shared_ptr<PopulateStats>>> ProvenanceGraphPopulator::populate(shared_ptr<fpa::FileParser> parser,
 		shared_ptr<map<string, shared_ptr<ProvenanceGraph>>> graphs) {
 	// Construct a map of provenance assignments
+	shared_ptr<map<string, shared_ptr<PopulateStats>>> popStats =
+			make_shared<map<string, shared_ptr<PopulateStats>>>();
 	map<string, shared_ptr<ProvenanceAssignment>> assignments;
 
 	ProvenanceAssignmentFactory& assignFactory =
@@ -40,6 +44,7 @@ void ProvenanceGraphPopulator::populate(shared_ptr<fpa::FileParser> parser,
 
 	for (auto itr = graphs->begin(); itr != graphs->end(); ++itr) {
 		assignments[itr->first] = assignFactory.getProvenanceAssignment(itr->second);
+		(*popStats)[itr->first] = make_shared<PopulateStats>();
 	}
 
 	fpa::Triple *triple = parser->next();
@@ -65,7 +70,11 @@ void ProvenanceGraphPopulator::populate(shared_ptr<fpa::FileParser> parser,
 	for (auto itr = graphs->begin(); itr != graphs->end(); ++itr) {
 		output->dump(itr->second);
 		output->flush();
+		(*popStats)[itr->first]->familyName = itr->first;
+		(*popStats)[itr->first]->numberOfProvenanceIdentifiers = assignments[itr->first]->getNumberOfAssignedProvenanceIds();
 	}
+
+	return popStats;
 }
 
 ProvenanceGraphPopulator::~ProvenanceGraphPopulator() {

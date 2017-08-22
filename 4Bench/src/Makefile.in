@@ -131,6 +131,7 @@ am_4Bench_OBJECTS = 4Bench-4Bench.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraphFactory.$(OBJEXT) \
 	provenance/4Bench-ProvenanceSubgraph.$(OBJEXT) \
 	provenance/4Bench-ProvenanceGraphPopulator.$(OBJEXT) \
+	provenance/4Bench-PopulateStats.$(OBJEXT) \
 	provenance/4Bench-ProvenanceAssignment.$(OBJEXT) \
 	provenance/4Bench-ProvenanceAssignmentFactory.$(OBJEXT) \
 	provenance/4Bench-UniformProvenanceAssignment.$(OBJEXT) \
@@ -317,7 +318,7 @@ top_srcdir = @top_srcdir@
  parsing/FileParser.cpp parsing/FileParserFactory.cpp parsing/Triple.cpp parsing/TSVFileParser.cpp parsing/N3FileParser.cpp parsing/ParsingStats.cpp \
  provenance/IRIBuilder.cpp provenance/PROVO.cpp provenance/RDF.cpp provenance/RDFS.cpp provenance/Vocabulary.cpp provenance/FOAF.cpp provenance/XSD.cpp \
  datatypes/DataType.cpp datatypes/DataValue.cpp datatypes/DataValueBuilder.cpp \
- provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp \
+ provenance/ProvenanceGraph.cpp provenance/ProvenanceGraphFactory.cpp provenance/ProvenanceSubgraph.cpp provenance/ProvenanceGraphPopulator.cpp provenance/PopulateStats.cpp \
  provenance/ProvenanceAssignment.cpp  provenance/ProvenanceAssignmentFactory.cpp provenance/UniformProvenanceAssignment.cpp provenance/PowerLawProvenanceAssignment.cpp \
  provenance/GeometricProvenanceAssignment.cpp provenance/ProvenanceObject.cpp provenance/Activity.cpp provenance/Entity.cpp provenance/Agent.cpp \
  output/ProvenanceDump.cpp output/ProvenanceDumpFactory.cpp output/NQuadsProvenanceDump.cpp
@@ -485,6 +486,8 @@ provenance/4Bench-ProvenanceSubgraph.$(OBJEXT):  \
 provenance/4Bench-ProvenanceGraphPopulator.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
+provenance/4Bench-PopulateStats.$(OBJEXT): provenance/$(am__dirstamp) \
+	provenance/$(DEPDIR)/$(am__dirstamp)
 provenance/4Bench-ProvenanceAssignment.$(OBJEXT):  \
 	provenance/$(am__dirstamp) \
 	provenance/$(DEPDIR)/$(am__dirstamp)
@@ -559,6 +562,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-GeometricProvenanceAssignment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-IRIBuilder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-PROVO.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-PopulateStats.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-PowerLawProvenanceAssignment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceAssignment.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@provenance/$(DEPDIR)/4Bench-ProvenanceAssignmentFactory.Po@am__quote@
@@ -956,6 +960,20 @@ provenance/4Bench-ProvenanceGraphPopulator.obj: provenance/ProvenanceGraphPopula
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/ProvenanceGraphPopulator.cpp' object='provenance/4Bench-ProvenanceGraphPopulator.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-ProvenanceGraphPopulator.obj `if test -f 'provenance/ProvenanceGraphPopulator.cpp'; then $(CYGPATH_W) 'provenance/ProvenanceGraphPopulator.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/ProvenanceGraphPopulator.cpp'; fi`
+
+provenance/4Bench-PopulateStats.o: provenance/PopulateStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-PopulateStats.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-PopulateStats.Tpo -c -o provenance/4Bench-PopulateStats.o `test -f 'provenance/PopulateStats.cpp' || echo '$(srcdir)/'`provenance/PopulateStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-PopulateStats.Tpo provenance/$(DEPDIR)/4Bench-PopulateStats.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/PopulateStats.cpp' object='provenance/4Bench-PopulateStats.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-PopulateStats.o `test -f 'provenance/PopulateStats.cpp' || echo '$(srcdir)/'`provenance/PopulateStats.cpp
+
+provenance/4Bench-PopulateStats.obj: provenance/PopulateStats.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-PopulateStats.obj -MD -MP -MF provenance/$(DEPDIR)/4Bench-PopulateStats.Tpo -c -o provenance/4Bench-PopulateStats.obj `if test -f 'provenance/PopulateStats.cpp'; then $(CYGPATH_W) 'provenance/PopulateStats.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/PopulateStats.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) provenance/$(DEPDIR)/4Bench-PopulateStats.Tpo provenance/$(DEPDIR)/4Bench-PopulateStats.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='provenance/PopulateStats.cpp' object='provenance/4Bench-PopulateStats.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o provenance/4Bench-PopulateStats.obj `if test -f 'provenance/PopulateStats.cpp'; then $(CYGPATH_W) 'provenance/PopulateStats.cpp'; else $(CYGPATH_W) '$(srcdir)/provenance/PopulateStats.cpp'; fi`
 
 provenance/4Bench-ProvenanceAssignment.o: provenance/ProvenanceAssignment.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(4Bench_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT provenance/4Bench-ProvenanceAssignment.o -MD -MP -MF provenance/$(DEPDIR)/4Bench-ProvenanceAssignment.Tpo -c -o provenance/4Bench-ProvenanceAssignment.o `test -f 'provenance/ProvenanceAssignment.cpp' || echo '$(srcdir)/'`provenance/ProvenanceAssignment.cpp

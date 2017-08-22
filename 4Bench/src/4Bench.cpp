@@ -27,6 +27,7 @@
 #include "../include/output/NQuadsProvenanceDump.hpp"
 #include "../include/provenance/ProvenanceGraphFactory.hpp"
 #include "../include/provenance/ProvenanceGraphPopulator.hpp"
+#include "../include/provenance/PopulateStats.hpp"
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
@@ -160,7 +161,14 @@ int main(int argc, char** argv) {
 
 	shared_ptr<fo::ProvenanceDump> dump = getDump(vm["output-format"].as<string>(), outstream);
 	fprov::ProvenanceGraphPopulator populator(dump);
-	populator.populate(parser, provenanceGraphs);
+	tstart = f::timeMicroSeconds();
+	shared_ptr<map<string, shared_ptr<fprov::PopulateStats>>> popStats = populator.populate(parser, provenanceGraphs);
+	tend = f::timeMicroSeconds();
+	cout << "Construction of provenance graph took " << (tend - tstart) / 1000000.0 << " s" << endl;
+	cout << "Data generation statistics" << endl;
+	for (auto itr = popStats->begin(); itr != popStats->end(); ++itr) {
+		cout << *(itr->second.get()) << endl;
+	}
 
 	outstream.close();
 

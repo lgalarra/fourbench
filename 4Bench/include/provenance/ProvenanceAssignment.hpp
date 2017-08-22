@@ -44,6 +44,7 @@ protected:
 	ProvenanceAssignment(shared_ptr<ProvenanceGraph> graphPtr);
 	virtual void connectLeafToSources(unsigned leafId, unsigned numberOfSources);
 public:
+	unsigned getNumberOfAssignedProvenanceIds() const;
 	virtual ~ProvenanceAssignment();
 	virtual unsigned nextProvenanceId() = 0;
 	shared_ptr<ProvenanceGraph> getGraph() const;
