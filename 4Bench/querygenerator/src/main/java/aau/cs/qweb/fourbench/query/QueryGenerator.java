@@ -260,7 +260,6 @@ public class QueryGenerator extends StreamRDFBase {
 		for (List<List<String>> cluster : provenanceIds) {
 			Set<String> flattenedSet = flatten(cluster);
 			OpBGP bgp = generator.computeBGP(flattenedSet);
-			System.out.println("Cluster " + flattenedSet);
 			System.out.println("Computed bgp " + bgp);
 			if (!bgp.getPattern().isEmpty())
 				resultBGPs.add(bgp);

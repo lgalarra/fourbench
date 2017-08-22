@@ -262,7 +262,8 @@ public class ProvenancePathsGenerator {
 	 * @param triple
 	 * @param computedBindings
 	 */
-	private void getInitialBindings(Triple triple, List<Binding> computedBindings, Map<String, List<String>> provenancePaths) {
+	private void getInitialBindings(Triple triple, List<Binding> computedBindings, 
+			Map<String, List<String>> provenancePaths) {
 		OpBGP singletonBGP = new OpBGP();
 		singletonBGP.getPattern().add(triple);
 		QueryIterator qIter = Algebra.execRef(singletonBGP, 
