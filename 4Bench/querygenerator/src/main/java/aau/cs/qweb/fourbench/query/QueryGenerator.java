@@ -243,6 +243,7 @@ public class QueryGenerator extends StreamRDFBase {
 			List<List<List<String>>> provenanceIds = filterPaths(coverageValue.floatValue(), provenancePaths);
 			Op provenanceQuery = computeProvenanceQuery(provenanceIds);
 			System.out.println("coverage = " + coverageValue + "  " + provenanceQuery);
+			
 		}
 		
 		System.out.println(provenancePaths);
