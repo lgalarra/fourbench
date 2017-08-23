@@ -39,7 +39,8 @@ Triple* TSVFileParser::next() {
 		return nullptr;
 	}
 
-	if (currentStream->eof()) {
+	string line;
+	if (!getline(*currentStream, line)) {
 		currentFileIdx++;
 		// We have scanned all files
 		if (currentFileIdx >= filenames.size()) {
@@ -50,8 +51,7 @@ Triple* TSVFileParser::next() {
 		}
 	}
 
-	string line;
-	if (getline(*currentStream, line)) {
+	if (line != "" || getline(*currentStream, line)) {
 		vector<string> parts = split(line, "\t");
 		++lineNumber;
 		if (parts.size() >= 3) {

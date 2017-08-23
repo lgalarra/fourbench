@@ -28,6 +28,8 @@ namespace output {
 class ProvenanceDump {
 protected:
 	ostream &stream;
+	long provenanceTriplesDumped;
+	long triplesDumped;
 
 	ProvenanceDump(ostream& strm);
 	virtual ostream& formatIRI(const string& iri) const;
@@ -39,15 +41,17 @@ protected:
 	virtual ostream& formatString(const string& str) const;
 	virtual ostream& formatDate(const fd::Date& date) const;
 	virtual ostream& formatDateTime(time_t tstamp) const;
-	virtual void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const = 0;
-	virtual void dump(const fprov::ProvenanceObject& obj) const;
+	virtual void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) = 0;
+	virtual void dump(const fprov::ProvenanceObject& obj);
 	virtual ostream& formatActivityType(fd::ActivityTypeEnum type) const;
 	virtual ostream& formatEntityType(fd::EntityTypeEnum type) const;
 	virtual ostream& formatAgentType(fd::AgentTypeEnum type) const;
 public:
-	virtual void dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const = 0;
+	virtual void dump(const fpar::Triple& triple, const fprov::Entity& provEntity) = 0;
 	// TODO: Change the signature to receive a constant graph
-	virtual void dump(shared_ptr<fprov::ProvenanceGraph> graph) const = 0;
+	virtual void dump(shared_ptr<fprov::ProvenanceGraph> graph) = 0;
+	long getNumberOfDumpedProvenanceTriples() const;
+	long getNumberOfDumpedTriples() const;
 	void flush();
 	virtual ~ProvenanceDump();
 

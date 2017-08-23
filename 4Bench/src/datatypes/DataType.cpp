@@ -264,6 +264,23 @@ EntityType::~EntityType() {
 
 }
 
+PROVOEntityType PROVOEntityType::instance;
+
+PROVOEntityType& PROVOEntityType::getInstance() {
+	return instance;
+}
+
+PROVOEntityType::PROVOEntityType() : DataType("provoEntityType") {
+}
+
+shared_ptr<DataValue> PROVOEntityType::getRandomValue() const {
+	return make_shared<PROVOEntityTypeValue>(static_cast<PROVOEntityTypeEnum>(f::urand(0, 3)));
+}
+
+PROVOEntityType::~PROVOEntityType() {
+
+}
+
 ActivityType ActivityType::instance;
 
 ActivityType& ActivityType::getInstance() {

@@ -47,6 +47,9 @@ unsigned ProvenanceAssignment::getNumberOfAssignedProvenanceIds() const {
 }
 
 void ProvenanceAssignment::connectLeafToSources(unsigned leafId, unsigned sourcesPerLeaf) {
+#if DEBUG
+	cout << "Connecting entity with id " << leafId << " with sources with ids: ";
+#endif
 	if (graphPtr->getDepth() > 1) {
 		if (!allSourcesConnected) {
 			// Pick the top N unconnected sources
@@ -57,7 +60,11 @@ void ProvenanceAssignment::connectLeafToSources(unsigned leafId, unsigned source
 					allSourcesConnected = true;
 				}
 				top.second = top.second + 1;
-				graphPtr->connectSourceAndLeaf(graphPtr->getSourceAbsoluteId(top.first), leafId);
+				unsigned absoluteSourceIdx = graphPtr->getSourceAbsoluteId(top.first);
+#if DEBUG
+				cout << absoluteSourceIdx << " ";
+#endif
+				graphPtr->connectSourceAndLeaf(absoluteSourceIdx, leafId);
 				sourcesPriorityQueue.pop();
 				sourcesPriorityQueue.push(top);
 			}
@@ -65,10 +72,18 @@ void ProvenanceAssignment::connectLeafToSources(unsigned leafId, unsigned source
 			// Pick random sources
 			for (unsigned i = 0; i < sourcesPerLeaf; ++i) {
 				unsigned sourceIdx = rand() % graphPtr->getNumberOfSourceEntities();
-				graphPtr->connectSourceAndLeaf(graphPtr->getSourceAbsoluteId(sourceIdx), leafId);
+				unsigned absoluteSourceIdx = graphPtr->getSourceAbsoluteId(sourceIdx);
+#if DEBUG
+				cout << absoluteSourceIdx << " ";
+#endif
+				graphPtr->connectSourceAndLeaf(absoluteSourceIdx, leafId);
 			}
 		}
 	}
+#if DEBUG
+	cout << endl;
+#endif
+
 }
 
 } /* namespace provenance */

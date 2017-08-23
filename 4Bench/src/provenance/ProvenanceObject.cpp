@@ -90,6 +90,10 @@ pair<map<string, shared_ptr<fd::DataValue>>::const_iterator, map<string, shared_
 	return make_pair<map<string, shared_ptr<fd::DataValue>>::const_iterator, map<string, shared_ptr<fd::DataValue>>::const_iterator>(attributes.cbegin(), attributes.cend());
 }
 
+pair<set<shared_ptr<fd::DataValue>>::const_iterator, set<shared_ptr<fd::DataValue>>::const_iterator> ProvenanceObject::getTypeIterators() const {
+	return make_pair<set<shared_ptr<fd::DataValue>>::const_iterator, set<shared_ptr<fd::DataValue>>::const_iterator>(types.cbegin(), types.cend());
+}
+
 unsigned ProvenanceObject::getId() const {
 	return id;
 }

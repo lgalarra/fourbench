@@ -30,7 +30,7 @@ NQuadsProvenanceDump::~NQuadsProvenanceDump() {
 
 }
 
-void NQuadsProvenanceDump::dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const {
+void NQuadsProvenanceDump::dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) {
 	this->formatIRI(obj.getIRI());
 	stream << " ";
 	this->formatIRI(attributeName);
@@ -42,7 +42,7 @@ void NQuadsProvenanceDump::dump(const fprov::ProvenanceObject& obj, string attri
 	stream << endl;
 }
 
-void NQuadsProvenanceDump::dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const {
+void NQuadsProvenanceDump::dump(const fpar::Triple& triple, const fprov::Entity& provEntity) {
 	stream << triple.getSubject();
 	stream << " ";
 	stream << triple.getPredicate();
@@ -52,14 +52,15 @@ void NQuadsProvenanceDump::dump(const fpar::Triple& triple, const fprov::Entity&
 	this->formatIRI(provEntity.getIRI());
 	stream << " .";
 	stream << endl;
+	++triplesDumped;
 }
 
-void NQuadsProvenanceDump::dump(const fprov::ProvenanceObject& obj) const {
+void NQuadsProvenanceDump::dump(const fprov::ProvenanceObject& obj) {
 	ProvenanceDump::dump(obj);
 }
 
 
-void NQuadsProvenanceDump::dump(shared_ptr<fprov::ProvenanceGraph> graph) const {
+void NQuadsProvenanceDump::dump(shared_ptr<fprov::ProvenanceGraph> graph) {
 	pair<fprov::EdgeIterator<fprov::Activity, fprov::Entity>, fprov::EdgeIterator<fprov::Activity, fprov::Entity>> provUsedIterators = graph->getProvUsedIterators();
 	for (auto it = provUsedIterators.first; it != provUsedIterators.second; ++it) {
 		this->dump<fprov::Activity, fprov::Entity>(*it);
@@ -91,7 +92,7 @@ void NQuadsProvenanceDump::dump(shared_ptr<fprov::ProvenanceGraph> graph) const 
 		this->dump(agent);
 	}
 
-	if (graph->getDepth()) {
+	if (graph->getDepth() > 0) {
 		shared_ptr<vector<unsigned>> usedEntityIds = graph->getUsedEntityIds();
 		for (auto it = usedEntityIds->begin(); it != usedEntityIds->end(); ++it) {
 			fprov::Entity entity(*it, graph->getDomain(), graph->getMaxNumberOfAttributes());

@@ -24,7 +24,7 @@ namespace output {
 class NQuadsProvenanceDump: public ProvenanceDump {
 private:
 
-	template<class Domain, class Range> inline void dump(const tuple<shared_ptr<Domain>, string, shared_ptr<Range>>& tuple) const {
+	template<class Domain, class Range> inline void dump(const tuple<shared_ptr<Domain>, string, shared_ptr<Range>>& tuple) {
 		this->formatIRI(get<0>(tuple)->getIRI());
 		stream << " ";
 		this->formatIRI(get<1>(tuple));
@@ -34,9 +34,10 @@ private:
 		this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
 		stream << " .";
 		stream << endl;
+		++provenanceTriplesDumped;
 	}
 
-	template<class Domain, class Range> void dump(const Domain& domain, const string& property, vector<shared_ptr<Range>> ranges) const {
+	template<class Domain, class Range> void dump(const Domain& domain, const string& property, vector<shared_ptr<Range>> ranges) {
 		for (auto itr = ranges.begin(); itr != ranges.end(); ++itr) {
 			this->formatIRI(domain.getIRI());
 			stream << " ";
@@ -47,17 +48,18 @@ private:
 			this->formatIRI(fprov::ProvenanceGraph::getDefaultProvenanceGraphIRI());
 			stream << " .";
 			stream << endl;
+			++provenanceTriplesDumped;
 		}
 	}
 
 protected:
-	virtual void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue) const;
-	virtual void dump(const fprov::ProvenanceObject& obj) const;
+	virtual void dump(const fprov::ProvenanceObject& obj, string attributeName, shared_ptr<fd::DataValue> attributeValue);
+	virtual void dump(const fprov::ProvenanceObject& obj);
 
 public:
 	NQuadsProvenanceDump(ostream& strm);
-	virtual void dump(const fpar::Triple& triple, const fprov::Entity& provEntity) const;
-	virtual void dump(shared_ptr<fprov::ProvenanceGraph> graph) const;
+	virtual void dump(const fpar::Triple& triple, const fprov::Entity& provEntity);
+	virtual void dump(shared_ptr<fprov::ProvenanceGraph> graph);
 	virtual ~NQuadsProvenanceDump();
 };
 

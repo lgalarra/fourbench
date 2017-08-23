@@ -367,9 +367,6 @@ void ProvenanceGraph::connectSourceAndLeaf(unsigned sourceId, unsigned leafId) {
 		connectEntities(latestEntity, entityNextLevel, level + 1);
 		latestEntity = entityNextLevel;
 	}
-#ifdef DEBUG
-	cout << "Done with connectSourceAndLeaf(" << sourceId << ", " << leafId << ")" << endl;
-#endif
 }
 
 void ProvenanceGraph::connectEntities(unsigned sourceId, unsigned targetId, unsigned targetLevel) {

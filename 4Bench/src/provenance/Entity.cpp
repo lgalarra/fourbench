@@ -55,11 +55,26 @@ void Entity::initialize() {
 		attributes[Vocabulary::id] = dataBuilder.get<fd::IntegerValue>(id);
 	}
 
-	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(PROVO::Entity);
+	types.insert(dataBuilder.get<fd::IRIValue>(PROVO::Entity));
 	attributes[RDFS::label] = dataBuilder.get<fd::StringValue>(f::concat({"Entity ", to_string(id)}));
 
 	if (level == EntityLevel::SOURCE_AND_LEAF || level == EntityLevel::SOURCE) {
 		attributes[Vocabulary::sourceType] = fd::EntityType::getInstance().getRandomValue();
+		types.insert(dataBuilder.get<fd::IRIValue>(PROVO::Collection));
+	} else {
+		shared_ptr<fd::DataValue> provoType = fd::PROVOEntityType::getInstance().getRandomValue();
+		switch (provoType->getAs<fd::PROVOEntityTypeEnum>()) {
+		case fd::PROVOEntityTypeEnum::COLLECTION :
+			types.insert(dataBuilder.get<fd::IRIValue>(PROVO::Collection));
+			break;
+		case fd::PROVOEntityTypeEnum::BUNDLE :
+			types.insert(dataBuilder.get<fd::IRIValue>(PROVO::Bundle));
+			break;
+		case fd::PROVOEntityTypeEnum::PLAN :
+			types.insert(dataBuilder.get<fd::IRIValue>(PROVO::Plan));
+			break;
+		}
+
 	}
 }
 

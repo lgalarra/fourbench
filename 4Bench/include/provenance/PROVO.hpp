@@ -30,6 +30,12 @@ public:
 	static const string Activity;
 	static const string Agent;
 	static const string Entity;
+	static const string Person;
+	static const string Organization;
+	static const string SoftwareAgent;
+	static const string Collection;
+	static const string Bundle;
+	static const string Plan;
 };
 
 } /* namespace output */

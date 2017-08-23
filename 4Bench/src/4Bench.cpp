@@ -13,6 +13,7 @@
 #include <fstream>
 #include <memory>
 #include <vector>
+#include <chrono>
 #include <algorithm>
 
 #include "../include/utils/time.hpp"
@@ -40,6 +41,7 @@ namespace fpar = fourbench::parsing;
 namespace fprov = fourbench::provenance;
 namespace fo = fourbench::output;
 namespace f = fourbench;
+using sc = chrono::steady_clock;
 
 const vector<string> supportedInputFormats = {"tsv", "ttl", "n3", "n4"};
 
@@ -81,6 +83,11 @@ shared_ptr<fo::ProvenanceDump> getDump(const string& outputFormat, ostream& stre
 	} else {
 		return nullptr;
 	}
+}
+
+void outputDumpStats(const fo::ProvenanceDump& dump) {
+	cout << "Dump Stats { #provenance-triples: " << dump.getNumberOfDumpedProvenanceTriples();
+	cout << ", #output-triples: " << dump.getNumberOfDumpedTriples() << "}" << endl;
 }
 
 int main(int argc, char** argv) {
@@ -139,13 +146,13 @@ int main(int argc, char** argv) {
 	}
 
 	cout << "Initialization (first pass on the data) started." << endl;
-	long tstart = f::timeMicroSeconds();
+	sc::time_point tstart = f::time();
 	shared_ptr<fpar::FileParser> parser = buildParser(iformat, ifiles);
 	if (parser.get() == nullptr) {
 		exit(4);
 	}
-	long tend = f::timeMicroSeconds();
-	cout << "Initialization took " << (tend - tstart) / 1000000.0 << " s" << endl;
+	sc::time_point tend = f::time();
+	cout << "Initialization took " << f::formatElapsedTime(tstart, tend) << endl;
 
 	fprov::ProvenanceGraphFactory& builder = fprov::ProvenanceGraphFactory::getInstance();
 	shared_ptr<map<string, shared_ptr<fprov::ProvenanceGraph>>> provenanceGraphs =
@@ -161,14 +168,16 @@ int main(int argc, char** argv) {
 
 	shared_ptr<fo::ProvenanceDump> dump = getDump(vm["output-format"].as<string>(), outstream);
 	fprov::ProvenanceGraphPopulator populator(dump);
-	tstart = f::timeMicroSeconds();
+	tstart = f::time();
 	shared_ptr<map<string, shared_ptr<fprov::PopulateStats>>> popStats = populator.populate(parser, provenanceGraphs);
-	tend = f::timeMicroSeconds();
-	cout << "Construction of provenance graph took " << (tend - tstart) / 1000000.0 << " s" << endl;
+	tend = f::time();
+	cout << "Output of provenance graph took " << f::formatElapsedTime(tstart, tend) << endl;
 	cout << "Data generation statistics" << endl;
 	for (auto itr = popStats->begin(); itr != popStats->end(); ++itr) {
 		cout << *(itr->second.get()) << endl;
 	}
+
+	outputDumpStats(*dump.get());
 
 	outstream.close();
 

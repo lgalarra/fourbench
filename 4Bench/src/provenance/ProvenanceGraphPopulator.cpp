@@ -7,8 +7,10 @@
 
 #include <memory>
 #include <map>
+#include <chrono>
 #include <utility>
 
+#include "../include/utils/time.hpp"
 #include "../include/utils/string.hpp"
 #include "../include/conf/Conf.hpp"
 #include "../include/parsing/FileParser.hpp"
@@ -47,6 +49,7 @@ shared_ptr<map<string, shared_ptr<PopulateStats>>> ProvenanceGraphPopulator::pop
 		(*popStats)[itr->first] = make_shared<PopulateStats>();
 	}
 
+	chrono::steady_clock::time_point tstart = f::time();
 	fpa::Triple *triple = parser->next();
 	while (triple != nullptr) {
 		string family = conf.getFamily(triple->getPredicate());
@@ -66,10 +69,19 @@ shared_ptr<map<string, shared_ptr<PopulateStats>>> ProvenanceGraphPopulator::pop
 		triple = parser->next();
 	}
 	output->flush();
+#ifdef DEBUG
+	cout << "Assignment of triples to provenance identifiers took " << f::formatElapsedTime(tstart, f::time()) << endl;
+#endif
 
+	cout << "Outputting the provenance graphs" << endl;
 	for (auto itr = graphs->begin(); itr != graphs->end(); ++itr) {
+		cout << "Outputting provenance graph for family \"" << itr->first << "\"" << endl;
+		tstart = f::time();
 		output->dump(itr->second);
 		output->flush();
+#ifdef DEBUG
+	cout << "Output of graph for family \"" << itr->first << "\" took " << f::formatElapsedTime(tstart, f::time()) << endl;
+#endif
 		(*popStats)[itr->first]->familyName = itr->first;
 		(*popStats)[itr->first]->numberOfProvenanceIdentifiers = assignments[itr->first]->getNumberOfAssignedProvenanceIds();
 	}

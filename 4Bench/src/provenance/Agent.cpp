@@ -48,19 +48,17 @@ Agent::Agent(unsigned id, const string& domain, unsigned maxNumberOfProperties) 
 void Agent::initialize() {
 	ProvenanceObject::initialize();
 	fd::DataValueBuilder& dataBuilder = fd::DataValueBuilder::getInstance();
-	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(PROVO::Agent);
+	types.insert(dataBuilder.get<fd::IRIValue>(PROVO::Agent));
+	types.insert(dataBuilder.get<fd::IRIValue>(FOAF::Agent));
 	attributes[RDFS::label] = dataBuilder.get<fd::StringValue>(f::concat({"Agent ", to_string(id)}));
-	attributes[Vocabulary::agentType] = fd::AgentType::getInstance().getRandomValue();
-	attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(FOAF::Agent);
-	fd::AgentTypeEnum type = attributes[Vocabulary::agentType]->getAs<fd::AgentTypeEnum>();
+	fd::AgentTypeEnum type = fd::AgentType::getInstance().getRandomValue()->getAs<fd::AgentTypeEnum>();
 	if (type == fd::AgentTypeEnum::PERSON) {
-		attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(FOAF::Person);
+		types.insert(dataBuilder.get<fd::IRIValue>(PROVO::Person));
 	} else if (type == fd::AgentTypeEnum::ORGANIZATION) {
-		attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(FOAF::Organization);
+		types.insert(dataBuilder.get<fd::IRIValue>(PROVO::Organization));
 	} else {
-		attributes[RDF::type] = dataBuilder.get<fd::IRIValue>(Vocabulary::SoftwareAgent);
+		types.insert(dataBuilder.get<fd::IRIValue>(PROVO::SoftwareAgent));
 	}
-
 }
 
 Agent::~Agent() {}

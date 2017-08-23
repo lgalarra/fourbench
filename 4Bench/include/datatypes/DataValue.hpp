@@ -17,6 +17,7 @@ namespace datatypes {
 
 enum AgentTypeEnum {PERSON, ORGANIZATION, SOFTWARE_AGENT};
 enum EntityTypeEnum{FILE, DATABASE, DATA_MAPPING, WEB_SERVICE};
+enum PROVOEntityTypeEnum{COLLECTION, BUNDLE, PLAN};
 enum ActivityTypeEnum{EXTRACTION, JOIN, AGGREGATION};
 
 class DataType;
@@ -134,6 +135,16 @@ protected:
 public:
 	EntityTypeValue(EntityTypeEnum arg);
 	virtual ~EntityTypeValue();
+};
+
+class PROVOEntityTypeValue : public DataValue {
+private:
+	PROVOEntityTypeEnum entityType;
+protected:
+	void* get() const;
+public:
+	PROVOEntityTypeValue(PROVOEntityTypeEnum arg);
+	virtual ~PROVOEntityTypeValue();
 };
 
 class ActivityTypeValue : public DataValue {

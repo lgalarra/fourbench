@@ -56,6 +56,7 @@ template time_t DataValue::getAs<time_t>() const;
 template float DataValue::getAs<float>() const;
 template ActivityTypeEnum DataValue::getAs<ActivityTypeEnum>() const;
 template EntityTypeEnum DataValue::getAs<EntityTypeEnum>() const;
+template PROVOEntityTypeEnum DataValue::getAs<PROVOEntityTypeEnum>() const;
 
 IntegerValue::IntegerValue(int n) : DataValue(&IntegerType::getInstance()), intValue(n) {
 
@@ -169,6 +170,21 @@ void* EntityTypeValue::get() const {
 EntityTypeValue::~EntityTypeValue() {
 
 }
+
+void* PROVOEntityTypeValue::get() const {
+	return (void*)&entityType;
+}
+
+
+PROVOEntityTypeValue::PROVOEntityTypeValue(PROVOEntityTypeEnum arg) : DataValue(&PROVOEntityType::getInstance()),
+		entityType(arg) {
+
+};
+
+PROVOEntityTypeValue::~PROVOEntityTypeValue() {
+}
+
+
 
 ActivityTypeValue::ActivityTypeValue(ActivityTypeEnum arg) : DataValue(&ActivityType::getInstance()), activityType(arg) {
 

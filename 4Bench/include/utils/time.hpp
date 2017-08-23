@@ -8,12 +8,17 @@
 #ifndef UTILS_TIME_HPP_
 #define UTILS_TIME_HPP_
 
+#include <string>
+#include <chrono>
+
+using namespace std;
+using sc = chrono::steady_clock;
+
 namespace fourbench {
 
-/**
- * Returns the current time in
- */
-long timeMicroSeconds();
+sc::time_point time();
+
+string formatElapsedTime(sc::time_point startUs, sc::time_point endUs);
 
 }
 

@@ -12,6 +12,7 @@
 #include <string>
 #include <ostream>
 #include <map>
+#include <set>
 #include <memory>
 #include <utility>
 
@@ -31,6 +32,7 @@ protected:
 	string domain;
 	unsigned maxNumberOfAttributes;
 	map<string, shared_ptr<fd::DataValue>> attributes;
+	set<shared_ptr<fd::DataValue>> types;
 	virtual void initialize();
 	static const map<string, fd::DataType*> attributeTypes;
 public:
@@ -38,6 +40,7 @@ public:
 	ProvenanceObject(unsigned id, const string& domain);
 	ProvenanceObject(unsigned id, const string& domain, unsigned maxNumberOfAttributes);
 	pair<map<string, shared_ptr<fd::DataValue>>::const_iterator, map<string, shared_ptr<fd::DataValue>>::const_iterator> getAttributeIterators() const;
+	pair<set<shared_ptr<fd::DataValue>>::const_iterator, set<shared_ptr<fd::DataValue>>::const_iterator> getTypeIterators() const;
 	virtual ~ProvenanceObject();
 	unsigned getId() const;
 	virtual string getIRI() const = 0;

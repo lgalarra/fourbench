@@ -143,6 +143,16 @@ public:
 	virtual ~EntityType();
 };
 
+class PROVOEntityType : public DataType {
+private:
+	static PROVOEntityType instance;
+public:
+	static PROVOEntityType& getInstance();
+	PROVOEntityType();
+	shared_ptr<DataValue> getRandomValue() const;
+	virtual ~PROVOEntityType();
+};
+
 class ActivityType : public DataType {
 private:
 	static ActivityType instance;

@@ -161,7 +161,8 @@ Triple* N3FileParser::next() {
 		return nullptr;
 	}
 
-	if (currentStream->eof()) {
+	string line;
+	if (!getChunk(*currentStream, line)) {
 		currentFileIdx++;
 		// We have scanned all files
 		if (currentFileIdx >= filenames.size()) {
@@ -173,8 +174,8 @@ Triple* N3FileParser::next() {
 		}
 	}
 
-	string line;
-	if (getChunk(*currentStream, line)) {
+
+	if (line != "" || getChunk(*currentStream, line)) {
 		return parse(line);
 	}
 

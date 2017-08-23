@@ -12,6 +12,7 @@
 #include "../include/datatypes/DataValue.hpp"
 #include "../include/provenance/Vocabulary.hpp"
 #include "../include/provenance/XSD.hpp"
+#include "../include/provenance/RDF.hpp"
 #include "../include/provenance/ProvenanceObject.hpp"
 #include "../include/output/ProvenanceDump.hpp"
 
@@ -23,7 +24,8 @@ namespace fd = fourbench::datatypes;
 namespace fourbench {
 namespace output {
 
-ProvenanceDump::ProvenanceDump(ostream& strm) : stream(strm) {
+ProvenanceDump::ProvenanceDump(ostream& strm) : stream(strm), provenanceTriplesDumped(0),
+		triplesDumped(0) {
 }
 
 ProvenanceDump::~ProvenanceDump() {
@@ -183,14 +185,31 @@ ostream& ProvenanceDump::format(shared_ptr<fd::DataValue> value) const {
 }
 
 
-void ProvenanceDump::dump(const fprov::ProvenanceObject& obj) const {
+void ProvenanceDump::dump(const fprov::ProvenanceObject& obj) {
 	pair<map<string, shared_ptr<fd::DataValue>>::const_iterator, map<string, shared_ptr<fd::DataValue>>::const_iterator> itsPair =
 			obj.getAttributeIterators();
+
 	for (auto it = itsPair.first; it != itsPair.second; ++it) {
 		this->dump(obj, it->first, it->second);
+		++provenanceTriplesDumped;
+	}
+
+	// Here we have to change consider the types
+	pair<set<shared_ptr<fd::DataValue>>::const_iterator, set<shared_ptr<fd::DataValue>>::const_iterator> itsTypePair =
+			obj.getTypeIterators();
+	for (auto it = itsTypePair.first; it != itsTypePair.second; ++it) {
+		this->dump(obj, fprov::RDF::type, *it);
+		++provenanceTriplesDumped;
 	}
 }
 
+long ProvenanceDump::getNumberOfDumpedProvenanceTriples() const {
+	return provenanceTriplesDumped;
+}
+
+long ProvenanceDump::getNumberOfDumpedTriples() const {
+	return triplesDumped;
+}
 
 
 } /* namespace output */

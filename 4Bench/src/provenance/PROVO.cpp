@@ -23,6 +23,12 @@ const string PROVO::endedAtTime = f::concat({PROVO::prefix, "endedAtTime"});
 const string PROVO::Activity = f::concat({PROVO::prefix, "Activity"});
 const string PROVO::Agent = f::concat({PROVO::prefix, "Agent"});
 const string PROVO::Entity = f::concat({PROVO::prefix, "Entity"});
+const string PROVO::Person = f::concat({PROVO::prefix, "Person"});
+const string PROVO::Organization = f::concat({PROVO::prefix, "Organization"});
+const string PROVO::SoftwareAgent = f::concat({PROVO::prefix, "SoftwareAgent"});
+const string PROVO::Collection = f::concat({PROVO::prefix, "Collection"});
+const string PROVO::Bundle = f::concat({PROVO::prefix, "Bundle"});
+const string PROVO::Plan = f::concat({PROVO::prefix, "Plan"});
 
 PROVO::PROVO() {}
 
