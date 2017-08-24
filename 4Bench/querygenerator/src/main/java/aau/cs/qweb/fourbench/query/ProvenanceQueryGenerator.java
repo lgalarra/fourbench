@@ -119,11 +119,13 @@ public class ProvenanceQueryGenerator {
 		Triple currentTriple = null;
 		
 		do {
-			if (level == 0)
-				currentTriple = computeBGPIteration(triplesStack, true, level, currentTriple, basicPattern, startBindingsSet);		
-			else
-				currentTriple = computeBGPIteration(triplesStack, true, level, currentTriple, basicPattern, null);	
-			
+			if (level == 0) {
+				currentTriple = computeBGPIteration(triplesStack, true, 
+						level, currentTriple, basicPattern, startBindingsSet);		
+			} else {
+				currentTriple = computeBGPIteration(triplesStack, true, 
+						level, currentTriple, basicPattern, null);	
+			}
 			++level;
 		} while (currentTriple != null);
 		

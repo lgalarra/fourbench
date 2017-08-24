@@ -7,6 +7,7 @@
 
 #include <string>
 #include <sstream>
+#include <iomanip>
 #include <sys/time.h>
 #include <chrono>
 #include "../include/utils/time.hpp"
@@ -40,10 +41,13 @@ string formatElapsedTime(sc::time_point startUs, sc::time_point endUs) {
 		unitTag = " s";
 	} else if (delta >= oneMinute && delta < oneHour) {
 		val = delta / oneMinute;
+		unitTag = " min";
+	} else {
+		val = delta / oneHour;
 		unitTag = " h";
 	}
 
-	strstrm << val << unitTag;
+	strstrm << setprecision(2) << val << unitTag;
 	return strstrm.str();
 }
 

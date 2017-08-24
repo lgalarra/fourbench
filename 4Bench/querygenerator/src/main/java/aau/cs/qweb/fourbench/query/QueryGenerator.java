@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -33,14 +34,18 @@ import org.apache.jena.riot.system.StreamRDFBase;
 import org.apache.jena.sparql.algebra.Algebra;
 import org.apache.jena.sparql.algebra.Op;
 import org.apache.jena.sparql.algebra.op.OpBGP;
+import org.apache.jena.sparql.algebra.op.OpProject;
 import org.apache.jena.sparql.algebra.op.OpUnion;
 import org.apache.jena.sparql.core.Quad;
+import org.apache.jena.sparql.core.Var;
 import org.apache.jena.tdb.TDBFactory;
 import org.mapdb.BTreeMap;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.Serializer;
 
+import aau.cs.qweb.fourbench.query.output.QuerySerializer;
+import aau.cs.qweb.fourbench.query.output.QuerySerializerFactory;
 import aau.cs.qweb.fourbench.utils.StringUtils;
 
 
@@ -50,6 +55,7 @@ public class QueryGenerator extends StreamRDFBase {
 	DB triples2ProvenanceDB;
 	BTreeMap<String, String> triples2ProvenanceIdx;
 	Map<String, String> buffer;
+	Map<String, QuerySerializer> querySerializers;
 	
 	private static final int bufferSize = 10000;
 	
@@ -60,6 +66,7 @@ public class QueryGenerator extends StreamRDFBase {
 	public QueryGenerator(Dataset model, Config config) {
 		this.dataset = model;
 		this.config = config;
+		this.querySerializers = new LinkedHashMap<>();
 		String dbFileName = StringUtils.getPath(this.config.storagePath, "index.mdb");
 		File dbFile = new File(dbFileName);
 		if (dbFile.exists()) {
@@ -76,6 +83,11 @@ public class QueryGenerator extends StreamRDFBase {
 		        .valueSerializer(Serializer.STRING)
 		        .createOrOpen();
 		buffer = new LinkedHashMap<>();
+		
+		for (String outputFormat : config.queryOutputFormats) {
+			querySerializers.put(outputFormat, QuerySerializerFactory.get(outputFormat));
+		}
+		
 	}
 
 	private static void printHelp(ParseException exp, Options options) {
@@ -231,18 +243,25 @@ public class QueryGenerator extends StreamRDFBase {
 		// TODO: 
 		// 1. Convert the query into an algebra expression
 		Query query = QueryFactory.create(iQuery, Syntax.syntaxSPARQL);
-		Op op = Algebra.compile(query);
-		List<Set<Triple>> bgps = ImprovedOpWalker.walk(op);
+		Op analyticalQueryOp = Algebra.compile(query);
+		List<Set<Triple>> bgps = ImprovedOpWalker.walk(analyticalQueryOp);
 		System.out.println("Algebra representation");
-		System.out.print(op);
+		System.out.print(analyticalQueryOp);
 		ProvenancePathsGenerator pathsGenerator = 
 				new ProvenancePathsGenerator(dataset, triples2ProvenanceIdx);
 		// Get the provenance identifier paths
 		List<List<List<String>>> provenancePaths = pathsGenerator.generate(bgps);
 		for (Float coverageValue : config.coverageValues) {
 			List<List<List<String>>> provenanceIds = filterPaths(coverageValue.floatValue(), provenancePaths);
-			Op provenanceQuery = computeProvenanceQuery(provenanceIds);
-			System.out.println("coverage = " + coverageValue + "  " + provenanceQuery);
+			Op provenanceQueryOp = computeProvenanceQuery(provenanceIds);
+			System.out.println("coverage = " + coverageValue + "  " + provenanceQueryOp);
+			// Now output the query in all support output formats
+			for (String outputFormat : querySerializers.keySet()) {
+				QuerySerializer serializer = querySerializers.get(outputFormat);
+				if (serializer != null) {
+					serializer.output(analyticalQueryOp, provenanceQueryOp);
+				}
+			}
 			
 		}
 		
@@ -266,7 +285,7 @@ public class QueryGenerator extends StreamRDFBase {
 				resultBGPs.add(bgp);
 		}
 		
-		return unionBGPs(resultBGPs);
+		return new OpProject(unionBGPs(resultBGPs), Arrays.asList(Var.alloc("i0")));
 	}
 
 	/**

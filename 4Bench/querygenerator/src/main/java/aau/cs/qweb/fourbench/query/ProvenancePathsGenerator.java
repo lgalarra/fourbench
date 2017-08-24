@@ -114,7 +114,8 @@ public class ProvenancePathsGenerator {
 	 * @param tmpIdx
 	 * @param provenancePaths
 	 */
-	private List<Binding> getJoinedBindings(Triple triple, Set<Var> commonVariables, Map<String, List<Binding>> tmpIdx, Map<String, List<String>> provenancePaths) {
+	private List<Binding> getJoinedBindings(Triple triple, Set<Var> commonVariables, 
+			Map<String, List<Binding>> tmpIdx, Map<String, List<String>> provenancePaths) {
 		List<Binding> result = new ArrayList<>();
 		OpBGP singletonBGP = new OpBGP();
 		singletonBGP.getPattern().add(triple);

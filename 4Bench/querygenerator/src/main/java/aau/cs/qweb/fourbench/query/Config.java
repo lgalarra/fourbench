@@ -29,11 +29,13 @@ public class Config {
 	
 	public List<String> inputDataFiles;
 	
+	public Set<String> queryOutputFormats;
+	
 	public Set<Float> coverageValues;
 	
 	public String storagePath;
 	
-	public String outputDir;
+	public String outputDir;	
 	
 	public int numberOfModifiedQueries;
 	
@@ -42,6 +44,8 @@ public class Config {
 	private Config() {
 		inputDataFiles = new ArrayList<>();
 		inputQueryFiles = new ArrayList<>();
+		queryOutputFormats = new LinkedHashSet<>();
+		queryOutputFormats.add("sparql-graphs");
 		coverageValues = new LinkedHashSet<>();
 		coverageValues.add(new Float(0.25));
 		storagePath = null;
@@ -64,6 +68,7 @@ public class Config {
 	 * @throws FileNotFoundException 
 	 */
 	public void parseFromFile(String inputFileName) throws FileNotFoundException, IOException {
+		boolean queryOutputFormatSpecified = false;
     	try (BufferedReader br = new BufferedReader(new FileReader(inputFileName))) {
 
 			String fileLine;
@@ -82,6 +87,12 @@ public class Config {
 					parseLanguage(fileLine.split("=")[1].trim());
 				} else if (fileLine.startsWith("coverageValue")) {
 					coverageValues.add(Float.parseFloat(fileLine.split("=")[1].trim()));
+				} else if (fileLine.startsWith("queryOutputFormat")) {
+					if (!queryOutputFormatSpecified) {
+						queryOutputFormats.clear();
+						queryOutputFormatSpecified = true;
+					}					
+					queryOutputFormats.add(fileLine.split("=")[1].trim());
 				}
 			}
 		}
