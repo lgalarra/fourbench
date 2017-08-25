@@ -15,6 +15,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.graph.Node_Literal;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
@@ -22,6 +23,7 @@ import org.apache.jena.sparql.algebra.Algebra;
 import org.apache.jena.sparql.algebra.Op;
 import org.apache.jena.sparql.algebra.op.OpBGP;
 import org.apache.jena.sparql.algebra.op.OpProject;
+import org.apache.jena.sparql.algebra.op.OpSlice;
 import org.apache.jena.sparql.core.BasicPattern;
 import org.apache.jena.sparql.core.Var;
 import org.apache.jena.sparql.engine.QueryIterator;
@@ -56,7 +58,7 @@ public class ProvenanceQueryGenerator {
 		if (flattenedSet != null) {
 			currentSet = flattenedSet;
 		} else {
-			currentSet = getBindingsSet(basicPattern, currentTriple);
+			currentSet = getURIBindingsSet(basicPattern, currentTriple);
 		}
 		
 		boolean firstSetOfBindings = true;			
@@ -211,15 +213,27 @@ public class ProvenanceQueryGenerator {
 	 * @param currentTriple
 	 * @return
 	 */
-	private Set<String> getBindingsSet(BasicPattern basicPattern, Triple currentTriple) {
+	private Set<String> getURIBindingsSet(BasicPattern basicPattern, Triple currentTriple) {
 		Set<String> result = new LinkedHashSet<>();		
 		BasicPattern bp = new BasicPattern();
 		bp.addAll(basicPattern);
 		Var var = getDanglingVariable(currentTriple);
 		bp.add(currentTriple);
 		
-		Op op = new OpProject(new OpBGP(bp), Arrays.asList(var));
+		// Check if the triple pattern has literal bindings
+		Op op = new OpSlice(new OpProject(new OpBGP(bp), Arrays.asList(var)), 1, 1);
 		QueryIterator qIter = Algebra.exec(op, provenanceGraph) ;
+		
+		if (qIter.hasNext()) {
+			Binding b = qIter.next();
+			if (b.get(Var.alloc(var)) instanceof Node_Literal) {
+				return result;
+			}
+		}
+		
+		// Otherwise get all the bindings
+		op = new OpProject(new OpBGP(bp), Arrays.asList(var));
+		qIter = Algebra.exec(op, provenanceGraph) ;
 		
 		while (qIter.hasNext()) {
 			Binding b = qIter.next();

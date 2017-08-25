@@ -48,6 +48,8 @@ public class SPARQLGraphQuerySerializer extends QuerySerializer {
 		OpJoin join = (OpJoin) OpJoin.create(provenanceGraph, analyticalGraph);
 		// First iterate until we get to the projection of the analytical query
 		Op result = paste(analyticalQuery, inflexionPoint, join);
+		System.out.println("Algebra representation provenance query");
+		System.out.println(result);
 		Query resultQuery = OpAsQuery.asQuery(result);
 		return resultQuery.toString();
 		

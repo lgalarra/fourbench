@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.sparql.algebra.Op;
+import org.apache.jena.sparql.algebra.op.Op1;
 import org.apache.jena.sparql.algebra.op.OpBGP;
 import org.apache.jena.sparql.algebra.op.OpJoin;
 import org.apache.jena.sparql.algebra.op.OpProject;
@@ -126,9 +127,9 @@ public class ImprovedOpWalker {
 	 * @param result
 	 */
 	private static void traverse(Op op, List<List<OpBGP>> result) {
-		if (op instanceof OpProject) {
-			OpProject opProject = (OpProject) op;
-			traverse(opProject.getSubOp(), result);
+		if (op instanceof Op1) {
+			Op1 opUnary = (Op1) op;
+			traverse(opUnary.getSubOp(), result);
 		} else if (op instanceof OpJoin) {
 			OpJoin opJoin = (OpJoin) op;
 			List<List<OpBGP>> partialResultLeft = new ArrayList<>();
