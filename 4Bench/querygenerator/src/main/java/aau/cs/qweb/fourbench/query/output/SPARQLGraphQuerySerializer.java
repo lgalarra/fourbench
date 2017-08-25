@@ -41,7 +41,7 @@ public class SPARQLGraphQuerySerializer extends QuerySerializer {
 		
 		// Surround the first non-op1 operator in the analytical query by a graph ?g {} block
 		Var provenanceProjVar = provenanceProjection.getVars().get(0);
-		Op inflexionPoint = getFirstNonUnaryOperator(analyticalQuery);		
+		Op inflexionPoint = getLastUnaryOperator(analyticalQuery);		
 		OpGraph analyticalGraph = new OpGraph(provenanceProjVar, inflexionPoint);
 		
 		// We have to join the graphs 
@@ -97,9 +97,10 @@ public class SPARQLGraphQuerySerializer extends QuerySerializer {
 	 * @param analyticalQuery
 	 * @return
 	 */
-	private Op getFirstNonUnaryOperator(Op analyticalQuery) {
+	private Op getLastUnaryOperator(Op analyticalQuery) {
 		Op currentOp = analyticalQuery;
-		while (currentOp instanceof Op1) {
+		while (currentOp instanceof Op1
+				&& ((Op1)currentOp).getSubOp() instanceof Op1) {
 			currentOp = ((Op1) currentOp).getSubOp();
 		}
 		

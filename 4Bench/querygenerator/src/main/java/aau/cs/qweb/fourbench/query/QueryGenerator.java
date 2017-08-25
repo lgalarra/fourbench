@@ -259,7 +259,7 @@ public class QueryGenerator extends StreamRDFBase {
 			for (String outputFormat : querySerializers.keySet()) {
 				QuerySerializer serializer = querySerializers.get(outputFormat);
 				if (serializer != null) {
-					serializer.output(analyticalQueryOp, provenanceQueryOp);
+					System.out.println(serializer.output(analyticalQueryOp, provenanceQueryOp));
 				}
 			}
 			
