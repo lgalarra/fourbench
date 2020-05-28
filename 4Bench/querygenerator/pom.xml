@@ -3,14 +3,17 @@
   <groupId>java.aau.cs.qweb.fourbench</groupId>
   <artifactId>java.aau.cs.qweb.fourbench</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Fourbench</name>
+  <name>Fourbench</name> 
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+ </properties>
   <dependencies>
   	<dependency>
 	    <groupId>org.apache.commons</groupId>
 	    <artifactId>commons-collections4</artifactId>
 	    <version>4.1</version>
 	</dependency>
-	
 	<dependency>
 	    <groupId>org.apache.commons</groupId>
 	    <artifactId>commons-lang3</artifactId>
