@@ -26,5 +26,5 @@ A benchmark for metadata-augmented RDF datasets
 
 #### Instructions
 - Run:
- - cd PATH_TO_REPOSITORY_CLONE/querygenerator
- - mvn compile
+  - cd PATH_TO_REPOSITORY_CLONE/querygenerator
+  - mvn compile
